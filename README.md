@@ -150,7 +150,7 @@ itself within a minute or so.
 | What to change | Where to look |
 |---|---|
 | The page title and description | near the top, in the `<title>` and `description` lines |
-| Their name | the `hero__name` heading |
+| Their name | the `hero__name` heading — but see the note below, it appears in several places |
 | Dates of birth and death | the `hero__dates` paragraph — change both the visible date **and** the `datetime="YYYY-MM-DD"` next to it |
 | A line of verse, scripture, or something they always said | the `epitaph` block — delete the whole block if you would rather not have one |
 | Ceremony venue, date, time, address | the first `event` block, headed **The Ceremony** |
@@ -158,6 +158,22 @@ itself within a minute or so.
 | Addresses | each address is itself the link to a map — change the visible address **and** the same address after `query=`, with `+` instead of spaces |
 | Parking, step-free access, flowers | the `aside` line at the end of each event — delete it if there is nothing to say |
 | Who to contact | the footer, at the very bottom |
+
+### Their name appears in more than one place
+
+Fifteen, across five files: the headline on the home page, the line at the top
+of every other page, each page's `<title>`, the description search engines
+show, and the photograph's alt text.
+
+The surest way is to search the whole project for `[Full Name]` and replace
+every one — most editors do this in a single step. If you would rather not,
+send the name to whoever set this up and it can be done in one go. Missing one
+is easy, and a page still saying `[Full Name]` is a horrible thing to find
+later.
+
+The same is true of the dates, which appear as `[1 January 1234]` and
+`[1 January 2026]` on the home page and as `[1234]`–`[2026]` in its
+description.
 
 ### The photograph
 
@@ -225,7 +241,7 @@ You stay signed in for 12 hours. Changing `ADMIN_PASSWORD` signs everyone out.
 
 **Sharing the links.** Send people the main address, or `/rsvp` and `/memories`
 directly. There is no menu bar: the home page carries buttons to everything,
-and every other page has a way back at the foot of it.
+and every other page opens with their name, which leads back to it.
 Keep `/admin` and the password within the family. The admin page is hidden
 from search engines, but it is the password that protects it — so choose a good
 one and do not put it in a group chat with strangers in it.

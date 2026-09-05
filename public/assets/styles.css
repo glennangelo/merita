@@ -181,6 +181,29 @@ main { padding-bottom: 5rem; }
 .hero { text-align: center; padding: 4rem 0 0; }
 .hero p { margin-inline: auto; }
 
+/* The line that names them, doubling as the way back to the memorial page.
+   No underline at rest, as a masthead rather than a link in a sentence, but
+   plainly one on hover and to the keyboard. */
+.wordmark {
+  display: inline-block;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.35rem;
+  /* Ordinary leading, with the height that makes it a comfortable target
+     coming from the padding — a tap-sized line-height throws the two lines
+     far apart when it wraps on a phone. */
+  line-height: 1.35;
+  min-height: var(--tap);
+  letter-spacing: .05em;
+  color: var(--accent-dark);
+  text-decoration: none;
+  padding: .6rem .5rem;
+  margin-bottom: 1.25rem;
+  text-wrap: balance;
+}
+.wordmark:hover { color: var(--focus); text-decoration: underline; text-underline-offset: .2em; }
+
 .hero__eyebrow {
   font-family: var(--display);
   font-style: italic;
