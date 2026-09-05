@@ -3,7 +3,7 @@
 A small, calm website in memory of someone, with:
 
 - their photograph, name and dates, under the words **In Loving Memory**
-- the details and times of the **memorial ceremony** and the **reception** that follows
+- the details and times of the **memorial ceremony** and the **celebration of life** that follows
 - a place for a **live stream link**, ready to be filled in when you have it
 - a **reply form**, so you know who is coming, how many of them, and to which part of the day
 - a page of **memories**, where visitors leave their name, a message and a photograph
@@ -215,10 +215,10 @@ page never looks broken or unfinished.
 # How it works
 
 **When someone replies** at `/rsvp`, they give their name, how many are coming,
-and whether that is for the ceremony, the reception, or both. Replies are never
+and whether that is for the ceremony, the celebration of life, or both. Replies are never
 shown publicly — they appear only on the family's page, under **Coming**, with
 the totals worked out for you: how many people at the ceremony, how many at the
-reception. That is the number a caterer or a venue will ask you for.
+celebration. That is the number a caterer or a venue will ask you for.
 
 **When someone shares a memory** at `/share`, it goes on the website unless they
 tick "Keep this private". Their photograph can be any size — it is made smaller
@@ -291,7 +291,7 @@ certainly will not need to.
 
 ```
 public/                 the website itself
-  index.html            the main page — photo, name, dates, ceremony, reception, live stream
+  index.html            the main page — photo, name, dates, ceremony, celebration, live stream
   rsvp.html             the reply form
   memories.html         the memories people have shared
   share.html            the form for sharing one

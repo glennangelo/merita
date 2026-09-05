@@ -284,7 +284,7 @@ main { padding-bottom: 5rem; }
 /* Stacked on a phone and parted only by a hairline, not an ornament: the two
    events are one thing, and the RSVP beneath belongs to both of them. An
    ornament here read as a section break and made the button look as though it
-   applied to the reception alone. */
+   applied to the celebration alone. */
 .event + .event {
   margin-top: 2.75rem;
   padding-top: 2.75rem;

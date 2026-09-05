@@ -76,7 +76,7 @@
     }
 
     if (!ceremony.checked && !reception.checked) {
-      say('error', 'Which part of the day?', ' Please tick the ceremony, the reception, or both.');
+      say('error', 'Which part of the day?', ' Please tick the ceremony, the celebration of life, or both.');
       ceremony.focus();
       return;
     }
