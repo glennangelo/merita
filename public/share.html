@@ -35,22 +35,20 @@
   <form id="memory-form" novalidate>
 
     <div class="field filefield">
-      <label for="photo">A photograph <span class="optional">(optional)</span></label>
-      <span class="hint" id="photo-hint">Made smaller on your own device before sending.</span>
-      <input type="file" id="photo" name="photo" accept="image/*" aria-describedby="photo-hint">
+      <span class="field-label">A photograph <span class="optional">(optional)</span></span>
+      <span class="hint" id="photo-hint">Any size. It is made smaller on your own device before sending.</span>
+
+      <!-- The input itself is hidden but still focusable; the label beside it is
+           what people see and click, and its wording changes once a picture is
+           chosen. The browser's own control would otherwise show the file name
+           next to a preview of the very same picture. -->
+      <input type="file" id="photo" name="photo" accept="image/*"
+             class="visually-hidden" aria-describedby="photo-hint">
+      <label class="btn btn--ghost filepick" for="photo" id="photo-pick">Choose a photograph</label>
 
       <div class="preview" id="photo-preview" data-shown="false">
         <img id="photo-preview-img" alt="">
-        <div>
-          <p class="preview__meta" id="photo-preview-meta"></p>
-          <button type="button" class="btn btn--ghost btn--small" id="photo-remove">Remove</button>
-        </div>
-      </div>
-
-      <div id="photo-alt-field" hidden>
-        <label class="field-label" for="photo-alt">Describe it <span class="optional">(optional)</span></label>
-        <span class="hint" id="photo-alt-hint">Read aloud to visitors who cannot see the picture.</span>
-        <input type="text" id="photo-alt" name="photo_alt" maxlength="200" aria-describedby="photo-alt-hint">
+        <button type="button" class="linkbtn" id="photo-remove">Remove</button>
       </div>
     </div>
 
@@ -61,34 +59,22 @@
 
     <div class="field">
       <label for="message">Your message</label>
-      <textarea id="message" name="message" required maxlength="2000"
-                aria-describedby="message-hint"></textarea>
-      <p class="hint hint--tight" id="message-hint">
-        <span id="message-count">0</span> of 2,000 characters
-      </p>
+      <textarea id="message" name="message" required maxlength="2000"></textarea>
+      <p class="counter" aria-hidden="true"><span id="message-count">0</span> / 2,000</p>
     </div>
 
 
 
-    <fieldset>
-      <legend class="fieldset__legend">Who may see this?</legend>
-      <div class="choices">
-        <label class="choice">
-          <input type="radio" name="visibility" value="public" checked>
-          <span>
-            <span class="choice__title">Share it publicly</span>
-            <span class="choice__desc">Shown with the memories, once the family has approved it.</span>
-          </span>
-        </label>
-        <label class="choice">
-          <input type="radio" name="visibility" value="private">
-          <span>
-            <span class="choice__title">Send it privately</span>
-            <span class="choice__desc">Only the family will ever see it.</span>
-          </span>
-        </label>
-      </div>
-    </fieldset>
+    <div class="field">
+      <label class="choice">
+        <input type="checkbox" id="private" name="private">
+        <span>
+          <span class="choice__title">Keep this private</span>
+          <span class="choice__desc">Only the family will ever see it. Left unticked, it
+            appears with the memories on the website once the family has approved it.</span>
+        </span>
+      </label>
+    </div>
 
     <!-- Spam trap: not shown to people, and screen readers skip it. -->
     <div class="hp" aria-hidden="true">

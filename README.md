@@ -214,9 +214,11 @@ shown publicly — they appear only on the family's page, under **Coming**, with
 the totals worked out for you: how many people at the ceremony, how many at the
 reception. That is the number a caterer or a venue will ask you for.
 
-**When someone shares a memory** at `/share`, they choose whether it is
-public or private. Their photograph is made smaller in their own browser before
-it is sent, so it works on a poor signal.
+**When someone shares a memory** at `/share`, it goes on the website unless they
+tick "Keep this private". Their photograph can be any size — it is made smaller
+in their own browser before it is sent, so it works on a poor signal, and only
+about a megabyte is stored. Photographs carry no written description, so a
+screen reader announces them as "a photograph shared by" whoever sent it.
 
 **Private messages** go straight to the family page. They are never shown on
 the website, whatever else happens.

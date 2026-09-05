@@ -7,16 +7,17 @@
   var submitBtn = document.getElementById('submit-btn');
   var fileInput = document.getElementById('photo');
   var preview   = document.getElementById('photo-preview');
-  var previewImg  = document.getElementById('photo-preview-img');
-  var previewMeta = document.getElementById('photo-preview-meta');
+  var previewImg = document.getElementById('photo-preview-img');
+  var pickLabel = document.getElementById('photo-pick');
   var removeBtn = document.getElementById('photo-remove');
-  var altField  = document.getElementById('photo-alt-field');
-  var altInput  = document.getElementById('photo-alt');
   var message   = document.getElementById('message');
   var counter   = document.getElementById('message-count');
 
-  var MAX_EDGE   = 1400;          // longest side, in pixels
-  var MAX_BYTES  = 800 * 1024;    // after shrinking
+  // Whatever someone picks is shrunk before it is sent, so there is no limit on
+  // what they may choose. These govern what is stored: D1 refuses a row over
+  // 2,000,000 bytes, and the row carries the message too, so this leaves room.
+  var MAX_EDGE   = 2000;                 // longest side, in pixels
+  var MAX_BYTES  = 1400 * 1024;          // about 1.4 MB once shrunk
   var processed  = null;          // { blob, type, name }
   var previewUrl = null;
 
@@ -38,11 +39,9 @@
     statusBox.textContent = '';
   }
 
-  function kb(bytes) { return Math.max(1, Math.round(bytes / 1024)) + ' KB'; }
-
   /* ---------- character counter ---------- */
 
-  function updateCount() { counter.textContent = String(message.value.length); }
+  function updateCount() { counter.textContent = message.value.length.toLocaleString(); }
   message.addEventListener('input', updateCount);
   updateCount();
 
@@ -101,8 +100,7 @@
     processed = null;
     fileInput.value = '';
     preview.dataset.shown = 'false';
-    altField.hidden = true;
-    altInput.value = '';
+    pickLabel.textContent = 'Choose a photograph';
     if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
     previewImg.removeAttribute('src');
   }
@@ -128,9 +126,8 @@
       previewUrl = URL.createObjectURL(blob);
       previewImg.src = previewUrl;
       previewImg.alt = 'The photograph you have chosen.';
-      previewMeta.textContent = 'Ready to send — ' + kb(blob.size) + '.';
       preview.dataset.shown = 'true';
-      altField.hidden = false;
+      pickLabel.textContent = 'Change photograph';
       clearStatus();
     } catch (err) {
       clearPhoto();
@@ -169,17 +166,14 @@
       return;
     }
 
-    var visibility = form.querySelector('input[name="visibility"]:checked').value;
+    var visibility = document.getElementById('private').checked ? 'private' : 'public';
 
     var data = new FormData();
     data.append('name', name.value.trim());
     data.append('message', message.value.trim());
     data.append('visibility', visibility);
     data.append('website', document.getElementById('website').value); // spam trap
-    if (processed) {
-      data.append('photo', processed.blob, processed.name);
-      data.append('photo_alt', altInput.value.trim());
-    }
+    if (processed) data.append('photo', processed.blob, processed.name);
 
     submitBtn.disabled = true;
     say('busy', 'Sending your message…', '');

@@ -6,7 +6,9 @@ import { json, bad, tidyText, toBytes, isAdmin } from './lib.js';
 const MAX_NAME    = 80;
 const MAX_MESSAGE = 2000;
 const MAX_ALT     = 200;
-const MAX_PHOTO   = 1024 * 1024;   // 1 MB, after the browser has shrunk it
+const MAX_PHOTO   = 1500 * 1024;   // ~1.5 MB, after the browser has shrunk it.
+                                   // D1 refuses a row over 2,000,000 bytes and the
+                                   // row holds the message too, so this leaves room.
 const RATE_WINDOW = 5;             // minutes
 const RATE_LIMIT  = 40;            // new messages allowed in that window
 
