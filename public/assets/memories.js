@@ -64,11 +64,10 @@
       var entries = data.entries || [];
       list.replaceChildren.apply(list, entries.length ? entries.map(render) : [empty()]);
 
-      // The empty state speaks for itself, so only show a count when there is one.
+      // Nothing is said once they have loaded — no count. The box stays for the
+      // "loading" and "could not be loaded" messages, and collapses when empty.
       statusBox.dataset.tone = '';
-      statusBox.textContent = !entries.length ? ''
-        : entries.length === 1 ? '1 memory.'
-        : entries.length + ' memories.';
+      statusBox.textContent = '';
     })
     .catch(function () {
       say('error', 'The memories could not be loaded.', ' Please refresh the page.');
