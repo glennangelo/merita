@@ -12,16 +12,16 @@ compatibility_date = "2026-09-01"
 
 # Everything in public/ is served straight to visitors as an ordinary website.
 # The Worker in src/ only runs for addresses that are not a file, which in
-# practice means the /api/... calls the guestbook makes.
+# practice means the /api/... calls the pages make.
 [assets]
 directory = "./public"
 binding = "ASSETS"
 
-# The guestbook's database.
+# The database behind the memories and the replies.
 [[d1_databases]]
 binding = "DB"
 database_name = "memorial-guestbook"
 database_id = "PASTE-YOUR-DATABASE-ID-HERE"
 
 # The family password is NOT set here — it is a secret, added in the Cloudflare
-# dashboard under Settings → Variables and Secrets. See step 4 of the README.
+# dashboard under Settings → Variables and Secrets. See step 5 of the README.
