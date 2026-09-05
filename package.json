@@ -1,0 +1,15 @@
+{
+  "name": "memorial-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A small memorial website with a moderated guestbook.",
+  "scripts": {
+    "start": "wrangler pages dev",
+    "db:create": "wrangler d1 create memorial-guestbook",
+    "db:setup": "wrangler d1 execute memorial-guestbook --local --file=./schema.sql",
+    "db:setup:remote": "wrangler d1 execute memorial-guestbook --remote --file=./schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.129.0"
+  }
+}

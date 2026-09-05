@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Memorial Website//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:ceremony@memorial.example
+DTSTAMP:20260101T000000Z
+SUMMARY:Memorial Ceremony for [Full Name]
+DTSTART:20260101T110000
+DTEND:20260101T120000
+LOCATION:[Venue Name]\, [Street Address]\, [Town\, Postcode]
+DESCRIPTION:In loving memory of [Full Name].
+END:VEVENT
+BEGIN:VEVENT
+UID:reception@memorial.example
+DTSTAMP:20260101T000000Z
+SUMMARY:Reception following the memorial for [Full Name]
+DTSTART:20260101T130000
+DTEND:20260101T160000
+LOCATION:[Reception Venue Name]\, [Street Address]\, [Town\, Postcode]
+DESCRIPTION:Refreshments and remembrance after the ceremony.
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-textsize="normal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guestbook — In Loving Memory of [Full Name]</title>
+<meta name="description" content="Messages of remembrance shared by family and friends of [Full Name].">
+<meta name="theme-color" content="#2f5d50">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="stylesheet" href="/assets/styles.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/guestbook" aria-current="page">Guestbook</a></li>
+        <li><a href="/sign">Leave a message</a></li>
+      </ul>
+    </nav>
+    <div class="textsize" data-textsize-control hidden>
+      <span class="textsize__label" id="textsize-label">Text size</span>
+      <div class="textsize__btns" role="group" aria-labelledby="textsize-label">
+        <button type="button" class="t1" data-size="normal" aria-pressed="true">A<span class="visually-hidden"> — normal text size</span></button>
+        <button type="button" class="t2" data-size="large" aria-pressed="false">A<span class="visually-hidden"> — large text size</span></button>
+        <button type="button" class="t3" data-size="larger" aria-pressed="false">A<span class="visually-hidden"> — largest text size</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="hero hero--snug">
+    <p class="hero__eyebrow">In Loving Memory</p>
+    <h1 class="hero__name page-title">Guestbook</h1>
+    <p class="hero__note">
+      Memories shared by family and friends. Thank you to everyone who has written.
+    </p>
+    <p class="actions actions--center">
+      <a class="btn" href="/sign">Add your own message</a>
+    </p>
+  </div>
+
+  <div class="status-msg" id="load-status" role="status" aria-live="polite" data-tone="busy">
+    <strong>Loading the messages…</strong>
+  </div>
+
+  <ul class="entries" id="entries" aria-label="Messages of remembrance"></ul>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><a href="/">Back to the memorial page</a></p>
+  </div>
+</footer>
+
+<script src="/assets/textsize.js" defer></script>
+<script src="/assets/guestbook.js" defer></script>
+</body>
+</html>

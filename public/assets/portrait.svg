@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Placeholder for a portrait photograph">
+  <rect width="800" height="1000" fill="#e8f0ed"/>
+  <g fill="none" stroke="#2f5d50" stroke-width="6" opacity=".55">
+    <rect x="30" y="30" width="740" height="940" rx="18" stroke-dasharray="18 14"/>
+  </g>
+  <g fill="#2f5d50" opacity=".5">
+    <circle cx="400" cy="410" r="112"/>
+    <path d="M400 560c-124 0-224 86-224 192v34h448v-34c0-106-100-192-224-192z"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#204239" text-anchor="middle">
+    <text x="400" y="856" font-size="46">Your photograph goes here</text>
+    <text x="400" y="912" font-size="30" opacity=".75" font-family="system-ui, sans-serif">See step 5 of the README</text>
+  </g>
+</svg>

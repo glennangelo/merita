@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en" data-textsize="normal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ✏️ EDIT: page title and description (shown in search results and when the link is shared) -->
+<title>In Loving Memory of [Full Name]</title>
+<meta name="description" content="Remembering [Full Name], [1234]–[2026]. Details of the memorial service and reception, and a guestbook for messages of remembrance.">
+
+<meta name="theme-color" content="#2f5d50">
+<meta name="color-scheme" content="light dark">
+
+<!-- Preview card for WhatsApp / Facebook / iMessage.
+     ✏️ EDIT: set og:url to your final web address once the site is live. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="In Loving Memory of [Full Name]">
+<meta property="og:description" content="Details of the memorial service and reception, and a guestbook for messages of remembrance.">
+<meta property="og:image" content="/assets/portrait.jpg">
+<meta property="og:url" content="https://example.com/">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="stylesheet" href="/assets/styles.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/guestbook">Guestbook</a></li>
+        <li><a href="/sign">Leave a message</a></li>
+      </ul>
+    </nav>
+    <div class="textsize" data-textsize-control hidden>
+      <span class="textsize__label" id="textsize-label">Text size</span>
+      <div class="textsize__btns" role="group" aria-labelledby="textsize-label">
+        <button type="button" class="t1" data-size="normal" aria-pressed="true">A<span class="visually-hidden"> — normal text size</span></button>
+        <button type="button" class="t2" data-size="large" aria-pressed="false">A<span class="visually-hidden"> — large text size</span></button>
+        <button type="button" class="t3" data-size="larger" aria-pressed="false">A<span class="visually-hidden"> — largest text size</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <!-- ================= Hero ================= -->
+  <div class="hero">
+    <p class="hero__eyebrow">In Loving Memory</p>
+
+    <!-- ✏️ EDIT: save your photograph as public/assets/portrait.jpg, then change
+         "portrait.svg" below to "portrait.jpg". Write a plain description in the
+         alt text. A portrait around 800×1000 pixels keeps the page fast. -->
+    <img class="portrait"
+         src="/assets/portrait.svg"
+         alt="Portrait of [Full Name], smiling."
+         width="800" height="1000"
+         fetchpriority="high">
+
+    <!-- ✏️ EDIT: name -->
+    <h1 class="hero__name">[Full Name]</h1>
+
+    <!-- ✏️ EDIT: dates. Keep the datetime="YYYY-MM-DD" values accurate — they help
+         screen readers and search engines read the dates correctly. -->
+    <p class="hero__dates">
+      <time datetime="1234-01-01">[1 January 1234]</time>
+      <span class="sep" aria-hidden="true">–</span>
+      <span class="visually-hidden">to</span>
+      <time datetime="2026-01-01">[1 January 2026]</time>
+    </p>
+
+    <!-- ✏️ EDIT: a sentence or two of remembrance. Delete this paragraph if you prefer. -->
+    <p class="hero__note">
+      Thank you for visiting this page. Below you will find the details of the
+      memorial service and the reception that follows. Everyone is welcome.
+    </p>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ================= Service details ================= -->
+  <section class="section" aria-labelledby="details-heading">
+    <h2 id="details-heading" class="center">Order of the Day</h2>
+    <p class="center">Please arrive a few minutes early if you can.</p>
+
+    <div class="cards cards--two cards--spaced">
+
+      <!-- ---- Ceremony ---- -->
+      <article class="card">
+        <p class="card__kicker">First</p>
+        <h3>Memorial Ceremony</h3>
+        <dl>
+          <div class="detail">
+            <dt>When</dt>
+            <!-- ✏️ EDIT: ceremony date and time -->
+            <dd>
+              <span class="when"><time datetime="2026-01-01">[Saturday, 1 January 2026]</time></span><br>
+              <time datetime="2026-01-01T11:00">[11:00 am]</time> – <time datetime="2026-01-01T12:00">[12:00 noon]</time>
+            </dd>
+          </div>
+          <div class="detail">
+            <dt>Where</dt>
+            <!-- ✏️ EDIT: venue name and full address -->
+            <dd>
+              [Venue Name]<br>
+              [Street Address]<br>
+              [Town, Postcode]
+            </dd>
+          </div>
+          <div class="detail">
+            <dt>Getting there</dt>
+            <!-- ✏️ EDIT: replace the text after "q=" with the venue address (spaces become +) -->
+            <dd>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Venue+Name+Street+Address+Postcode">
+                Open the map and directions<span class="visually-hidden"> for the memorial ceremony venue</span>
+              </a>
+            </dd>
+          </div>
+          <!-- ✏️ EDIT (optional): parking, step-free access, dress code, flowers or donations -->
+          <div class="detail">
+            <dt>Good to know</dt>
+            <dd>[Parking is available on site. The entrance is step-free.]</dd>
+          </div>
+        </dl>
+      </article>
+
+      <!-- ---- Reception ---- -->
+      <article class="card">
+        <p class="card__kicker">Afterwards</p>
+        <h3>Reception</h3>
+        <dl>
+          <div class="detail">
+            <dt>When</dt>
+            <!-- ✏️ EDIT: reception date and time -->
+            <dd>
+              <span class="when"><time datetime="2026-01-01">[Saturday, 1 January 2026]</time></span><br>
+              From <time datetime="2026-01-01T13:00">[1:00 pm]</time> until <time datetime="2026-01-01T16:00">[4:00 pm]</time>
+            </dd>
+          </div>
+          <div class="detail">
+            <dt>Where</dt>
+            <!-- ✏️ EDIT: reception venue name and full address -->
+            <dd>
+              [Reception Venue Name]<br>
+              [Street Address]<br>
+              [Town, Postcode]
+            </dd>
+          </div>
+          <div class="detail">
+            <dt>Getting there</dt>
+            <!-- ✏️ EDIT: replace the text after "q=" with the venue address -->
+            <dd>
+              <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Reception+Venue+Street+Address+Postcode">
+                Open the map and directions<span class="visually-hidden"> for the reception venue</span>
+              </a>
+            </dd>
+          </div>
+          <div class="detail">
+            <dt>Good to know</dt>
+            <dd>[Light refreshments will be served. Please come, however briefly.]</dd>
+          </div>
+        </dl>
+      </article>
+
+    </div>
+
+    <div class="actions actions--center">
+      <!-- ✏️ EDIT the file memorial.ics so this saves the right date into people's calendars -->
+      <a class="btn btn--ghost" href="/memorial.ics" download>Add to my calendar</a>
+    </div>
+  </section>
+
+  <!-- ================= Livestream ================= -->
+  <section class="section livestream" aria-labelledby="livestream-heading">
+    <div class="card">
+      <h2 id="livestream-heading">Watch online</h2>
+      <p>
+        If you cannot be with us in person, the ceremony will be streamed live.
+      </p>
+
+      <!-- ✏️ WHEN THE LINK IS READY:
+           1. Delete the <p class="status"> block just below.
+           2. Delete the two lines that say REMOVE THIS LINE around the button.
+           3. Paste the streaming address into href="".
+      -->
+      <p class="status">
+        <strong>The link is not available yet.</strong>
+        It will be posted on this page as soon as we have it — please check back
+        shortly before the service begins.
+      </p>
+
+      <!-- REMOVE THIS LINE TO SHOW THE BUTTON
+      <p class="actions actions--center">
+        <a class="btn" href="">Watch the ceremony live</a>
+      </p>
+      <p class="hint">
+        The stream opens about 10 minutes before the service starts.
+      </p>
+      REMOVE THIS LINE TOO -->
+    </div>
+  </section>
+
+  <!-- ================= Guestbook invitation ================= -->
+  <section class="section center" aria-labelledby="guestbook-heading">
+    <div class="card">
+      <h2 id="guestbook-heading">Share a memory</h2>
+      <p>
+        If you have a story, a kind word, or a photograph you would like to share,
+        we would love to read it. You can choose whether your message is shown on
+        this website or sent privately to the family alone.
+      </p>
+      <div class="actions actions--center">
+        <a class="btn" href="/sign">Leave a message</a>
+        <a class="btn btn--ghost" href="/guestbook">Read the guestbook</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <!-- ✏️ EDIT (optional): a contact address for questions, or donation details -->
+    <p>With love from the family. For any questions, please contact [name] at [email or phone].</p>
+    <p><a href="/admin">Family administration</a></p>
+  </div>
+</footer>
+
+<script src="/assets/textsize.js" defer></script>
+</body>
+</html>

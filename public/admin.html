@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-textsize="normal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family administration — In Loving Memory</title>
+<meta name="theme-color" content="#2f5d50">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="stylesheet" href="/assets/styles.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/guestbook">Guestbook</a></li>
+      </ul>
+    </nav>
+    <div class="textsize" data-textsize-control hidden>
+      <span class="textsize__label" id="textsize-label">Text size</span>
+      <div class="textsize__btns" role="group" aria-labelledby="textsize-label">
+        <button type="button" class="t1" data-size="normal" aria-pressed="true">A<span class="visually-hidden"> — normal text size</span></button>
+        <button type="button" class="t2" data-size="large" aria-pressed="false">A<span class="visually-hidden"> — large text size</span></button>
+        <button type="button" class="t3" data-size="larger" aria-pressed="false">A<span class="visually-hidden"> — largest text size</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+
+  <!-- ===================== Sign in ===================== -->
+  <section id="login-view" hidden>
+    <div class="hero hero--compact">
+      <h1 class="hero__name page-title">Family administration</h1>
+      <p class="hero__note">
+        This page is for the family. Sign in to read private messages and to approve
+        messages for the public guestbook.
+      </p>
+    </div>
+
+    <div class="status-msg" id="login-status" role="status" aria-live="polite" data-tone=""></div>
+
+    <form id="login-form" class="card">
+      <div class="field">
+        <label for="password">Password</label>
+        <span class="hint" id="password-hint">The password the family agreed on.</span>
+        <input type="password" id="password" name="password" required
+               autocomplete="current-password" aria-describedby="password-hint">
+      </div>
+      <button type="submit" class="btn btn--block" id="login-btn">Sign in</button>
+    </form>
+  </section>
+
+  <!-- ===================== Moderation ===================== -->
+  <section id="admin-view" hidden>
+    <div class="hero hero--tight">
+      <h1 class="hero__name page-title">Messages</h1>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Which messages to show">
+      <button role="tab" id="tab-pending" aria-selected="true"  aria-controls="entries" data-filter="pending">
+        Waiting for approval <span class="count" data-count="pending"></span>
+      </button>
+      <button role="tab" id="tab-private" aria-selected="false" aria-controls="entries" data-filter="private">
+        Private to the family <span class="count" data-count="private"></span>
+      </button>
+      <button role="tab" id="tab-public"  aria-selected="false" aria-controls="entries" data-filter="public">
+        Live in the guestbook <span class="count" data-count="public"></span>
+      </button>
+    </div>
+
+    <div class="status-msg" id="admin-status" role="status" aria-live="polite" data-tone=""></div>
+
+    <ul class="entries" id="entries" role="tabpanel" aria-labelledby="tab-pending" tabindex="0"></ul>
+
+    <p class="actions actions--center actions--spaced">
+      <button type="button" class="btn btn--ghost" id="logout-btn">Sign out</button>
+    </p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><a href="/">Back to the memorial page</a></p>
+  </div>
+</footer>
+
+<script src="/assets/textsize.js" defer></script>
+<script src="/assets/admin.js" defer></script>
+</body>
+</html>

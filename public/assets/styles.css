@@ -1,0 +1,648 @@
+/* ==========================================================================
+   In Loving Memory — shared stylesheet
+   Design goals: calm, high contrast, large type, big touch targets,
+   readable for older visitors, fast (no web fonts, no frameworks).
+   ========================================================================== */
+
+/* --- Design tokens ------------------------------------------------------ */
+:root {
+  /* Colours chosen for high contrast (body text ≈ 13:1 on the page ground) */
+  --paper:        #faf8f5;
+  --card:         #ffffff;
+  --ink:          #22262b;
+  --ink-soft:     #4d545c;
+  --accent:       #2f5d50;
+  --accent-dark:  #204239;
+  --accent-tint:  #e8f0ed;
+  --line:         #ddd6cc;
+  --focus:        #b4531a;
+  --warn-tint:    #fdf3e3;
+  --warn-line:    #d9a441;
+
+  /* Base size. The text-size control overrides this on <html>. */
+  --base:         18px;
+  --measure:      34rem;   /* comfortable line length */
+  --radius:       14px;
+  --tap:          3rem;    /* minimum interactive target */
+  --shadow:       0 1px 2px rgba(34, 38, 43, .06), 0 6px 20px rgba(34, 38, 43, .06);
+}
+
+/* Visitor-chosen text size, remembered in this browser. */
+html[data-textsize="large"]  { --base: 21px; }
+html[data-textsize="larger"] { --base: 24px; }
+
+/* --- Reset -------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* A `hidden` attribute must always win: several elements below are display:flex
+   or display:grid, which would otherwise override it and show controls that do
+   not work — the text-size buttons without JavaScript, for instance. */
+[hidden] { display: none !important; }
+
+html {
+  font-size: var(--base);
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+h1, h2, h3 {
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 .5em;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 1em; max-width: var(--measure); }
+
+a { color: var(--accent-dark); }
+a:hover { color: var(--focus); }
+
+/* Visible, unmistakable focus for keyboard and switch users. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Layout ------------------------------------------------------------- */
+.wrap {
+  width: min(100% - 2rem, 46rem);
+  margin-inline: auto;
+}
+
+main { padding-bottom: 4rem; }
+
+.section {
+  margin-top: 2.5rem;
+}
+
+/* --- Skip link ---------------------------------------------------------- */
+.skip {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -150%);
+  z-index: 50;
+  background: var(--accent-dark);
+  color: #fff;
+  padding: .75rem 1.25rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+}
+.skip:focus { transform: translate(-50%, 0); color: #fff; }
+
+/* --- Top bar: navigation + text size control ---------------------------- */
+.topbar {
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.topbar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .6rem 0;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin: 0;
+  padding: 0;
+}
+.nav a {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding: 0 .9rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+.nav a:hover { background: var(--accent-tint); color: var(--accent-dark); }
+.nav a[aria-current="page"] { background: var(--accent); color: #fff; }
+
+.textsize {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .85rem;
+  color: var(--ink-soft);
+}
+.textsize__label { white-space: nowrap; }
+.textsize__btns { display: flex; gap: .25rem; }
+.textsize button {
+  min-width: var(--tap);
+  min-height: var(--tap);
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  border-radius: 10px;
+  font-family: Georgia, serif;
+  cursor: pointer;
+  line-height: 1;
+}
+.textsize button:hover { border-color: var(--accent); background: var(--accent-tint); }
+.textsize button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.textsize .t1 { font-size: .95rem; }
+.textsize .t2 { font-size: 1.15rem; }
+.textsize .t3 { font-size: 1.4rem; }
+
+/* --- Hero --------------------------------------------------------------- */
+.hero {
+  text-align: center;
+  padding: 3rem 0 1rem;
+}
+
+.hero__eyebrow {
+  font-family: Georgia, "Iowan Old Style", serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  letter-spacing: .04em;
+  color: var(--accent);
+  margin: 0 0 1.25rem;
+  max-width: none;
+}
+
+.portrait {
+  width: min(15rem, 60vw);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  margin: 0 auto 1.5rem;
+  border-radius: var(--radius);
+  border: 6px solid var(--card);
+  box-shadow: var(--shadow);
+  background: var(--accent-tint);
+}
+
+.hero__name {
+  font-size: clamp(2rem, 7vw, 3rem);
+  margin: 0 0 .35rem;
+}
+
+.hero__dates {
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+  margin: 0 auto;
+  max-width: none;
+}
+.hero__dates .sep { padding: 0 .4rem; color: var(--line); }
+
+.hero__note {
+  margin: 1.5rem auto 0;
+  max-width: var(--measure);
+  font-size: 1.05rem;
+}
+
+.rule {
+  border: 0;
+  height: 1px;
+  background: var(--line);
+  margin: 2.5rem 0;
+}
+
+/* --- Cards -------------------------------------------------------------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.cards { display: grid; gap: 1.25rem; }
+@media (min-width: 44rem) {
+  .cards--two { grid-template-columns: 1fr 1fr; }
+}
+
+.card__kicker {
+  display: inline-block;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-tint);
+  padding: .3rem .7rem;
+  border-radius: 999px;
+  margin-bottom: .9rem;
+}
+
+.card h2 { font-size: 1.5rem; }
+.card h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+
+/* Definition-style detail rows: label above value, easy to scan. */
+.detail { margin: 0 0 1rem; }
+.detail:last-of-type { margin-bottom: 0; }
+.detail dt {
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: .15rem;
+}
+.detail dd { margin: 0; font-size: 1.1rem; }
+.detail dd .when { font-weight: 700; }
+
+.maplink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-top: .25rem;
+  font-weight: 600;
+}
+
+/* --- Buttons ------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: var(--tap);
+  padding: .5rem 1.4rem;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+
+.btn--ghost { background: transparent; color: var(--accent-dark); }
+.btn--ghost:hover { background: var(--accent-tint); color: var(--accent-dark); }
+
+.btn--danger { background: transparent; border-color: #a33; color: #8f2b2b; }
+.btn--danger:hover { background: #a33; border-color: #a33; color: #fff; }
+
+.btn--small { min-height: 2.5rem; padding: .35rem 1rem; font-size: .95rem; }
+
+.btn--block { width: 100%; }
+
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+
+/* --- Livestream --------------------------------------------------------- */
+.livestream { text-align: center; }
+.livestream .status {
+  background: var(--warn-tint);
+  border: 1px solid var(--warn-line);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  margin: 0 auto;
+  max-width: var(--measure);
+}
+
+/* --- Forms -------------------------------------------------------------- */
+.field { margin-bottom: 1.5rem; }
+
+.field > label,
+.fieldset__legend {
+  display: block;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: .3rem;
+}
+
+.hint {
+  display: block;
+  color: var(--ink-soft);
+  font-size: .95rem;
+  margin: 0 0 .5rem;
+  max-width: var(--measure);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="file"],
+textarea,
+select {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  padding: .7rem .8rem;
+  min-height: var(--tap);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+}
+input:hover, textarea:hover, select:hover { border-color: var(--ink-soft); }
+input:focus, textarea:focus, select:focus { border-color: var(--accent); }
+textarea { min-height: 9rem; resize: vertical; line-height: 1.6; }
+
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #a33; }
+
+/* The browser's own file button is small and easy to miss — make it a
+   proper target that matches the rest of the site. */
+input[type="file"] { padding: .55rem .6rem; cursor: pointer; }
+input[type="file"]::file-selector-button {
+  font: inherit;
+  font-weight: 700;
+  min-height: 2.6rem;
+  padding: .4rem 1.2rem;
+  margin-right: .9rem;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  background: var(--accent-tint);
+  color: var(--accent-dark);
+  cursor: pointer;
+}
+input[type="file"]::file-selector-button:hover {
+  background: var(--accent);
+  color: var(--card);
+}
+
+/* Radio group styled as large, obvious choice cards. */
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.choices { display: grid; gap: .75rem; }
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: .8rem;
+  padding: 1rem;
+  border: 2px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+  cursor: pointer;
+}
+.choice:hover { border-color: var(--accent); background: var(--accent-tint); }
+.choice input { width: 1.35rem; height: 1.35rem; margin: .2rem 0 0; flex: none; accent-color: var(--accent); }
+.choice:has(input:checked) { border-color: var(--accent); background: var(--accent-tint); }
+.choice__text { display: block; }
+.choice__title { display: block; font-weight: 700; }
+.choice__desc { display: block; color: var(--ink-soft); font-size: .95rem; }
+
+/* Photo picker + preview */
+.filefield { display: grid; gap: .75rem; }
+.preview {
+  display: none;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+.preview[data-shown="true"] { display: flex; }
+.preview img {
+  width: 5.5rem;
+  height: 5.5rem;
+  object-fit: cover;
+  border-radius: 10px;
+  flex: none;
+}
+.preview__meta { font-size: .95rem; color: var(--ink-soft); margin: 0; }
+.preview .btn { margin-top: .5rem; }
+
+/* Honeypot — hidden from people, tempting to bots. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Status messages (announced to screen readers via aria-live) */
+.status-msg {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--line);
+  margin-bottom: 1.5rem;
+}
+.status-msg:empty { display: none; }
+.status-msg[data-tone="ok"]    { border-color: var(--accent); background: var(--accent-tint); }
+.status-msg[data-tone="error"] { border-color: #a33; background: #fbeeee; }
+.status-msg[data-tone="busy"]  { border-color: var(--warn-line); background: var(--warn-tint); }
+.status-msg strong { display: block; font-size: 1.1rem; }
+
+/* --- Guestbook entries -------------------------------------------------- */
+.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+
+.entry {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+/* Never cropped: a family photograph should be shown whole, whatever its
+   shape. Tall pictures are limited by height, wide ones by the card width. */
+.entry__photo {
+  max-width: 100%;
+  max-height: 26rem;
+  width: auto;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background: var(--accent-tint);
+}
+/* Visitors' words can contain a very long web address or an unbroken run of
+   characters; these must wrap rather than stretch the page sideways. */
+.entry { min-width: 0; }
+.entry__message,
+.entry__by,
+.entry__by strong { overflow-wrap: anywhere; }
+
+.entry__message {
+  font-size: 1.1rem;
+  white-space: pre-wrap;
+  margin: 0 0 1rem;
+  max-width: var(--measure);
+}
+.entry__by { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+.entry__by strong { color: var(--ink); font-size: 1.05rem; display: block; }
+
+.tag {
+  display: inline-block;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: .25rem .6rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  margin-bottom: .75rem;
+}
+.tag--pending { background: var(--warn-tint); border-color: var(--warn-line); color: #7a5410; }
+.tag--private { background: #eef0f6; border-color: #b9c0d4; color: #384063; }
+.tag--live    { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-dark); }
+
+.empty {
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 2.5rem 1rem;
+  border: 2px dashed var(--line);
+  border-radius: var(--radius);
+}
+.empty p { margin-inline: auto; }
+
+/* --- Admin tabs --------------------------------------------------------- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: .75rem;
+}
+.tabs button {
+  min-height: var(--tap);
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  border: 2px solid var(--line);
+  background: var(--card);
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+.tabs button:hover { border-color: var(--accent); background: var(--accent-tint); }
+.tabs button[aria-selected="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.tabs .count { opacity: .85; font-weight: 700; }
+
+/* --- Footer ------------------------------------------------------------- */
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 2rem 0 3rem;
+  color: var(--ink-soft);
+  font-size: .95rem;
+  text-align: center;
+}
+.footer p { margin-inline: auto; }
+
+/* --- Utilities ---------------------------------------------------------- */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.center { text-align: center; }
+.center p { margin-inline: auto; }
+.stack > * + * { margin-top: 1rem; }
+
+/* --- Small layout utilities ---------------------------------------------
+   The site's Content Security Policy forbids inline style attributes, so
+   every one-off adjustment lives here as a named class instead.          */
+.hero--compact { padding-bottom: 0; }
+.hero--snug    { padding-bottom: 1rem; }
+.hero--tight   { padding-bottom: .5rem; }
+.hero p        { margin-inline: auto; }
+
+.page-title { font-size: clamp(1.75rem, 5vw, 2.4rem); }
+
+.actions--center { justify-content: center; }
+.actions--spaced { margin-top: 2.5rem; }
+
+.cards--spaced { margin-top: 2rem; }
+
+.livestream p,
+.livestream .hint { margin-inline: auto; }
+
+.optional { font-weight: 400; color: var(--ink-soft); }
+
+.hint--tight { margin-top: .4rem; }
+
+.field-label {
+  display: block;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: .3rem;
+}
+
+.note { margin: 1.5rem auto 0; text-align: center; }
+
+/* Footer links are single words in small text — give them a proper
+   target so they can still be tapped with an unsteady hand. */
+.footer a {
+  display: inline-block;
+  min-height: var(--tap);
+  line-height: var(--tap);
+  padding-inline: .6rem;
+}
+
+/* --- Motion preference -------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* --- Dark mode (system preference) -------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper:       #16181b;
+    --card:        #1f2226;
+    --ink:         #edeef0;
+    --ink-soft:    #b3b8bf;
+    --accent:      #7fbfab;
+    --accent-dark: #a5d6c6;
+    --accent-tint: #24322e;
+    --line:        #3a3f45;
+    --focus:       #ffb27a;
+    --warn-tint:   #2f2718;
+    --warn-line:   #8a6a2c;
+    --shadow:      0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+  }
+  .btn { color: #12211c; }
+  .btn:hover { color: #12211c; }
+  .btn--ghost { color: var(--accent-dark); }
+  .btn--ghost:hover { color: var(--accent-dark); }
+  .nav a[aria-current="page"],
+  .tabs button[aria-selected="true"],
+  .textsize button[aria-pressed="true"] { color: #12211c; }
+  .btn--danger { color: #ffa8a8; border-color: #b55; }
+  .btn--danger:hover { background: #b55; color: #fff; }
+  .status-msg[data-tone="error"] { background: #331e1e; border-color: #b55; }
+  .tag--pending { color: #e8c98a; }
+  .tag--private { background: #23273a; border-color: #4a5375; color: #c3cbe8; }
+  .skip { background: var(--accent); color: #12211c; }
+}
+
+/* --- Print: the details people want on paper ---------------------------- */
+@media print {
+  :root { --paper: #fff; --card: #fff; --ink: #000; --ink-soft: #333; --line: #999; }
+  .topbar, .footer, .actions, .skip, form, .tabs { display: none !important; }
+  body { font-size: 12pt; }
+  .card { break-inside: avoid; box-shadow: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .85em; word-break: break-all; }
+}

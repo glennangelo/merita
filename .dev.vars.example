@@ -1,0 +1,7 @@
+# Copy this file to ".dev.vars" to preview the site on your own computer.
+# ".dev.vars" is never committed to git — see .gitignore.
+#
+# On the live site you set this in the Cloudflare dashboard instead
+# (Settings → Variables and secrets), NOT in a file.
+
+ADMIN_PASSWORD="choose-a-long-password-for-local-testing"

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-textsize="normal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leave a message — In Loving Memory of [Full Name]</title>
+<meta name="description" content="Share a memory, a kind word or a photograph in remembrance of [Full Name].">
+<meta name="theme-color" content="#2f5d50">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="stylesheet" href="/assets/styles.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+
+<header class="topbar">
+  <div class="wrap topbar__inner">
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/guestbook">Guestbook</a></li>
+        <li><a href="/sign" aria-current="page">Leave a message</a></li>
+      </ul>
+    </nav>
+    <div class="textsize" data-textsize-control hidden>
+      <span class="textsize__label" id="textsize-label">Text size</span>
+      <div class="textsize__btns" role="group" aria-labelledby="textsize-label">
+        <button type="button" class="t1" data-size="normal" aria-pressed="true">A<span class="visually-hidden"> — normal text size</span></button>
+        <button type="button" class="t2" data-size="large" aria-pressed="false">A<span class="visually-hidden"> — large text size</span></button>
+        <button type="button" class="t3" data-size="larger" aria-pressed="false">A<span class="visually-hidden"> — largest text size</span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <div class="hero hero--compact">
+    <p class="hero__eyebrow">In Loving Memory</p>
+    <h1 class="hero__name page-title">Leave a message</h1>
+    <p class="hero__note">
+      Every message is read by the family. You may add a photograph if you wish.
+      Nothing appears on the website until a member of the family has seen it.
+    </p>
+  </div>
+
+  <!-- Announced to screen readers whenever it changes. -->
+  <div class="status-msg" id="form-status" role="status" aria-live="polite" data-tone=""></div>
+
+  <form id="guestbook-form" class="card" novalidate>
+
+    <div class="field">
+      <label for="name">Your name</label>
+      <span class="hint" id="name-hint">For example, “Margaret Doyle” or “The Doyle family, Cork”.</span>
+      <input type="text" id="name" name="name" required maxlength="80"
+             autocomplete="name" aria-describedby="name-hint">
+    </div>
+
+    <div class="field">
+      <label for="message">Your message of remembrance</label>
+      <span class="hint" id="message-hint">
+        A memory, a few kind words — anything you would like to say. Up to 2,000 characters.
+      </span>
+      <textarea id="message" name="message" required maxlength="2000"
+                aria-describedby="message-hint"></textarea>
+      <p class="hint hint--tight" aria-hidden="true"><span id="message-count">0</span> of 2,000 characters used</p>
+    </div>
+
+    <fieldset>
+      <legend class="fieldset__legend">Who may see this message?</legend>
+      <span class="hint" id="visibility-hint">You can change your mind by asking the family — just contact them.</span>
+      <div class="choices" aria-describedby="visibility-hint">
+        <label class="choice">
+          <input type="radio" name="visibility" value="public" checked>
+          <span class="choice__text">
+            <span class="choice__title">Show it in the public guestbook</span>
+            <span class="choice__desc">Anyone visiting this website will be able to read it, once the family has approved it.</span>
+          </span>
+        </label>
+        <label class="choice">
+          <input type="radio" name="visibility" value="private">
+          <span class="choice__text">
+            <span class="choice__title">Send it privately to the family</span>
+            <span class="choice__desc">Only the family will ever see it. It will not appear on the website.</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="field filefield">
+      <label for="photo">Add a photograph <span class="optional">(optional)</span></label>
+      <span class="hint" id="photo-hint">
+        One picture, in JPEG, PNG, WebP or HEIC format. Large photographs are made
+        smaller on your own device before they are sent, so this works fine on a slow connection.
+      </span>
+      <input type="file" id="photo" name="photo" accept="image/*" aria-describedby="photo-hint">
+
+      <div class="preview" id="photo-preview" data-shown="false">
+        <img id="photo-preview-img" alt="">
+        <div>
+          <p class="preview__meta" id="photo-preview-meta"></p>
+          <button type="button" class="btn btn--ghost btn--small" id="photo-remove">Remove photograph</button>
+        </div>
+      </div>
+
+      <div id="photo-alt-field" hidden>
+        <label class="field-label" for="photo-alt">Describe the photograph <span class="optional">(optional)</span></label>
+        <span class="hint" id="photo-alt-hint">
+          A short description read aloud to visitors who cannot see the picture.
+          For example, “Nana in her garden, holding a watering can”.
+        </span>
+        <input type="text" id="photo-alt" name="photo_alt" maxlength="200" aria-describedby="photo-alt-hint">
+      </div>
+    </div>
+
+    <!-- Spam trap: not shown to people, and screen readers skip it. -->
+    <div class="hp" aria-hidden="true">
+      <label for="website">Leave this field empty</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button type="submit" class="btn btn--block" id="submit-btn">Send my message</button>
+  </form>
+
+  <p class="hint note">
+    We keep your name, message and photograph only to share these memories with the family.
+    If you would like yours removed at any time, please contact the family.
+  </p>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><a href="/">Back to the memorial page</a></p>
+  </div>
+</footer>
+
+<script src="/assets/textsize.js" defer></script>
+<script src="/assets/sign.js" defer></script>
+</body>
+</html>
