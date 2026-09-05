@@ -3,8 +3,9 @@
 # Cloudflare reads this file every time it deploys, so the settings here are
 # the real ones — there is nothing to configure twice.
 #
-# ✏️ EDIT: paste your database id from step 2 of the README into database_id.
-#    (It is only an identifier, not a password — it is safe to save here.)
+# The database id below is filled in. If you ever delete and recreate the
+# database, put the new id here — it is only an identifier, not a password,
+# so it is safe to keep in the project.
 
 name = "memorial"
 main = "src/index.js"
@@ -21,7 +22,7 @@ binding = "ASSETS"
 [[d1_databases]]
 binding = "DB"
 database_name = "memorial-guestbook"
-database_id = "PASTE-YOUR-DATABASE-ID-HERE"
+database_id = "cc8ae241-c75a-46ae-a4e3-1f268e53d985"
 
 # The family password is NOT set here — it is a secret, added in the Cloudflare
 # dashboard under Settings → Variables and Secrets. See step 5 of the README.
