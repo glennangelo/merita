@@ -1,94 +1,168 @@
 /* ==========================================================================
    In Loving Memory — shared stylesheet
-   Design goals: calm, high contrast, large type, big touch targets,
-   readable for older visitors, fast (no web fonts, no frameworks).
+
+   Typography
+     Cormorant Garamond  — the name, headings, and the italic lines of
+                           remembrance. An old-style face with the air of an
+                           engraved memorial card.
+     Lora                — everything meant to be read at length. Sturdy,
+                           generous x-height, comfortable at size.
+
+   Both are served from this site, so there are no third-party requests and
+   nothing about a visitor is shared with anyone.
    ========================================================================== */
+
+/* --- Typefaces ---------------------------------------------------------- */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+                 U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+                 U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+                 U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+                 U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/lora-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/lora-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+                 U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF,
+                 U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
 
 /* --- Design tokens ------------------------------------------------------ */
 :root {
-  /* Colours chosen for high contrast (body text ≈ 13:1 on the page ground) */
-  --paper:        #faf8f5;
-  --card:         #ffffff;
-  --ink:          #22262b;
-  --ink-soft:     #4d545c;
+  /* Warm parchment and ink, with sage for anything you can act on and an
+     antique gold reserved strictly for ornament. */
+  --paper:        #f7f3ec;
+  --paper-deep:   #efe7db;
+  --card:         #fffdf9;
+  --ink:          #22252a;
+  --ink-soft:     #494d53;
   --accent:       #2f5d50;
-  --accent-dark:  #204239;
-  --accent-tint:  #e8f0ed;
-  --line:         #ddd6cc;
-  --focus:        #b4531a;
-  --warn-tint:    #fdf3e3;
-  --warn-line:    #d9a441;
+  --accent-dark:  #1d4038;
+  --accent-tint:  #e6efeb;
+  --gold:         #a8873f;   /* ornament only — too faint to read as text */
+  --gold-ink:     #6d5320;   /* the same colour, dark enough to read */
+  --line:         #ded3c2;
+  --line-soft:    #ebe3d6;
+  --focus:        #a8451a;
+  --warn-tint:    #fbf1dd;
+  --warn-line:    #c99a3c;
+  --warn-ink:     #6b4c12;
 
-  /* Base size. The text-size control overrides this on <html>. */
-  --base:         18px;
-  --measure:      34rem;   /* comfortable line length */
-  --radius:       14px;
-  --tap:          3rem;    /* minimum interactive target */
-  --shadow:       0 1px 2px rgba(34, 38, 43, .06), 0 6px 20px rgba(34, 38, 43, .06);
+  --display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --body:    'Lora', Georgia, 'Times New Roman', serif;
+
+  --measure:  33rem;    /* comfortable line length */
+  --radius:   4px;      /* restrained: engraved, not app-like */
+  --tap:      3rem;     /* minimum interactive target */
+  --shadow:   0 1px 2px rgba(40, 32, 20, .05), 0 10px 30px rgba(40, 32, 20, .06);
 }
-
-/* Visitor-chosen text size, remembered in this browser. */
-html[data-textsize="large"]  { --base: 21px; }
-html[data-textsize="larger"] { --base: 24px; }
 
 /* --- Reset -------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 
-/* A `hidden` attribute must always win: several elements below are display:flex
-   or display:grid, which would otherwise override it and show controls that do
-   not work — the text-size buttons without JavaScript, for instance. */
+/* A `hidden` attribute must always win over the display rules below. */
 [hidden] { display: none !important; }
 
 html {
-  font-size: var(--base);
+  /* 125% of whatever the reader has chosen in their browser — comfortably
+     large by default, and still larger for anyone who has set it that way.
+     A fixed pixel size here would quietly override their own preference. */
+  font-size: 125%;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  background: var(--paper);
   color: var(--ink);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--body);
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: 1.75;
+  background-color: var(--paper);
+  /* A faint warmth at the top of the page, like light through a window. */
+  background-image:
+    radial-gradient(120% 60% at 50% -10%, rgba(168, 135, 63, .10), transparent 70%),
+    radial-gradient(90% 50% at 50% 100%, rgba(47, 93, 80, .05), transparent 70%);
+  background-attachment: fixed;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 img { max-width: 100%; height: auto; display: block; }
 
 h1, h2, h3 {
-  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  font-family: var(--display);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.18;
+  letter-spacing: .005em;
   color: var(--ink);
   margin: 0 0 .5em;
   text-wrap: balance;
 }
 
-p { margin: 0 0 1em; max-width: var(--measure); }
+p { margin: 0 0 1.1em; max-width: var(--measure); }
 
-a { color: var(--accent-dark); }
+a { color: var(--accent-dark); text-underline-offset: .18em; }
 a:hover { color: var(--focus); }
 
 /* Visible, unmistakable focus for keyboard and switch users. */
 :focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 /* --- Layout ------------------------------------------------------------- */
-.wrap {
-  width: min(100% - 2rem, 46rem);
-  margin-inline: auto;
-}
-
-main { padding-bottom: 4rem; }
-
-.section {
-  margin-top: 2.5rem;
-}
+.wrap { width: min(100% - 2rem, 44rem); margin-inline: auto; }
+main { padding-bottom: 5rem; }
+.section { margin-top: 3.5rem; }
 
 /* --- Skip link ---------------------------------------------------------- */
 .skip {
@@ -105,175 +179,207 @@ main { padding-bottom: 4rem; }
 }
 .skip:focus { transform: translate(-50%, 0); color: #fff; }
 
-/* --- Top bar: navigation + text size control ---------------------------- */
+/* --- Top bar ------------------------------------------------------------ */
 .topbar {
-  background: var(--card);
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
+  background: rgba(255, 253, 249, .72);
+  backdrop-filter: blur(6px);
 }
-.topbar__inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: .75rem;
-  padding: .6rem 0;
-}
-
 .nav ul {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: .35rem;
+  justify-content: center;
+  gap: .25rem;
   margin: 0;
-  padding: 0;
+  padding: .5rem 0;
 }
 .nav a {
   display: flex;
   align-items: center;
   min-height: var(--tap);
-  padding: 0 .9rem;
-  border-radius: 999px;
+  padding: 0 1.1rem;
   text-decoration: none;
+  color: var(--ink-soft);
+  font-size: .84rem;
   font-weight: 600;
-  color: var(--accent-dark);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  border-bottom: 2px solid transparent;
 }
-.nav a:hover { background: var(--accent-tint); color: var(--accent-dark); }
-.nav a[aria-current="page"] { background: var(--accent); color: #fff; }
+.nav a:hover { color: var(--accent-dark); }
+.nav a[aria-current="page"] {
+  color: var(--accent-dark);
+  border-bottom-color: var(--gold);
+}
 
-.textsize {
+/* --- Ornaments ---------------------------------------------------------- */
+/* A hairline either side of a small engraved diamond. Purely decorative, so
+   it is hidden from screen readers wherever it is used. */
+.ornament {
   display: flex;
   align-items: center;
-  gap: .4rem;
-  font-size: .85rem;
-  color: var(--ink-soft);
+  justify-content: center;
+  gap: 1.1rem;
+  width: min(100%, 20rem);
+  margin: 2.75rem auto;
+  color: var(--gold);
 }
-.textsize__label { white-space: nowrap; }
-.textsize__btns { display: flex; gap: .25rem; }
-.textsize button {
-  min-width: var(--tap);
-  min-height: var(--tap);
-  border: 1px solid var(--line);
-  background: var(--card);
-  color: var(--ink);
-  border-radius: 10px;
-  font-family: Georgia, serif;
-  cursor: pointer;
-  line-height: 1;
+.ornament::before,
+.ornament::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, currentColor);
 }
-.textsize button:hover { border-color: var(--accent); background: var(--accent-tint); }
-.textsize button[aria-pressed="true"] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-.textsize .t1 { font-size: .95rem; }
-.textsize .t2 { font-size: 1.15rem; }
-.textsize .t3 { font-size: 1.4rem; }
+.ornament::after { background: linear-gradient(to left, transparent, currentColor); }
+.ornament svg { flex: none; display: block; }
+.ornament--tight { margin: 1.75rem auto; width: min(100%, 13rem); }
 
 /* --- Hero --------------------------------------------------------------- */
-.hero {
-  text-align: center;
-  padding: 3rem 0 1rem;
-}
+.hero { text-align: center; padding: 4rem 0 1rem; }
+.hero p { margin-inline: auto; }
 
 .hero__eyebrow {
-  font-family: Georgia, "Iowan Old Style", serif;
+  font-family: var(--display);
   font-style: italic;
-  font-size: 1.15rem;
-  letter-spacing: .04em;
+  font-weight: 400;
+  font-size: 1.55rem;
+  letter-spacing: .06em;
   color: var(--accent);
-  margin: 0 0 1.25rem;
+  margin: 0 0 2rem;
   max-width: none;
 }
 
+/* An arched frame — the shape of a chapel window, and of a headstone. */
 .portrait {
-  width: min(15rem, 60vw);
+  width: min(17rem, 66vw);
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  margin: 0 auto 1.5rem;
-  border-radius: var(--radius);
-  border: 6px solid var(--card);
+  margin: 0 auto 2rem;
+  border-radius: 48% 48% 6px 6px / 34% 34% 4px 4px;
+  border: 1px solid var(--line);
+  padding: 8px;
+  background: var(--card);
   box-shadow: var(--shadow);
-  background: var(--accent-tint);
 }
 
 .hero__name {
-  font-size: clamp(2rem, 7vw, 3rem);
-  margin: 0 0 .35rem;
+  font-size: clamp(2.7rem, 10vw, 4.1rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: .01em;
+  margin: 0 0 .8rem;
 }
 
 .hero__dates {
-  font-size: 1.15rem;
+  font-family: var(--display);
+  /* Lining figures: the old-style numerals Cormorant uses by default are
+     lovely, but a date is the one thing here nobody may misread. */
+  font-variant-numeric: lining-nums;
+  font-size: 1.45rem;
+  letter-spacing: .04em;
   color: var(--ink-soft);
   margin: 0 auto;
   max-width: none;
 }
-.hero__dates .sep { padding: 0 .4rem; color: var(--line); }
+.hero__dates .sep { padding: 0 .55rem; color: var(--gold); }
+.hero__dates time { white-space: nowrap; }
 
-.hero__note {
-  margin: 1.5rem auto 0;
-  max-width: var(--measure);
-  font-size: 1.05rem;
+.hero__note { margin-top: 2rem; font-size: 1.02rem; }
+
+/* --- Epitaph ------------------------------------------------------------ */
+.epitaph {
+  margin: 0 auto;
+  max-width: 30rem;
+  text-align: center;
+  position: relative;
+  padding: 1rem 1.5rem 0;
+}
+.epitaph p {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.35rem, 3.4vw, 1.7rem);
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0 auto .8rem;
+  max-width: none;
+  text-wrap: balance;
+}
+.epitaph cite {
+  display: block;
+  font-family: var(--body);
+  font-style: normal;
+  font-size: .88rem;
+  letter-spacing: .02em;
+  color: var(--ink-soft);
 }
 
-.rule {
-  border: 0;
-  height: 1px;
-  background: var(--line);
-  margin: 2.5rem 0;
+/* --- Section headings --------------------------------------------------- */
+.section-head { text-align: center; margin-bottom: 2.25rem; }
+.section-head h2 {
+  font-size: clamp(1.9rem, 4.5vw, 2.4rem);
+  margin-bottom: .35rem;
 }
+.section-head p { margin-inline: auto; color: var(--ink-soft); }
 
 /* --- Cards -------------------------------------------------------------- */
 .card {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 2rem 1.75rem;
   box-shadow: var(--shadow);
 }
-
-.cards { display: grid; gap: 1.25rem; }
-@media (min-width: 44rem) {
-  .cards--two { grid-template-columns: 1fr 1fr; }
+/* A thin gilt line along the top edge, like the border of a printed card. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  opacity: .55;
 }
+
+.cards { display: grid; gap: 1.5rem; }
+@media (min-width: 46rem) { .cards--two { grid-template-columns: 1fr 1fr; } }
 
 .card__kicker {
-  display: inline-block;
-  font-size: .8rem;
-  font-weight: 700;
-  letter-spacing: .08em;
+  display: block;
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--accent);
-  background: var(--accent-tint);
-  padding: .3rem .7rem;
-  border-radius: 999px;
-  margin-bottom: .9rem;
+  color: var(--gold-ink);
+  margin-bottom: .5rem;
 }
 
-.card h2 { font-size: 1.5rem; }
-.card h3 { font-size: 1.4rem; margin-bottom: 1rem; }
+.card h2 { font-size: 1.9rem; }
+.card h3 { font-size: 1.75rem; margin-bottom: 1.25rem; }
 
-/* Definition-style detail rows: label above value, easy to scan. */
-.detail { margin: 0 0 1rem; }
+/* Detail rows: a quiet label above the thing that matters. */
+.detail { margin: 0 0 1.35rem; }
 .detail:last-of-type { margin-bottom: 0; }
 .detail dt {
-  font-size: .85rem;
-  font-weight: 700;
-  letter-spacing: .06em;
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .13em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  margin-bottom: .15rem;
+  margin-bottom: .25rem;
 }
-.detail dd { margin: 0; font-size: 1.1rem; }
-.detail dd .when { font-weight: 700; }
-
-.maplink {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap);
-  margin-top: .25rem;
+.detail dd { margin: 0; font-size: 1.02rem; line-height: 1.6; }
+.detail dd .when {
+  font-family: var(--display);
+  font-variant-numeric: lining-nums;
+  font-size: 1.3rem;
   font-weight: 600;
+  letter-spacing: .01em;
 }
+
+.maplink { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 600; }
 
 /* --- Buttons ------------------------------------------------------------ */
 .btn {
@@ -282,15 +388,19 @@ main { padding-bottom: 4rem; }
   justify-content: center;
   gap: .5rem;
   min-height: var(--tap);
-  padding: .5rem 1.4rem;
+  padding: .5rem 1.75rem;
   border-radius: 999px;
-  border: 2px solid var(--accent);
+  border: 1px solid var(--accent);
   background: var(--accent);
   color: #fff;
-  font: inherit;
-  font-weight: 700;
+  font-family: var(--body);
+  font-size: .86rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
+  transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
 .btn:hover { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
 .btn:disabled { opacity: .55; cursor: not-allowed; }
@@ -298,250 +408,295 @@ main { padding-bottom: 4rem; }
 .btn--ghost { background: transparent; color: var(--accent-dark); }
 .btn--ghost:hover { background: var(--accent-tint); color: var(--accent-dark); }
 
-.btn--danger { background: transparent; border-color: #a33; color: #8f2b2b; }
-.btn--danger:hover { background: #a33; border-color: #a33; color: #fff; }
+.btn--danger { background: transparent; border-color: #9e3b3b; color: #8a2b2b; }
+.btn--danger:hover { background: #9e3b3b; border-color: #9e3b3b; color: #fff; }
 
-.btn--small { min-height: 2.5rem; padding: .35rem 1rem; font-size: .95rem; }
-
+.btn--small { min-height: 2.6rem; padding: .35rem 1.2rem; font-size: .8rem; }
 .btn--block { width: 100%; }
 
-.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.25rem; }
+.actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1.75rem; }
+.actions--center { justify-content: center; }
+.actions--spaced { margin-top: 3rem; }
 
 /* --- Livestream --------------------------------------------------------- */
 .livestream { text-align: center; }
+.livestream p, .livestream .hint { margin-inline: auto; }
 .livestream .status {
   background: var(--warn-tint);
   border: 1px solid var(--warn-line);
   border-radius: var(--radius);
-  padding: 1rem 1.25rem;
-  margin: 0 auto;
+  padding: 1.1rem 1.35rem;
+  margin: 1.25rem auto 0;
   max-width: var(--measure);
+  color: var(--warn-ink);
 }
+.livestream .status strong { color: var(--ink); }
 
 /* --- Forms -------------------------------------------------------------- */
-.field { margin-bottom: 1.5rem; }
+.field { margin-bottom: 1.85rem; }
 
 .field > label,
-.fieldset__legend {
+.fieldset__legend,
+.field-label {
   display: block;
-  font-weight: 700;
-  font-size: 1.05rem;
-  margin-bottom: .3rem;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: .25rem;
 }
 
 .hint {
   display: block;
   color: var(--ink-soft);
-  font-size: .95rem;
-  margin: 0 0 .5rem;
+  font-size: .88rem;
+  line-height: 1.6;
+  margin: 0 0 .65rem;
   max-width: var(--measure);
 }
+.hint--tight { margin-top: .5rem; }
 
 input[type="text"],
 input[type="password"],
 input[type="file"],
-textarea,
-select {
+textarea {
   width: 100%;
-  font: inherit;
+  font-family: var(--body);
+  font-size: 1rem;
   color: var(--ink);
   background: var(--card);
-  padding: .7rem .8rem;
+  padding: .7rem .85rem;
   min-height: var(--tap);
-  border: 2px solid var(--line);
-  border-radius: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
 }
-input:hover, textarea:hover, select:hover { border-color: var(--ink-soft); }
-input:focus, textarea:focus, select:focus { border-color: var(--accent); }
-textarea { min-height: 9rem; resize: vertical; line-height: 1.6; }
+input:hover, textarea:hover { border-color: var(--ink-soft); }
+input:focus, textarea:focus { border-color: var(--accent); }
+textarea { min-height: 9.5rem; resize: vertical; line-height: 1.7; }
+input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #9e3b3b; }
 
-input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #a33; }
-
-/* The browser's own file button is small and easy to miss — make it a
-   proper target that matches the rest of the site. */
+/* The browser's own file button is small and easy to miss. */
 input[type="file"] { padding: .55rem .6rem; cursor: pointer; }
 input[type="file"]::file-selector-button {
-  font: inherit;
-  font-weight: 700;
+  font-family: var(--body);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
   min-height: 2.6rem;
   padding: .4rem 1.2rem;
   margin-right: .9rem;
   border-radius: 999px;
-  border: 2px solid var(--accent);
+  border: 1px solid var(--accent);
   background: var(--accent-tint);
   color: var(--accent-dark);
   cursor: pointer;
 }
-input[type="file"]::file-selector-button:hover {
-  background: var(--accent);
-  color: var(--card);
-}
+input[type="file"]::file-selector-button:hover { background: var(--accent); color: var(--card); }
 
-/* Radio group styled as large, obvious choice cards. */
-fieldset {
-  border: 0;
-  padding: 0;
-  margin: 0 0 1.5rem;
-}
-.choices { display: grid; gap: .75rem; }
+fieldset { border: 0; padding: 0; margin: 0 0 1.85rem; }
+.choices { display: grid; gap: .85rem; }
 .choice {
   display: flex;
   align-items: flex-start;
-  gap: .8rem;
-  padding: 1rem;
-  border: 2px solid var(--line);
+  gap: .9rem;
+  padding: 1.1rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--card);
   cursor: pointer;
 }
 .choice:hover { border-color: var(--accent); background: var(--accent-tint); }
-.choice input { width: 1.35rem; height: 1.35rem; margin: .2rem 0 0; flex: none; accent-color: var(--accent); }
+.choice input { width: 1.35rem; height: 1.35rem; margin: .3rem 0 0; flex: none; accent-color: var(--accent); }
 .choice:has(input:checked) { border-color: var(--accent); background: var(--accent-tint); }
-.choice__text { display: block; }
-.choice__title { display: block; font-weight: 700; }
-.choice__desc { display: block; color: var(--ink-soft); font-size: .95rem; }
+.choice__title { display: block; font-weight: 600; }
+.choice__desc  { display: block; color: var(--ink-soft); font-size: .88rem; line-height: 1.6; }
 
-/* Photo picker + preview */
-.filefield { display: grid; gap: .75rem; }
+.filefield { display: grid; gap: .85rem; }
 .preview {
   display: none;
   align-items: center;
-  gap: 1rem;
-  padding: .75rem;
+  gap: 1.1rem;
+  padding: .85rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--card);
 }
 .preview[data-shown="true"] { display: flex; }
-.preview img {
-  width: 5.5rem;
-  height: 5.5rem;
-  object-fit: cover;
-  border-radius: 10px;
-  flex: none;
-}
-.preview__meta { font-size: .95rem; color: var(--ink-soft); margin: 0; }
-.preview .btn { margin-top: .5rem; }
+.preview img { width: 5.5rem; height: 5.5rem; object-fit: cover; border-radius: 2px; flex: none; }
+.preview__meta { font-size: .88rem; color: var(--ink-soft); margin: 0; }
+.preview .btn { margin-top: .6rem; }
 
-/* Honeypot — hidden from people, tempting to bots. */
-.hp {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
+.optional { font-family: var(--body); font-size: .9rem; font-weight: 400; color: var(--ink-soft); }
+
+/* Spam trap — hidden from people, tempting to bots. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
 /* Status messages (announced to screen readers via aria-live) */
+/* Plain by default — the guestbook's "3 messages" line needs no framing.
+   It only becomes a boxed notice when it is actually saying something. */
 .status-msg {
-  padding: 1rem 1.25rem;
+  margin-bottom: 1.75rem;
+  padding: 0 0 .25rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: .92rem;
+  letter-spacing: .04em;
   border-radius: var(--radius);
-  border: 2px solid var(--line);
-  margin-bottom: 1.5rem;
 }
 .status-msg:empty { display: none; }
-.status-msg[data-tone="ok"]    { border-color: var(--accent); background: var(--accent-tint); }
-.status-msg[data-tone="error"] { border-color: #a33; background: #fbeeee; }
+.status-msg[data-tone="ok"],
+.status-msg[data-tone="error"],
+.status-msg[data-tone="busy"] {
+  padding: 1.1rem 1.35rem;
+  border: 1px solid var(--line);
+  text-align: left;
+  color: var(--ink);
+  font-size: 1rem;
+  letter-spacing: normal;
+}
+.status-msg[data-tone="ok"]    { border-color: var(--accent);    background: var(--accent-tint); }
+.status-msg[data-tone="error"] { border-color: #9e3b3b;          background: #fbeeee; }
 .status-msg[data-tone="busy"]  { border-color: var(--warn-line); background: var(--warn-tint); }
-.status-msg strong { display: block; font-size: 1.1rem; }
+.status-msg strong {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.note { margin: 1.75rem auto 0; text-align: center; }
 
 /* --- Guestbook entries -------------------------------------------------- */
-.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; }
 
 .entry {
+  position: relative;
+  min-width: 0;
   background: var(--card);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 1.25rem;
+  padding: 2rem 1.75rem 1.75rem;
   box-shadow: var(--shadow);
 }
+/* A large open quotation mark, set faintly behind the words. */
+.entry::before {
+  content: "\201C";
+  position: absolute;
+  top: -.35rem;
+  left: .75rem;
+  font-family: var(--display);
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: .18;
+  pointer-events: none;
+}
+
 /* Never cropped: a family photograph should be shown whole, whatever its
    shape. Tall pictures are limited by height, wide ones by the card width. */
 .entry__photo {
+  position: relative;
   max-width: 100%;
   max-height: 26rem;
   width: auto;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  background: var(--accent-tint);
+  border-radius: 2px;
+  border: 1px solid var(--line-soft);
+  padding: 6px;
+  background: var(--paper);
+  margin-bottom: 1.35rem;
 }
+
 /* Visitors' words can contain a very long web address or an unbroken run of
    characters; these must wrap rather than stretch the page sideways. */
-.entry { min-width: 0; }
-.entry__message,
-.entry__by,
-.entry__by strong { overflow-wrap: anywhere; }
+.entry__message, .entry__by, .entry__by strong { overflow-wrap: anywhere; }
 
 .entry__message {
-  font-size: 1.1rem;
+  position: relative;
+  font-size: 1.05rem;
+  line-height: 1.75;
   white-space: pre-wrap;
-  margin: 0 0 1rem;
+  margin: 0 0 1.35rem;
   max-width: var(--measure);
 }
-.entry__by { margin: 0; color: var(--ink-soft); font-size: .95rem; }
-.entry__by strong { color: var(--ink); font-size: 1.05rem; display: block; }
+
+.entry__by { margin: 0; color: var(--ink-soft); font-size: .88rem; letter-spacing: .04em; }
+.entry__by strong {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink);
+}
 
 .tag {
   display: inline-block;
-  font-size: .8rem;
-  font-weight: 700;
-  letter-spacing: .05em;
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .14em;
   text-transform: uppercase;
-  padding: .25rem .6rem;
+  padding: .3rem .75rem;
   border-radius: 999px;
   border: 1px solid var(--line);
-  margin-bottom: .75rem;
+  margin-bottom: 1rem;
 }
-.tag--pending { background: var(--warn-tint); border-color: var(--warn-line); color: #7a5410; }
-.tag--private { background: #eef0f6; border-color: #b9c0d4; color: #384063; }
+.tag--pending { background: var(--warn-tint); border-color: var(--warn-line); color: var(--warn-ink); }
+.tag--private { background: #edeff5; border-color: #b3bacf; color: #333c5e; }
 .tag--live    { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-dark); }
 
 .empty {
   text-align: center;
   color: var(--ink-soft);
-  padding: 2.5rem 1rem;
-  border: 2px dashed var(--line);
+  padding: 3rem 1.5rem;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
+  background: var(--card);
 }
 .empty p { margin-inline: auto; }
+.empty strong { font-family: var(--display); font-size: 1.5rem; color: var(--ink); }
 
 /* --- Admin tabs --------------------------------------------------------- */
 .tabs {
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   border-bottom: 1px solid var(--line);
-  padding-bottom: .75rem;
+  padding-bottom: 1rem;
 }
 .tabs button {
   min-height: var(--tap);
-  padding: 0 1.1rem;
+  padding: 0 1.2rem;
   border-radius: 999px;
-  border: 2px solid var(--line);
+  border: 1px solid var(--line);
   background: var(--card);
-  font: inherit;
+  font-family: var(--body);
+  font-size: .82rem;
   font-weight: 600;
-  color: var(--ink);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
   cursor: pointer;
 }
-.tabs button:hover { border-color: var(--accent); background: var(--accent-tint); }
-.tabs button[aria-selected="true"] {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-}
-.tabs .count { opacity: .85; font-weight: 700; }
+.tabs button:hover { border-color: var(--accent); background: var(--accent-tint); color: var(--accent-dark); }
+.tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+.tabs .count { opacity: .85; }
 
 /* --- Footer ------------------------------------------------------------- */
 .footer {
-  border-top: 1px solid var(--line);
-  padding: 2rem 0 3rem;
+  border-top: 1px solid var(--line-soft);
+  padding: 2.5rem 0 3.5rem;
   color: var(--ink-soft);
-  font-size: .95rem;
+  font-size: .92rem;
   text-align: center;
 }
 .footer p { margin-inline: auto; }
+.footer a {
+  display: inline-block;
+  min-height: var(--tap);
+  line-height: var(--tap);
+  padding-inline: .6rem;
+}
 
 /* --- Utilities ---------------------------------------------------------- */
 .visually-hidden {
@@ -555,49 +710,28 @@ fieldset {
 }
 .center { text-align: center; }
 .center p { margin-inline: auto; }
-.stack > * + * { margin-top: 1rem; }
-
-/* --- Small layout utilities ---------------------------------------------
-   The site's Content Security Policy forbids inline style attributes, so
-   every one-off adjustment lives here as a named class instead.          */
+.page-title { font-size: clamp(2.1rem, 6vw, 2.9rem); }
 .hero--compact { padding-bottom: 0; }
 .hero--snug    { padding-bottom: 1rem; }
 .hero--tight   { padding-bottom: .5rem; }
-.hero p        { margin-inline: auto; }
-
-.page-title { font-size: clamp(1.75rem, 5vw, 2.4rem); }
-
-.actions--center { justify-content: center; }
-.actions--spaced { margin-top: 2.5rem; }
-
 .cards--spaced { margin-top: 2rem; }
 
-.livestream p,
-.livestream .hint { margin-inline: auto; }
-
-.optional { font-weight: 400; color: var(--ink-soft); }
-
-.hint--tight { margin-top: .4rem; }
-
-.field-label {
-  display: block;
-  font-weight: 700;
-  font-size: 1.05rem;
-  margin-bottom: .3rem;
+/* --- A quiet arrival ---------------------------------------------------- */
+/* The page settles rather than snaps. Switched off entirely for anyone who
+   has asked their system to reduce motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__eyebrow, .portrait, .hero__name, .hero__dates, .hero__note {
+    animation: rise .9s cubic-bezier(.22, .61, .36, 1) both;
+  }
+  .portrait     { animation-delay: .1s; }
+  .hero__name   { animation-delay: .2s; }
+  .hero__dates  { animation-delay: .3s; }
+  .hero__note   { animation-delay: .4s; }
 }
-
-.note { margin: 1.5rem auto 0; text-align: center; }
-
-/* Footer links are single words in small text — give them a proper
-   target so they can still be tapped with an unsteady hand. */
-.footer a {
-  display: inline-block;
-  min-height: var(--tap);
-  line-height: var(--tap);
-  padding-inline: .6rem;
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
 }
-
-/* --- Motion preference -------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -610,39 +744,57 @@ fieldset {
 /* --- Dark mode (system preference) -------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper:       #16181b;
-    --card:        #1f2226;
-    --ink:         #edeef0;
-    --ink-soft:    #b3b8bf;
-    --accent:      #7fbfab;
-    --accent-dark: #a5d6c6;
-    --accent-tint: #24322e;
-    --line:        #3a3f45;
+    --paper:       #16151a;
+    --paper-deep:  #1b1a20;
+    --card:        #201f26;
+    --ink:         #ece8e1;
+    --ink-soft:    #b0aca6;
+    --accent:      #7cbda8;
+    --accent-dark: #a2d6c4;
+    --accent-tint: #22302c;
+    --gold:        #c6a55f;
+    --gold-ink:    #d8bd7e;
+    --line:        #3a3843;
+    --line-soft:   #2c2b33;
     --focus:       #ffb27a;
-    --warn-tint:   #2f2718;
+    --warn-tint:   #2c2417;
     --warn-line:   #8a6a2c;
-    --shadow:      0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
+    --warn-ink:    #e2c88d;
+    --shadow:      0 1px 2px rgba(0,0,0,.5), 0 10px 30px rgba(0,0,0,.4);
   }
-  .btn { color: #12211c; }
-  .btn:hover { color: #12211c; }
-  .btn--ghost { color: var(--accent-dark); }
-  .btn--ghost:hover { color: var(--accent-dark); }
-  .nav a[aria-current="page"],
-  .tabs button[aria-selected="true"],
-  .textsize button[aria-pressed="true"] { color: #12211c; }
+  body {
+    background-image:
+      radial-gradient(120% 60% at 50% -10%, rgba(198, 165, 95, .09), transparent 70%),
+      radial-gradient(90% 50% at 50% 100%, rgba(124, 189, 168, .05), transparent 70%);
+  }
+  .topbar { background: rgba(32, 31, 38, .72); }
+  .btn { color: #10201b; }
+  .btn:hover { color: #10201b; }
+  .btn--ghost, .btn--ghost:hover { color: var(--accent-dark); }
+  .nav a[aria-current="page"] { color: var(--accent-dark); }
+  .tabs button[aria-selected="true"] {
+    color: #10201b;
+    background: var(--accent);
+    border-color: var(--accent);
+  }
   .btn--danger { color: #ffa8a8; border-color: #b55; }
   .btn--danger:hover { background: #b55; color: #fff; }
-  .status-msg[data-tone="error"] { background: #331e1e; border-color: #b55; }
-  .tag--pending { color: #e8c98a; }
-  .tag--private { background: #23273a; border-color: #4a5375; color: #c3cbe8; }
-  .skip { background: var(--accent); color: #12211c; }
+  .status-msg[data-tone="error"] { background: #33201f; border-color: #b55; }
+  .tag--private { background: #232739; border-color: #4a5375; color: #c3cbe8; }
+  .skip { background: var(--accent); color: #10201b; }
+  .portrait { background: var(--card); }
 }
 
 /* --- Print: the details people want on paper ---------------------------- */
 @media print {
-  :root { --paper: #fff; --card: #fff; --ink: #000; --ink-soft: #333; --line: #999; }
+  :root {
+    --paper: #fff; --card: #fff; --ink: #000; --ink-soft: #333;
+    --line: #999; --line-soft: #ccc; --gold: #888;
+  }
+  body { background: #fff; }
   .topbar, .footer, .actions, .skip, form, .tabs { display: none !important; }
-  body { font-size: 12pt; }
-  .card { break-inside: avoid; box-shadow: none; }
+  body { font-size: 11pt; }
+  .card, .entry { break-inside: avoid; box-shadow: none; }
+  .entry::before { display: none; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .85em; word-break: break-all; }
 }

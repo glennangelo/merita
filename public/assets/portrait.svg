@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Placeholder for a portrait photograph">
-  <rect width="800" height="1000" fill="#e8f0ed"/>
-  <g fill="none" stroke="#2f5d50" stroke-width="6" opacity=".55">
-    <rect x="30" y="30" width="740" height="940" rx="18" stroke-dasharray="18 14"/>
+  <rect width="800" height="1000" fill="#efe7db"/>
+  <g fill="none" stroke="#a8873f" stroke-width="5" opacity=".5">
+    <rect x="26" y="26" width="748" height="948" rx="14" stroke-dasharray="16 13"/>
   </g>
-  <g fill="#2f5d50" opacity=".5">
-    <circle cx="400" cy="410" r="112"/>
-    <path d="M400 560c-124 0-224 86-224 192v34h448v-34c0-106-100-192-224-192z"/>
+  <g fill="#2f5d50" opacity=".38">
+    <circle cx="400" cy="405" r="110"/>
+    <path d="M400 553c-122 0-221 85-221 189v33h442v-33c0-104-99-189-221-189z"/>
   </g>
-  <g font-family="Georgia, 'Times New Roman', serif" fill="#204239" text-anchor="middle">
-    <text x="400" y="856" font-size="46">Your photograph goes here</text>
-    <text x="400" y="912" font-size="30" opacity=".75" font-family="system-ui, sans-serif">See step 6 of the README</text>
+  <g fill="#5a4a2e" text-anchor="middle">
+    <text x="400" y="852" font-size="44" font-family="Georgia, 'Times New Roman', serif" font-style="italic">Your photograph goes here</text>
+    <text x="400" y="908" font-size="27" font-family="Georgia, serif" opacity=".7">See step 6 of the README</text>
   </g>
 </svg>

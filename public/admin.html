@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-textsize="normal">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +8,8 @@
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/styles.css">
 </head>
 
@@ -15,22 +17,12 @@
 <a class="skip" href="#main">Skip to the main content</a>
 
 <header class="topbar">
-  <div class="wrap topbar__inner">
-    <nav class="nav" aria-label="Main">
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/guestbook">Guestbook</a></li>
-      </ul>
-    </nav>
-    <div class="textsize" data-textsize-control hidden>
-      <span class="textsize__label" id="textsize-label">Text size</span>
-      <div class="textsize__btns" role="group" aria-labelledby="textsize-label">
-        <button type="button" class="t1" data-size="normal" aria-pressed="true">A<span class="visually-hidden"> — normal text size</span></button>
-        <button type="button" class="t2" data-size="large" aria-pressed="false">A<span class="visually-hidden"> — large text size</span></button>
-        <button type="button" class="t3" data-size="larger" aria-pressed="false">A<span class="visually-hidden"> — largest text size</span></button>
-      </div>
-    </div>
-  </div>
+  <nav class="nav wrap" aria-label="Main">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/guestbook">Guestbook</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main id="main" class="wrap">
@@ -93,7 +85,6 @@
   </div>
 </footer>
 
-<script src="/assets/textsize.js" defer></script>
 <script src="/assets/admin.js" defer></script>
 </body>
 </html>

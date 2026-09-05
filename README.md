@@ -9,10 +9,17 @@ A small, calm website in memory of someone, with:
 - a choice for each visitor: **public** (shown on the site once the family approves it) or **private** (only the family ever sees it)
 - a **family page** for reading private messages and approving public ones
 
+It is set in Cormorant Garamond and Lora — an old-style face with the air of
+an engraved memorial card, paired with one made for reading at length.
+
 It is built to be quick on an old phone and easy to read for older visitors:
-large text with a size control, strong contrast, big buttons, plain wording,
-and it works with a screen reader or keyboard alone. There are no cookie
-banners, no trackers, no adverts and no outside fonts to download.
+generously large text by default, strong contrast throughout, big buttons and
+plain wording, and it works with a screen reader or keyboard alone. There is no
+text-size button to hunt for, because the text is already large — and if a
+visitor has set their own browser to use bigger type, this site follows that
+rather than overriding it. There are no cookie banners, no trackers and no
+adverts, and the typefaces are served from your own site, so nothing about a
+visitor is shared with anyone.
 
 ## What it costs
 
@@ -114,7 +121,7 @@ itself within a minute or so.
 | The page title and description | near the top, in the `<title>` and `description` lines |
 | Their name | the `hero__name` heading |
 | Dates of birth and death | the `hero__dates` paragraph — change both the visible date **and** the `datetime="YYYY-MM-DD"` next to it |
-| Opening words of remembrance | the `hero__note` paragraph |
+| A line of verse, scripture, or something they always said | the `epitaph` block — delete the whole block if you would rather not have one |
 | Ceremony date, time, venue, address | the **Memorial Ceremony** card |
 | Reception date, time, venue, address | the **Reception** card |
 | Map links | the two `maplink` links — put the venue address after `query=`, with `+` instead of spaces |
@@ -225,6 +232,7 @@ public/                 the website itself
   admin.html            the family's page
   memorial.ics          the "add to my calendar" file
   assets/               stylesheet, small scripts, portrait
+  fonts/                the two typefaces, served from your own site
   _headers              security settings applied by Cloudflare
 
 src/                    the guestbook's small server, one Cloudflare Worker

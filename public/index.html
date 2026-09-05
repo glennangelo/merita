@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-textsize="normal">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,6 +21,8 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/styles.css">
 </head>
 
@@ -28,23 +30,13 @@
 <a class="skip" href="#main">Skip to the main content</a>
 
 <header class="topbar">
-  <div class="wrap topbar__inner">
-    <nav class="nav" aria-label="Main">
-      <ul>
-        <li><a href="/" aria-current="page">Home</a></li>
-        <li><a href="/guestbook">Guestbook</a></li>
-        <li><a href="/sign">Leave a message</a></li>
-      </ul>
-    </nav>
-    <div class="textsize" data-textsize-control hidden>
-      <span class="textsize__label" id="textsize-label">Text size</span>
-      <div class="textsize__btns" role="group" aria-labelledby="textsize-label">
-        <button type="button" class="t1" data-size="normal" aria-pressed="true">A<span class="visually-hidden"> — normal text size</span></button>
-        <button type="button" class="t2" data-size="large" aria-pressed="false">A<span class="visually-hidden"> — large text size</span></button>
-        <button type="button" class="t3" data-size="larger" aria-pressed="false">A<span class="visually-hidden"> — largest text size</span></button>
-      </div>
-    </div>
-  </div>
+  <nav class="nav wrap" aria-label="Main">
+    <ul>
+      <li><a href="/" aria-current="page">Home</a></li>
+      <li><a href="/guestbook">Guestbook</a></li>
+      <li><a href="/sign">Leave a message</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main id="main" class="wrap">
@@ -69,26 +61,36 @@
          screen readers and search engines read the dates correctly. -->
     <p class="hero__dates">
       <time datetime="1234-01-01">[1 January 1234]</time>
-      <span class="sep" aria-hidden="true">–</span>
+      <span class="sep" aria-hidden="true">·</span>
       <span class="visually-hidden">to</span>
       <time datetime="2026-01-01">[1 January 2026]</time>
     </p>
-
-    <!-- ✏️ EDIT: a sentence or two of remembrance. Delete this paragraph if you prefer. -->
-    <p class="hero__note">
-      Thank you for visiting this page. Below you will find the details of the
-      memorial service and the reception that follows. Everyone is welcome.
-    </p>
   </div>
 
-  <hr class="rule">
+  <div class="ornament" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1">
+      <path d="M10 2.5 L14.6 10 L10 17.5 L5.4 10 Z"/>
+      <circle cx="10" cy="10" r="1.5" fill="currentColor" stroke="none"/>
+    </svg>
+  </div>
+
+  <!-- ================= A line of remembrance =================
+       ✏️ EDIT: a line of verse, scripture, or something they always said.
+       Delete this whole <blockquote> and the ornament above it if you would
+       rather not have one. -->
+  <blockquote class="epitaph">
+    <p>[A line of verse, a piece of scripture, or something they were always saying.]</p>
+    <cite>[— where it comes from, if you would like to say]</cite>
+  </blockquote>
 
   <!-- ================= Service details ================= -->
   <section class="section" aria-labelledby="details-heading">
-    <h2 id="details-heading" class="center">Order of the Day</h2>
-    <p class="center">Please arrive a few minutes early if you can.</p>
+    <div class="section-head">
+      <h2 id="details-heading">Order of the Day</h2>
+      <p>Everyone is welcome. Please arrive a few minutes early if you can.</p>
+    </div>
 
-    <div class="cards cards--two cards--spaced">
+    <div class="cards cards--two">
 
       <!-- ---- Ceremony ---- -->
       <article class="card">
@@ -114,7 +116,7 @@
           </div>
           <div class="detail">
             <dt>Getting there</dt>
-            <!-- ✏️ EDIT: replace the text after "q=" with the venue address (spaces become +) -->
+            <!-- ✏️ EDIT: replace the text after "query=" with the venue address (spaces become +) -->
             <dd>
               <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Venue+Name+Street+Address+Postcode">
                 Open the map and directions<span class="visually-hidden"> for the memorial ceremony venue</span>
@@ -153,7 +155,7 @@
           </div>
           <div class="detail">
             <dt>Getting there</dt>
-            <!-- ✏️ EDIT: replace the text after "q=" with the venue address -->
+            <!-- ✏️ EDIT: replace the text after "query=" with the venue address -->
             <dd>
               <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Reception+Venue+Street+Address+Postcode">
                 Open the map and directions<span class="visually-hidden"> for the reception venue</span>
@@ -175,13 +177,18 @@
     </div>
   </section>
 
+  <div class="ornament ornament--tight" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1">
+      <path d="M10 3 L14 10 L10 17 L6 10 Z"/>
+    </svg>
+  </div>
+
   <!-- ================= Livestream ================= -->
   <section class="section livestream" aria-labelledby="livestream-heading">
     <div class="card">
+      <p class="card__kicker">If you cannot be there</p>
       <h2 id="livestream-heading">Watch online</h2>
-      <p>
-        If you cannot be with us in person, the ceremony will be streamed live.
-      </p>
+      <p>The ceremony will be streamed live, so that nobody has to be far away.</p>
 
       <!-- ✏️ WHEN THE LINK IS READY:
            1. Delete the <p class="status"> block just below.
@@ -198,9 +205,7 @@
       <p class="actions actions--center">
         <a class="btn" href="">Watch the ceremony live</a>
       </p>
-      <p class="hint">
-        The stream opens about 10 minutes before the service starts.
-      </p>
+      <p class="hint">The stream opens about 10 minutes before the service starts.</p>
       REMOVE THIS LINE TOO -->
     </div>
   </section>
@@ -208,6 +213,7 @@
   <!-- ================= Guestbook invitation ================= -->
   <section class="section center" aria-labelledby="guestbook-heading">
     <div class="card">
+      <p class="card__kicker">The guestbook</p>
       <h2 id="guestbook-heading">Share a memory</h2>
       <p>
         If you have a story, a kind word, or a photograph you would like to share,
@@ -230,7 +236,5 @@
     <p><a href="/admin">Family administration</a></p>
   </div>
 </footer>
-
-<script src="/assets/textsize.js" defer></script>
 </body>
 </html>
