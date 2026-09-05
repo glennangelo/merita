@@ -265,23 +265,19 @@ main { padding-bottom: 5rem; }
 
 .hero__note { margin-top: 1.75rem; }
 
-/* --- Epitaph ------------------------------------------------------------ */
-.epitaph { margin: 0 auto; max-width: 28rem; text-align: center; }
-.epitaph p {
+/* --- The line beneath the name ------------------------------------------
+   Not a quotation any more, so it is a plain paragraph rather than a
+   blockquote, and carries no attribution. The ornament follows it. */
+.epitaph {
+  margin: 3rem auto 0;
+  max-width: 30rem;
+  text-align: center;
   font-family: var(--display);
   font-style: italic;
   font-size: clamp(1.4rem, 3.6vw, 1.75rem);
   line-height: 1.5;
-  margin: 0 auto .7rem;
-  max-width: none;
+  color: var(--ink);
   text-wrap: balance;
-}
-.epitaph cite {
-  display: block;
-  font-family: var(--body);
-  font-style: normal;
-  font-size: .88rem;
-  color: var(--ink-soft);
 }
 
 /* --- Section headings --------------------------------------------------- */
