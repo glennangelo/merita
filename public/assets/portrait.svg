@@ -1,14 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-label="Placeholder for a portrait photograph">
-  <rect width="800" height="1000" fill="#efe7db"/>
-  <g fill="none" stroke="#a8873f" stroke-width="5" opacity=".5">
-    <rect x="26" y="26" width="748" height="948" rx="14" stroke-dasharray="16 13"/>
-  </g>
-  <g fill="#2f5d50" opacity=".38">
-    <circle cx="400" cy="405" r="110"/>
-    <path d="M400 553c-122 0-221 85-221 189v33h442v-33c0-104-99-189-221-189z"/>
+  <rect width="800" height="1000" fill="#ece3d4"/>
+  <g fill="#2f5d50" opacity=".32">
+    <circle cx="400" cy="430" r="108"/>
+    <path d="M400 576c-120 0-218 84-218 187v31h436v-31c0-103-98-187-218-187z"/>
   </g>
   <g fill="#5a4a2e" text-anchor="middle">
-    <text x="400" y="852" font-size="44" font-family="Georgia, 'Times New Roman', serif" font-style="italic">Your photograph goes here</text>
-    <text x="400" y="908" font-size="27" font-family="Georgia, serif" opacity=".7">See step 6 of the README</text>
+    <text x="400" y="872" font-size="42" font-family="Georgia, 'Times New Roman', serif" font-style="italic">Your photograph goes here</text>
+    <text x="400" y="924" font-size="26" font-family="Georgia, serif" opacity=".7">See step 6 of the README</text>
   </g>
 </svg>

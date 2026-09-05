@@ -61,9 +61,9 @@
   /* ---------- rendering ---------- */
 
   var TAG = {
-    pending: ['tag--pending', 'Waiting for your approval'],
-    private: ['tag--private', 'Private — only the family sees this'],
-    public:  ['tag--live',    'Live in the public guestbook']
+    pending: ['tag--pending', 'Waiting for approval'],
+    private: ['tag--private', 'Private to the family'],
+    public:  ['tag--live',    'Live in the guestbook']
   };
 
   function render(entry, index) {
@@ -103,18 +103,18 @@
     actions.className = 'actions';
 
     if (filter === 'pending') {
-      actions.appendChild(button('Approve — show in the guestbook', 'btn', function () {
+      actions.appendChild(button('Approve', 'btn', function () {
         act(entry, 'approve', 'Approved. It is now live in the guestbook.');
       }));
-      actions.appendChild(button('Keep private instead', 'btn btn--ghost', function () {
-        act(entry, 'make_private', 'Moved to the private messages. It will not appear on the website.');
+      actions.appendChild(button('Keep private', 'btn btn--ghost', function () {
+        act(entry, 'make_private', 'Moved to the private messages.');
       }));
     } else if (filter === 'public') {
-      actions.appendChild(button('Hide from the guestbook', 'btn btn--ghost', function () {
+      actions.appendChild(button('Hide', 'btn btn--ghost', function () {
         act(entry, 'unapprove', 'Hidden. It is back in the waiting list.');
       }));
     } else {
-      actions.appendChild(button('Publish in the guestbook', 'btn btn--ghost', function () {
+      actions.appendChild(button('Publish', 'btn btn--ghost', function () {
         if (!confirm('Publish this message publicly?\n\n' + entry.name +
                      ' asked for it to stay private, so please only do this with their permission.')) return;
         act(entry, 'approve', 'Published in the guestbook.');
@@ -140,9 +140,9 @@
   }
 
   var EMPTY = {
-    pending: ['Nothing is waiting for approval.', 'New public messages will appear here for you to read first.'],
-    private: ['There are no private messages yet.', 'Messages sent privately to the family will appear here.'],
-    public:  ['Nothing is live in the guestbook yet.', 'Approve a waiting message and it will show up here.']
+    pending: ['Nothing waiting.', 'New public messages appear here for you to read first.'],
+    private: ['No private messages.', 'Messages sent privately to the family appear here.'],
+    public:  ['Nothing live yet.', 'Approve a waiting message and it will show up here.']
   };
 
   function draw() {
@@ -181,7 +181,7 @@
       if (!quiet) say(adminStatus, '', '', '');
     } catch (err) {
       if (err.message !== 'unauthorised') {
-        say(adminStatus, 'error', 'The messages could not be loaded.', ' Please refresh the page and try again.');
+        say(adminStatus, 'error', 'The messages could not be loaded.', ' Please refresh the page.');
       }
     }
   }
@@ -237,7 +237,7 @@
       say(loginStatus, '', '', '');
       showAdmin();
     } catch (err) {
-      say(loginStatus, 'error', 'That password was not right.', ' Please check it and try again.');
+      say(loginStatus, 'error', 'That password was not right.', '');
       password.value = '';
       password.focus();
     } finally {

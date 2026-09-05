@@ -58,9 +58,8 @@
   function empty() {
     var box = document.createElement('li');
     box.className = 'empty';
-    box.innerHTML = '<p><strong>There are no messages here yet.</strong></p>' +
-      '<p>Yours would be very welcome.</p>' +
-      '<p class="actions actions--center"><a class="btn" href="/sign">Leave a message</a></p>';
+    box.innerHTML = '<p><strong>No messages yet.</strong></p>' +
+      '<p class="actions actions--center"><a class="btn" href="/sign">Leave the first</a></p>';
     return box;
   }
 
@@ -80,7 +79,6 @@
         : entries.length + ' messages.';
     })
     .catch(function () {
-      say('error', 'The messages could not be loaded.',
-        ' Please check your internet connection and refresh the page.');
+      say('error', 'The messages could not be loaded.', ' Please refresh the page.');
     });
 })();

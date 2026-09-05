@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leave a message — In Loving Memory of [Full Name]</title>
-<meta name="description" content="Share a memory, a kind word or a photograph in remembrance of [Full Name].">
-<meta name="theme-color" content="#2f5d50">
-<meta name="color-scheme" content="light dark">
+<meta name="description" content="Share a memory in remembrance of [Full Name].">
+<meta name="theme-color" content="#f8f4ed">
+<meta name="color-scheme" content="light">
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
 <link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -31,10 +31,7 @@
   <div class="hero hero--compact">
     <p class="hero__eyebrow">In Loving Memory</p>
     <h1 class="hero__name page-title">Leave a message</h1>
-    <p class="hero__note">
-      Every message is read by the family. You may add a photograph if you wish.
-      Nothing appears on the website until a member of the family has seen it.
-    </p>
+    <p class="hero__note">Every message is read by the family.</p>
   </div>
 
   <div class="ornament ornament--tight" aria-hidden="true">
@@ -46,68 +43,58 @@
   <!-- Announced to screen readers whenever it changes. -->
   <div class="status-msg" id="form-status" role="status" aria-live="polite" data-tone=""></div>
 
-  <form id="guestbook-form" class="card" novalidate>
+  <form id="guestbook-form" novalidate>
 
     <div class="field">
       <label for="name">Your name</label>
-      <span class="hint" id="name-hint">For example, “Margaret Doyle” or “The Doyle family, Cork”.</span>
-      <input type="text" id="name" name="name" required maxlength="80"
-             autocomplete="name" aria-describedby="name-hint">
+      <input type="text" id="name" name="name" required maxlength="80" autocomplete="name">
     </div>
 
     <div class="field">
-      <label for="message">Your message of remembrance</label>
-      <span class="hint" id="message-hint">
-        A memory, a few kind words — anything you would like to say. Up to 2,000 characters.
-      </span>
+      <label for="message">Your message</label>
       <textarea id="message" name="message" required maxlength="2000"
                 aria-describedby="message-hint"></textarea>
-      <p class="hint hint--tight" aria-hidden="true"><span id="message-count">0</span> of 2,000 characters used</p>
+      <p class="hint hint--tight" id="message-hint">
+        <span id="message-count">0</span> of 2,000 characters
+      </p>
     </div>
 
     <fieldset>
-      <legend class="fieldset__legend">Who may see this message?</legend>
-      <span class="hint" id="visibility-hint">You can change your mind by asking the family — just contact them.</span>
-      <div class="choices" aria-describedby="visibility-hint">
+      <legend class="fieldset__legend">Who may see this?</legend>
+      <div class="choices">
         <label class="choice">
           <input type="radio" name="visibility" value="public" checked>
-          <span class="choice__text">
-            <span class="choice__title">Show it in the public guestbook</span>
-            <span class="choice__desc">Anyone visiting this website will be able to read it, once the family has approved it.</span>
+          <span>
+            <span class="choice__title">Show it in the guestbook</span>
+            <span class="choice__desc">Public, once the family has approved it.</span>
           </span>
         </label>
         <label class="choice">
           <input type="radio" name="visibility" value="private">
-          <span class="choice__text">
-            <span class="choice__title">Send it privately to the family</span>
-            <span class="choice__desc">Only the family will ever see it. It will not appear on the website.</span>
+          <span>
+            <span class="choice__title">Send it privately</span>
+            <span class="choice__desc">Only the family will ever see it.</span>
           </span>
         </label>
       </div>
     </fieldset>
 
     <div class="field filefield">
-      <label for="photo">Add a photograph <span class="optional">(optional)</span></label>
-      <span class="hint" id="photo-hint">
-        One picture, in JPEG, PNG, WebP or HEIC format. Large photographs are made
-        smaller on your own device before they are sent, so this works fine on a slow connection.
-      </span>
+      <label for="photo">A photograph <span class="optional">(optional)</span></label>
+      <span class="hint" id="photo-hint">Made smaller on your own device before sending.</span>
       <input type="file" id="photo" name="photo" accept="image/*" aria-describedby="photo-hint">
 
       <div class="preview" id="photo-preview" data-shown="false">
         <img id="photo-preview-img" alt="">
         <div>
           <p class="preview__meta" id="photo-preview-meta"></p>
-          <button type="button" class="btn btn--ghost btn--small" id="photo-remove">Remove photograph</button>
+          <button type="button" class="btn btn--ghost btn--small" id="photo-remove">Remove</button>
         </div>
       </div>
 
       <div id="photo-alt-field" hidden>
-        <label class="field-label" for="photo-alt">Describe the photograph <span class="optional">(optional)</span></label>
-        <span class="hint" id="photo-alt-hint">
-          A short description read aloud to visitors who cannot see the picture.
-          For example, “Nana in her garden, holding a watering can”.
-        </span>
+        <label class="field-label" for="photo-alt">Describe it <span class="optional">(optional)</span></label>
+        <span class="hint" id="photo-alt-hint">Read aloud to visitors who cannot see the picture.</span>
         <input type="text" id="photo-alt" name="photo_alt" maxlength="200" aria-describedby="photo-alt-hint">
       </div>
     </div>
@@ -118,19 +105,14 @@
       <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
     </div>
 
-    <button type="submit" class="btn btn--block" id="submit-btn">Send my message</button>
+    <button type="submit" class="btn btn--block" id="submit-btn">Send</button>
   </form>
 
-  <p class="hint note">
-    We keep your name, message and photograph only to share these memories with the family.
-    If you would like yours removed at any time, please contact the family.
-  </p>
+  <p class="hint note">Ask the family if you would like yours removed.</p>
 </main>
 
 <footer class="footer">
-  <div class="wrap">
-    <p><a href="/">Back to the memorial page</a></p>
-  </div>
+  <div class="wrap"><p><a href="/">Back to the memorial page</a></p></div>
 </footer>
 
 <script src="/assets/sign.js" defer></script>

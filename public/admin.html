@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Family administration — In Loving Memory</title>
-<meta name="theme-color" content="#2f5d50">
-<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f8f4ed">
+<meta name="color-scheme" content="light">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
 <link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -31,20 +31,16 @@
   <section id="login-view" hidden>
     <div class="hero hero--compact">
       <h1 class="hero__name page-title">Family administration</h1>
-      <p class="hero__note">
-        This page is for the family. Sign in to read private messages and to approve
-        messages for the public guestbook.
-      </p>
+      <p class="hero__note">Sign in to read private messages and approve public ones.</p>
     </div>
 
     <div class="status-msg" id="login-status" role="status" aria-live="polite" data-tone=""></div>
 
-    <form id="login-form" class="card">
+    <form id="login-form">
       <div class="field">
         <label for="password">Password</label>
-        <span class="hint" id="password-hint">The password the family agreed on.</span>
         <input type="password" id="password" name="password" required
-               autocomplete="current-password" aria-describedby="password-hint">
+               autocomplete="current-password">
       </div>
       <button type="submit" class="btn btn--block" id="login-btn">Sign in</button>
     </form>

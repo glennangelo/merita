@@ -6,16 +6,16 @@
 
 <!-- ✏️ EDIT: page title and description (shown in search results and when the link is shared) -->
 <title>In Loving Memory of [Full Name]</title>
-<meta name="description" content="Remembering [Full Name], [1234]–[2026]. Details of the memorial service and reception, and a guestbook for messages of remembrance.">
+<meta name="description" content="Remembering [Full Name], [1234]–[2026]. Details of the memorial ceremony and reception, and a guestbook.">
 
-<meta name="theme-color" content="#2f5d50">
-<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f8f4ed">
+<meta name="color-scheme" content="light">
 
 <!-- Preview card for WhatsApp / Facebook / iMessage.
      ✏️ EDIT: set og:url to your final web address once the site is live. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="In Loving Memory of [Full Name]">
-<meta property="og:description" content="Details of the memorial service and reception, and a guestbook for messages of remembrance.">
+<meta property="og:description" content="Details of the memorial ceremony and reception, and a guestbook.">
 <meta property="og:image" content="/assets/portrait.jpg">
 <meta property="og:url" content="https://example.com/">
 <meta name="twitter:card" content="summary_large_image">
@@ -46,11 +46,11 @@
     <p class="hero__eyebrow">In Loving Memory</p>
 
     <!-- ✏️ EDIT: save your photograph as public/assets/portrait.jpg, then change
-         "portrait.svg" below to "portrait.jpg". Write a plain description in the
-         alt text. A portrait around 800×1000 pixels keeps the page fast. -->
+         "portrait.svg" below to "portrait.jpg". A portrait around 800×1000
+         pixels keeps the page fast. -->
     <img class="portrait"
          src="/assets/portrait.svg"
-         alt="Portrait of [Full Name], smiling."
+         alt="Portrait of [Full Name]."
          width="800" height="1000"
          fetchpriority="high">
 
@@ -74,156 +74,117 @@
     </svg>
   </div>
 
-  <!-- ================= A line of remembrance =================
-       ✏️ EDIT: a line of verse, scripture, or something they always said.
-       Delete this whole <blockquote> and the ornament above it if you would
-       rather not have one. -->
+  <!-- ✏️ EDIT: a line of verse, or something they always said.
+       Delete this whole block if you would rather not have one. -->
   <blockquote class="epitaph">
-    <p>[A line of verse, a piece of scripture, or something they were always saying.]</p>
-    <cite>[— where it comes from, if you would like to say]</cite>
+    <p>[A line of verse, or something they were always saying.]</p>
+    <cite>[— where it comes from]</cite>
   </blockquote>
 
-  <!-- ================= Service details ================= -->
-  <section class="section" aria-labelledby="details-heading">
-    <div class="section-head">
-      <h2 id="details-heading">Order of the Day</h2>
-      <p>Everyone is welcome. Please arrive a few minutes early if you can.</p>
+  <!-- ================= The day ================= -->
+  <section class="section" aria-labelledby="ceremony-heading">
+    <div class="event">
+      <p class="eyebrow">The Ceremony</p>
+      <h2 id="ceremony-heading">[Venue Name]</h2>
+      <dl>
+        <dt class="visually-hidden">When</dt>
+        <!-- ✏️ EDIT: ceremony date and time -->
+        <dd class="when">
+          <time datetime="2026-01-01">[Saturday, 1 January 2026]</time><br>
+          <time datetime="2026-01-01T11:00">[11:00 am]</time>
+        </dd>
+
+        <dt class="visually-hidden">Where</dt>
+        <!-- ✏️ EDIT: full address -->
+        <dd class="where">[Street Address, Town, Postcode]</dd>
+
+        <dt class="visually-hidden">Directions</dt>
+        <!-- ✏️ EDIT: replace the text after "query=" with the address (spaces become +) -->
+        <dd>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Venue+Name+Street+Address+Postcode">
+            Map and directions<span class="visually-hidden"> to the ceremony</span>
+          </a>
+        </dd>
+
+        <!-- ✏️ EDIT (optional): parking, step-free access, flowers. Or delete. -->
+        <dt class="visually-hidden">Good to know</dt>
+        <dd class="aside">[Parking on site. Step-free entrance.]</dd>
+      </dl>
     </div>
 
-    <div class="cards cards--two">
+    <div class="ornament ornament--tight" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1">
+        <path d="M10 3 L14 10 L10 17 L6 10 Z"/>
+      </svg>
+    </div>
 
-      <!-- ---- Ceremony ---- -->
-      <article class="card">
-        <p class="card__kicker">First</p>
-        <h3>Memorial Ceremony</h3>
-        <dl>
-          <div class="detail">
-            <dt>When</dt>
-            <!-- ✏️ EDIT: ceremony date and time -->
-            <dd>
-              <span class="when"><time datetime="2026-01-01">[Saturday, 1 January 2026]</time></span><br>
-              <time datetime="2026-01-01T11:00">[11:00 am]</time> – <time datetime="2026-01-01T12:00">[12:00 noon]</time>
-            </dd>
-          </div>
-          <div class="detail">
-            <dt>Where</dt>
-            <!-- ✏️ EDIT: venue name and full address -->
-            <dd>
-              [Venue Name]<br>
-              [Street Address]<br>
-              [Town, Postcode]
-            </dd>
-          </div>
-          <div class="detail">
-            <dt>Getting there</dt>
-            <!-- ✏️ EDIT: replace the text after "query=" with the venue address (spaces become +) -->
-            <dd>
-              <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Venue+Name+Street+Address+Postcode">
-                Open the map and directions<span class="visually-hidden"> for the memorial ceremony venue</span>
-              </a>
-            </dd>
-          </div>
-          <!-- ✏️ EDIT (optional): parking, step-free access, dress code, flowers or donations -->
-          <div class="detail">
-            <dt>Good to know</dt>
-            <dd>[Parking is available on site. The entrance is step-free.]</dd>
-          </div>
-        </dl>
-      </article>
+    <div class="event" aria-labelledby="reception-heading">
+      <p class="eyebrow">Afterwards</p>
+      <h2 id="reception-heading">[Reception Venue Name]</h2>
+      <dl>
+        <dt class="visually-hidden">When</dt>
+        <!-- ✏️ EDIT: reception date and time -->
+        <dd class="when">
+          <time datetime="2026-01-01">[Saturday, 1 January 2026]</time><br>
+          <time datetime="2026-01-01T13:00">[1:00 pm]</time> – <time datetime="2026-01-01T16:00">[4:00 pm]</time>
+        </dd>
 
-      <!-- ---- Reception ---- -->
-      <article class="card">
-        <p class="card__kicker">Afterwards</p>
-        <h3>Reception</h3>
-        <dl>
-          <div class="detail">
-            <dt>When</dt>
-            <!-- ✏️ EDIT: reception date and time -->
-            <dd>
-              <span class="when"><time datetime="2026-01-01">[Saturday, 1 January 2026]</time></span><br>
-              From <time datetime="2026-01-01T13:00">[1:00 pm]</time> until <time datetime="2026-01-01T16:00">[4:00 pm]</time>
-            </dd>
-          </div>
-          <div class="detail">
-            <dt>Where</dt>
-            <!-- ✏️ EDIT: reception venue name and full address -->
-            <dd>
-              [Reception Venue Name]<br>
-              [Street Address]<br>
-              [Town, Postcode]
-            </dd>
-          </div>
-          <div class="detail">
-            <dt>Getting there</dt>
-            <!-- ✏️ EDIT: replace the text after "query=" with the venue address -->
-            <dd>
-              <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Reception+Venue+Street+Address+Postcode">
-                Open the map and directions<span class="visually-hidden"> for the reception venue</span>
-              </a>
-            </dd>
-          </div>
-          <div class="detail">
-            <dt>Good to know</dt>
-            <dd>[Light refreshments will be served. Please come, however briefly.]</dd>
-          </div>
-        </dl>
-      </article>
+        <dt class="visually-hidden">Where</dt>
+        <!-- ✏️ EDIT: full address -->
+        <dd class="where">[Street Address, Town, Postcode]</dd>
 
+        <dt class="visually-hidden">Directions</dt>
+        <!-- ✏️ EDIT: replace the text after "query=" with the address -->
+        <dd>
+          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Reception+Venue+Street+Address+Postcode">
+            Map and directions<span class="visually-hidden"> to the reception</span>
+          </a>
+        </dd>
+
+        <dt class="visually-hidden">Good to know</dt>
+        <dd class="aside">[Refreshments served. Please come, however briefly.]</dd>
+      </dl>
     </div>
 
     <div class="actions actions--center">
-      <!-- ✏️ EDIT the file memorial.ics so this saves the right date into people's calendars -->
-      <a class="btn btn--ghost" href="/memorial.ics" download>Add to my calendar</a>
+      <!-- ✏️ EDIT the file memorial.ics so this saves the right date -->
+      <a class="btn btn--ghost" href="/memorial.ics" download>Add to calendar</a>
     </div>
   </section>
 
-  <div class="ornament ornament--tight" aria-hidden="true">
+  <div class="ornament" aria-hidden="true">
     <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1">
       <path d="M10 3 L14 10 L10 17 L6 10 Z"/>
     </svg>
   </div>
 
   <!-- ================= Livestream ================= -->
-  <section class="section livestream" aria-labelledby="livestream-heading">
-    <div class="card">
-      <p class="card__kicker">If you cannot be there</p>
-      <h2 id="livestream-heading">Watch online</h2>
-      <p>The ceremony will be streamed live, so that nobody has to be far away.</p>
+  <section class="section center" aria-labelledby="livestream-heading">
+    <p class="eyebrow">If you cannot be there</p>
+    <h2 id="livestream-heading">Watch online</h2>
 
-      <!-- ✏️ WHEN THE LINK IS READY:
-           1. Delete the <p class="status"> block just below.
-           2. Delete the two lines that say REMOVE THIS LINE around the button.
-           3. Paste the streaming address into href="".
-      -->
-      <p class="status">
-        <strong>The link is not available yet.</strong>
-        It will be posted on this page as soon as we have it — please check back
-        shortly before the service begins.
-      </p>
+    <!-- ✏️ WHEN THE LINK IS READY:
+         1. Delete the <p class="notice"> line just below.
+         2. Delete the two lines that say REMOVE THIS LINE.
+         3. Paste the streaming address into href="".
+    -->
+    <p class="notice">A link will appear here before the service begins.</p>
 
-      <!-- REMOVE THIS LINE TO SHOW THE BUTTON
-      <p class="actions actions--center">
-        <a class="btn" href="">Watch the ceremony live</a>
-      </p>
-      <p class="hint">The stream opens about 10 minutes before the service starts.</p>
-      REMOVE THIS LINE TOO -->
-    </div>
+    <!-- REMOVE THIS LINE TO SHOW THE BUTTON
+    <p class="actions actions--center">
+      <a class="btn" href="">Watch the ceremony</a>
+    </p>
+    REMOVE THIS LINE TOO -->
   </section>
 
-  <!-- ================= Guestbook invitation ================= -->
+  <!-- ================= Guestbook ================= -->
   <section class="section center" aria-labelledby="guestbook-heading">
-    <div class="card">
-      <p class="card__kicker">The guestbook</p>
-      <h2 id="guestbook-heading">Share a memory</h2>
-      <p>
-        If you have a story, a kind word, or a photograph you would like to share,
-        we would love to read it. You can choose whether your message is shown on
-        this website or sent privately to the family alone.
-      </p>
-      <div class="actions actions--center">
-        <a class="btn" href="/sign">Leave a message</a>
-        <a class="btn btn--ghost" href="/guestbook">Read the guestbook</a>
-      </div>
+    <p class="eyebrow">The Guestbook</p>
+    <h2 id="guestbook-heading">Share a memory</h2>
+    <p>Publicly, or privately to the family alone.</p>
+    <div class="actions actions--center">
+      <a class="btn" href="/sign">Leave a message</a>
+      <a class="btn btn--ghost" href="/guestbook">Read the guestbook</a>
     </div>
   </section>
 
@@ -231,8 +192,8 @@
 
 <footer class="footer">
   <div class="wrap">
-    <!-- ✏️ EDIT (optional): a contact address for questions, or donation details -->
-    <p>With love from the family. For any questions, please contact [name] at [email or phone].</p>
+    <!-- ✏️ EDIT (optional): who to contact with questions -->
+    <p>With love from the family. Questions: [name], [email or phone].</p>
     <p><a href="/admin">Family administration</a></p>
   </div>
 </footer>

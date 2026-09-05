@@ -113,11 +113,11 @@
 
     if (!/^image\//.test(file.type) && !/\.(jpe?g|png|webp|heic|heif|gif)$/i.test(file.name)) {
       clearPhoto();
-      say('error', 'That file is not a picture.', ' Please choose a photograph in JPEG, PNG or WebP format.');
+      say('error', 'That file is not a picture.', ' Please choose a JPEG, PNG or WebP.');
       return;
     }
 
-    say('busy', 'Preparing your photograph…', ' This takes a moment on a large picture.');
+    say('busy', 'Preparing your photograph…', '');
     submitBtn.disabled = true;
 
     try {
@@ -135,8 +135,7 @@
     } catch (err) {
       clearPhoto();
       say('error', 'We could not use that photograph.',
-        ' Photos from an iPhone are sometimes in a format this page cannot read. ' +
-        'Please try another picture, or send it to the family directly.');
+        ' Some iPhone photos are in a format this page cannot read. Please try another.');
     } finally {
       submitBtn.disabled = false;
     }
@@ -159,13 +158,13 @@
 
     if (!name.value.trim()) {
       name.setAttribute('aria-invalid', 'true');
-      say('error', 'Please add your name.', ' The family would like to know who the message is from.');
+      say('error', 'Please add your name.', '');
       name.focus();
       return;
     }
     if (!message.value.trim()) {
       message.setAttribute('aria-invalid', 'true');
-      say('error', 'Please write a message.', ' Even a single sentence is very welcome.');
+      say('error', 'Please write a message.', ' Even a single sentence is welcome.');
       message.focus();
       return;
     }
@@ -193,11 +192,9 @@
 
       form.hidden = true;
       if (visibility === 'private') {
-        say('ok', 'Thank you — your message has been sent to the family.',
-          ' Only they will see it. It will not appear on the website.');
+        say('ok', 'Thank you.', ' Your message has gone to the family. Only they will see it.');
       } else {
-        say('ok', 'Thank you — your message has been received.',
-          ' A member of the family will read it, and it will appear in the guestbook shortly afterwards.');
+        say('ok', 'Thank you.', ' The family will read it, and it will appear in the guestbook shortly.');
       }
       // Move focus to the confirmation so a screen reader reads it out and a
       // keyboard user carries on from the right place.
@@ -207,8 +204,7 @@
     } catch (err) {
       submitBtn.disabled = false;
       say('error', 'Your message could not be sent.',
-        ' Please check your internet connection and try again. If it keeps happening, ' +
-        'please contact the family directly — we do not want to lose your words.');
+        ' Please check your connection and try again. If it keeps happening, contact the family directly.');
     }
   });
 })();
