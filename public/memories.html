@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guestbook — In Loving Memory of [Full Name]</title>
+<title>Memories — In Loving Memory of [Full Name]</title>
 <meta name="description" content="Messages of remembrance for [Full Name].">
 <meta name="theme-color" content="#f8f4ed">
 <meta name="color-scheme" content="light">
@@ -20,9 +20,8 @@
   <nav class="nav wrap" aria-label="Main">
     <ul>
       <li><a href="/">Home</a></li>
-      <li><a href="/rsvp">Let us know</a></li>
-      <li><a href="/guestbook" aria-current="page">Guestbook</a></li>
-      <li><a href="/sign">Leave a message</a></li>
+      <li><a href="/rsvp">RSVP</a></li>
+      <li><a href="/memories" aria-current="page">Memories</a></li>
     </ul>
   </nav>
 </header>
@@ -30,10 +29,10 @@
 <main id="main" class="wrap">
   <div class="hero hero--snug">
     <p class="hero__eyebrow">In Loving Memory</p>
-    <h1 class="hero__name page-title">Guestbook</h1>
+    <h1 class="hero__name page-title">Memories</h1>
     <p class="hero__note">Memories shared by family and friends.</p>
     <p class="actions actions--center">
-      <a class="btn" href="/sign">Add a message</a>
+      <a class="btn" href="/share">Share a memory</a>
     </p>
   </div>
 
@@ -44,10 +43,10 @@
   </div>
 
   <div class="status-msg" id="load-status" role="status" aria-live="polite" data-tone="busy">
-    <strong>Loading the messages…</strong>
+    <strong>Loading…</strong>
   </div>
 
-  <ul class="entries" id="entries" aria-label="Messages of remembrance"></ul>
+  <ul class="entries" id="entries" aria-label="Memories shared by family and friends"></ul>
 </main>
 
 <footer class="footer">
@@ -56,6 +55,6 @@
   </div>
 </footer>
 
-<script src="/assets/guestbook.js" defer></script>
+<script src="/assets/memories.js" defer></script>
 </body>
 </html>

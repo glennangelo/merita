@@ -1,4 +1,4 @@
-/* Public guestbook: shows the messages the family has approved for the website. */
+/* Memories: the ones the family has approved for the website. */
 (function () {
   var list      = document.getElementById('entries');
   var statusBox = document.getElementById('load-status');
@@ -58,8 +58,8 @@
   function empty() {
     var box = document.createElement('li');
     box.className = 'empty';
-    box.innerHTML = '<p><strong>No messages yet.</strong></p>' +
-      '<p class="actions actions--center"><a class="btn" href="/sign">Leave the first</a></p>';
+    box.innerHTML = '<p><strong>No memories yet.</strong></p>' +
+      '<p class="actions actions--center"><a class="btn" href="/share">Share the first</a></p>';
     return box;
   }
 
@@ -75,10 +75,10 @@
       // The empty state speaks for itself, so only show a count when there is one.
       statusBox.dataset.tone = '';
       statusBox.textContent = !entries.length ? ''
-        : entries.length === 1 ? '1 message.'
-        : entries.length + ' messages.';
+        : entries.length === 1 ? '1 memory.'
+        : entries.length + ' memories.';
     })
     .catch(function () {
-      say('error', 'The messages could not be loaded.', ' Please refresh the page.');
+      say('error', 'The memories could not be loaded.', ' Please refresh the page.');
     });
 })();

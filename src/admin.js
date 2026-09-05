@@ -36,7 +36,7 @@ export async function logout() {
 /* GET /api/admin/entries — every message, grouped for the moderation page.
    - pending: public messages waiting to be approved
    - private: messages the writer asked to keep between themselves and the family
-   - public:  messages already live in the guestbook                          */
+   - public:  memories already shared on the website                          */
 export async function listAll(request, env) {
   if (!(await isAdmin(request, env))) return bad('Please sign in.', 401);
 
@@ -69,10 +69,10 @@ export async function moderate(request, env, id) {
 
   let statement;
   switch (action) {
-    case 'approve':       // show it in the public guestbook
+    case 'approve':       // share it publicly
       statement = env.DB.prepare(`UPDATE entries SET visibility = 'public', approved = 1 WHERE id = ?`);
       break;
-    case 'unapprove':     // take it back out of the guestbook
+    case 'unapprove':     // take it back off the website
       statement = env.DB.prepare(`UPDATE entries SET approved = 0 WHERE id = ?`);
       break;
     case 'make_private':  // keep it, but only for the family

@@ -2,12 +2,12 @@
  *
  * Cloudflare serves everything in public/ directly as static files. This
  * Worker is only reached for addresses that are not a file — in practice the
- * /api/... calls the guestbook makes. Anything else is handed back to the
+ * /api/... calls the pages make. Anything else is handed back to the
  * static files so it 404s exactly as a plain website would.
  */
 
 import { json, bad, dbMissing } from './lib.js';
-import { listEntries, createEntry, getPhoto } from './guestbook.js';
+import { listEntries, createEntry, getPhoto } from './memories.js';
 import { login, logout, listAll, moderate } from './admin.js';
 import { createRsvp, listRsvps, deleteRsvp } from './rsvp.js';
 
@@ -53,7 +53,7 @@ export default {
       return env.ASSETS ? env.ASSETS.fetch(request) : new Response('Not found', { status: 404 });
     }
 
-    // The guestbook cannot work without its database. Say so plainly rather
+    // Nothing here works without the database. Say so plainly rather
     // than failing with a stack trace nobody can act on.
     if (!env.DB) return dbMissing();
 

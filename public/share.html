@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leave a message — In Loving Memory of [Full Name]</title>
-<meta name="description" content="Share a memory in remembrance of [Full Name].">
+<title>Share a memory — In Loving Memory of [Full Name]</title>
+<meta name="description" content="Share a memory of [Full Name].">
 <meta name="theme-color" content="#f8f4ed">
 <meta name="color-scheme" content="light">
 <meta name="robots" content="noindex">
@@ -21,9 +21,8 @@
   <nav class="nav wrap" aria-label="Main">
     <ul>
       <li><a href="/">Home</a></li>
-      <li><a href="/rsvp">Let us know</a></li>
-      <li><a href="/guestbook">Guestbook</a></li>
-      <li><a href="/sign" aria-current="page">Leave a message</a></li>
+      <li><a href="/rsvp">RSVP</a></li>
+      <li><a href="/memories" aria-current="page">Memories</a></li>
     </ul>
   </nav>
 </header>
@@ -31,7 +30,7 @@
 <main id="main" class="wrap">
   <div class="hero hero--compact">
     <p class="hero__eyebrow">In Loving Memory</p>
-    <h1 class="hero__name page-title">Leave a message</h1>
+    <h1 class="hero__name page-title">Share a memory</h1>
     <p class="hero__note">Every message is read by the family.</p>
   </div>
 
@@ -44,7 +43,7 @@
   <!-- Announced to screen readers whenever it changes. -->
   <div class="status-msg" id="form-status" role="status" aria-live="polite" data-tone=""></div>
 
-  <form id="guestbook-form" novalidate>
+  <form id="memory-form" novalidate>
 
     <div class="field filefield">
       <label for="photo">A photograph <span class="optional">(optional)</span></label>
@@ -88,8 +87,8 @@
         <label class="choice">
           <input type="radio" name="visibility" value="public" checked>
           <span>
-            <span class="choice__title">Show it in the guestbook</span>
-            <span class="choice__desc">Public, once the family has approved it.</span>
+            <span class="choice__title">Share it publicly</span>
+            <span class="choice__desc">Shown with the memories, once the family has approved it.</span>
           </span>
         </label>
         <label class="choice">
@@ -115,9 +114,9 @@
 </main>
 
 <footer class="footer">
-  <div class="wrap"><p><a href="/">Back to the memorial page</a></p></div>
+  <div class="wrap"><p><a href="/memories">Back to the memories</a></p></div>
 </footer>
 
-<script src="/assets/sign.js" defer></script>
+<script src="/assets/share.js" defer></script>
 </body>
 </html>

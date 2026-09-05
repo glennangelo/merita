@@ -1,4 +1,4 @@
-/* Shared helpers for the guestbook API.
+/* Shared helpers for the API.
    Directories beginning with "_" are not routed by Cloudflare Pages, so
    nothing in here is reachable from the web. */
 
@@ -111,5 +111,5 @@ export function toBytes(blob) {
 
 /* A clear message beats a stack trace if the database was never bound. */
 export function dbMissing() {
-  return json({ error: 'The guestbook database is not connected yet. See README.md, step 3.' }, 503);
+  return json({ error: 'The database is not connected yet. See README.md, step 3.' }, 503);
 }

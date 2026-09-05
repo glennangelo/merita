@@ -66,7 +66,7 @@
   var TAG = {
     pending: ['tag--pending', 'Waiting for approval'],
     private: ['tag--private', 'Private to the family'],
-    public:  ['tag--live',    'Live in the guestbook']
+    public:  ['tag--live',    'Shared publicly']
   };
 
   function render(entry, index) {
@@ -107,7 +107,7 @@
 
     if (filter === 'pending') {
       actions.appendChild(button('Approve', 'btn', function () {
-        act(entry, 'approve', 'Approved. It is now live in the guestbook.');
+        act(entry, 'approve', 'Approved. It is now with the memories.');
       }));
       actions.appendChild(button('Keep private', 'btn btn--ghost', function () {
         act(entry, 'make_private', 'Moved to the private messages.');
@@ -118,14 +118,14 @@
       }));
     } else {
       actions.appendChild(button('Publish', 'btn btn--ghost', function () {
-        if (!confirm('Publish this message publicly?\n\n' + entry.name +
+        if (!confirm('Share this publicly?\n\n' + entry.name +
                      ' asked for it to stay private, so please only do this with their permission.')) return;
-        act(entry, 'approve', 'Published in the guestbook.');
+        act(entry, 'approve', 'Now shared publicly.');
       }));
     }
 
     actions.appendChild(button('Delete', 'btn btn--danger', function () {
-      if (!confirm('Permanently delete the message from ' + entry.name + '?\n\nThis cannot be undone.')) return;
+      if (!confirm('Permanently delete what ' + entry.name + ' wrote?\n\nThis cannot be undone.')) return;
       act(entry, 'delete', 'The message was deleted.');
     }));
 
@@ -187,9 +187,9 @@
   }
 
   var EMPTY = {
-    pending: ['Nothing waiting.', 'New public messages appear here for you to read first.'],
-    private: ['No private messages.', 'Messages sent privately to the family appear here.'],
-    public:  ['Nothing live yet.', 'Approve a waiting message and it will show up here.'],
+    pending: ['Nothing waiting.', 'New public memories appear here for you to read first.'],
+    private: ['No private memories.', 'Memories sent privately to the family appear here.'],
+    public:  ['Nothing shared yet.', 'Approve a waiting memory and it will show up here.'],
     rsvp:    ['Nobody has replied yet.', 'Replies to the invitation appear here.']
   };
 
@@ -230,7 +230,7 @@
   /* ---------- data ---------- */
 
   async function load(quiet) {
-    if (!quiet) say(adminStatus, 'busy', 'Loading the messages…', '');
+    if (!quiet) say(adminStatus, 'busy', 'Loading…', '');
     try {
       var both = await Promise.all([api('/api/admin/entries'), api('/api/admin/rsvps')]);
       var data = both[0], replies = both[1];
@@ -243,7 +243,7 @@
       if (!quiet) say(adminStatus, '', '', '');
     } catch (err) {
       if (err.message !== 'unauthorised') {
-        say(adminStatus, 'error', 'The messages could not be loaded.', ' Please refresh the page.');
+        say(adminStatus, 'error', 'Nothing could be loaded.', ' Please refresh the page.');
       }
     }
   }

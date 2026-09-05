@@ -1,5 +1,5 @@
-/* The public side of the guestbook: reading approved messages, receiving new
-   ones, and serving the photographs attached to them. */
+/* Memories: reading the ones the family has approved, receiving new ones, and
+   serving the photographs attached to them. */
 
 import { json, bad, tidyText, toBytes, isAdmin } from './lib.js';
 
@@ -22,7 +22,7 @@ export async function listEntries(request, env) {
   ).all();
 
   // Deliberately not cached: when the family approves a message they open the
-  // guestbook straight away to check it, and a stale page looks like a fault.
+  // memories straight away to check it, and a stale page looks like a fault.
   return json({ entries: results ?? [] });
 }
 
@@ -52,7 +52,7 @@ export async function createEntry(request, env) {
     `SELECT COUNT(*) AS n FROM entries WHERE created_at > datetime('now', ?)`
   ).bind(`-${RATE_WINDOW} minutes`).first();
   if ((recent?.n ?? 0) >= RATE_LIMIT) {
-    return bad('The guestbook is very busy just now. Please try again in a few minutes.', 429);
+    return bad('Very busy just now. Please try again in a few minutes.', 429);
   }
 
   let photoBytes = null;

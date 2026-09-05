@@ -6,7 +6,7 @@ A small, calm website in memory of someone, with:
 - the details and times of the **memorial ceremony** and the **reception** that follows
 - a place for a **live stream link**, ready to be filled in when you have it
 - a **reply form**, so you know who is coming, how many of them, and to which part of the day
-- a **guestbook**, where visitors can leave their name, a message and a photograph
+- a page of **memories**, where visitors leave their name, a message and a photograph
 - a choice for each visitor: **public** (shown on the site once the family approves it) or **private** (only the family ever sees it)
 - a **family page** for reading private messages and approving public ones
 
@@ -51,7 +51,7 @@ exact path.
 Go to [dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up) and
 create a free account. No payment card is needed.
 
-## Step 2 — Create the database for the guestbook
+## Step 2 — Create the database
 
 1. In the dashboard, open **Storage & Databases → D1 SQL Database**.
 2. Click **Create database**.
@@ -60,7 +60,7 @@ create a free account. No payment card is needed.
 5. Open the file `schema.sql` from this project, copy **all** of its text,
    paste it into the console box, and click **Execute**.
 
-That builds the empty tables the guestbook and the replies write into.
+That builds the empty tables the memories and the replies write into.
 
 If you ever come back to this step — after an update to the project, say — you
 can paste `schema.sql` in and run it again. It only creates what is missing, so
@@ -97,7 +97,7 @@ it cannot find the database.
 Your site is now live at an address ending in `.workers.dev`, and Cloudflare
 will rebuild it automatically every time you change a file on GitHub.
 
-The guestbook will work already, but nobody can sign in to moderate it yet.
+The site will work already, but nobody can sign in to moderate it yet.
 
 ## Step 5 — Choose the family password
 
@@ -153,7 +153,7 @@ those to match the home page, so nobody is told two different things.
 
 ### The other pages
 
-`rsvp.html`, `guestbook.html`, `sign.html` and `admin.html` each have their
+`rsvp.html`, `memories.html`, `share.html` and `admin.html` each have their
 name in the `<title>` line near the top. Change `[Full Name]` there too.
 
 ---
@@ -170,7 +170,7 @@ page never looks broken or unfinished.
 
 ---
 
-# How the guestbook works
+# How it works
 
 **When someone replies** at `/rsvp`, they give their name, how many are coming,
 and whether that is for the ceremony, the reception, or both. Replies are never
@@ -178,7 +178,7 @@ shown publicly — they appear only on the family's page, under **Coming**, with
 the totals worked out for you: how many people at the ceremony, how many at the
 reception. That is the number a caterer or a venue will ask you for.
 
-**When someone leaves a message** at `/sign`, they choose whether it is
+**When someone shares a memory** at `/share`, they choose whether it is
 public or private. Their photograph is made smaller in their own browser before
 it is sent, so it works on a poor signal.
 
@@ -186,7 +186,7 @@ it is sent, so it works on a poor signal.
 the website, whatever else happens.
 
 **Public messages** wait for approval. Nothing a stranger writes appears on the
-website until a family member has read it and approved it — so the guestbook
+website until a family member has read it and approved it — so the page
 cannot be used to post something hurtful in a moment of grief.
 
 **The family page** is at `/admin` — there is also a quiet link in the
@@ -195,13 +195,13 @@ footer of the home page. Sign in with your password and you will see three lists
 - **Waiting for approval** — read each one, then *Approve* it, keep it *private
   instead*, or *Delete* it.
 - **Private to the family** — messages meant only for you.
-- **Live in the guestbook** — everything currently on the public page. You can
-  hide anything again at any time.
+- **Shared** — everything currently on the public page. You can hide anything
+  again at any time.
 - **Coming** — the replies, newest first, with the totals along the top.
 
 You stay signed in for 12 hours. Changing `ADMIN_PASSWORD` signs everyone out.
 
-**Sharing the links.** Send people the main address, or the guestbook directly.
+**Sharing the links.** Send people the main address, or `/rsvp` and `/memories` directly.
 Keep `/admin` and the password within the family. The admin page is hidden
 from search engines, but it is the password that protects it — so choose a good
 one and do not put it in a group chat with strangers in it.
@@ -229,7 +229,7 @@ npm start                        # opens the site on your own machine
 
 Nothing you do locally touches the live site.
 
-## If the guestbook fills up with spam
+## If spam starts arriving
 
 The form already has a hidden trap that catches ordinary bots, and a limit on
 how many messages can arrive in a few minutes. If something still gets through,
@@ -245,16 +245,16 @@ certainly will not need to.
 public/                 the website itself
   index.html            the main page — photo, name, dates, ceremony, reception, live stream
   rsvp.html             the reply form
-  guestbook.html        public messages
-  sign.html             the form for leaving a message
+  memories.html         the memories people have shared
+  share.html            the form for sharing one
   admin.html            the family's page
   assets/               stylesheet, small scripts, portrait
   fonts/                the two typefaces, served from your own site
   _headers              security settings applied by Cloudflare
 
-src/                    the guestbook's small server, one Cloudflare Worker
+src/                    the site's small server, one Cloudflare Worker
   index.js              decides which of the addresses below was asked for
-  guestbook.js          reading approved messages, receiving new ones, photos
+  memories.js           reading approved memories, receiving new ones, photos
   rsvp.js               receiving replies, and totting them up for the family
   admin.js              signing in, listing everything, moderating
   lib.js                sessions, tidying up what visitors typed

@@ -1,8 +1,8 @@
-/* Guestbook submission form.
+/* Sharing a memory.
    Photographs are shrunk in the visitor's own browser before upload, so the
    page works on a phone with a poor signal and the server stays tiny. */
 (function () {
-  var form      = document.getElementById('guestbook-form');
+  var form      = document.getElementById('memory-form');
   var statusBox = document.getElementById('form-status');
   var submitBtn = document.getElementById('submit-btn');
   var fileInput = document.getElementById('photo');
@@ -194,7 +194,7 @@
       if (visibility === 'private') {
         say('ok', 'Thank you.', ' Your message has gone to the family. Only they will see it.');
       } else {
-        say('ok', 'Thank you.', ' The family will read it, and it will appear in the guestbook shortly.');
+        say('ok', 'Thank you.', ' The family will read it, and it will appear with the memories shortly.');
       }
       // Move focus to the confirmation so a screen reader reads it out and a
       // keyboard user carries on from the right place.
