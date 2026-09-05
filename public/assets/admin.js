@@ -295,11 +295,17 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: password.value })
       });
-      if (!response.ok) throw new Error('bad password');
+      if (!response.ok) {
+        // Show what the server actually said. A password that was never set in
+        // Cloudflare is a different problem from a password typed wrongly, and
+        // calling both "wrong password" sends people hunting in the wrong place.
+        var reason = await response.json().catch(function () { return {}; });
+        throw new Error(reason.error || 'That password was not right.');
+      }
       say(loginStatus, '', '', '');
       showAdmin();
     } catch (err) {
-      say(loginStatus, 'error', 'That password was not right.', '');
+      say(loginStatus, 'error', err.message || 'That password was not right.', '');
       password.value = '';
       password.focus();
     } finally {

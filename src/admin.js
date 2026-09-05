@@ -20,6 +20,18 @@ export async function login(request, env) {
   if (!(await checkPassword(env, body?.password))) {
     // A deliberate pause makes guessing passwords in bulk impractical.
     await new Promise((resolve) => setTimeout(resolve, 700));
+
+    // A password pasted into the dashboard often arrives with a stray space or
+    // line break around it, and then nothing anyone types will ever match.
+    // Only say so when the password is otherwise right, so this tells someone
+    // who does not already know it precisely nothing.
+    const stored = env.ADMIN_PASSWORD;
+    if (stored !== stored.trim() &&
+        await checkPassword({ ADMIN_PASSWORD: stored.trim() }, body?.password)) {
+      return bad('That password is right, but the one saved in Cloudflare has a space ' +
+                 'or a line break around it. Save it again without the stray character.', 401);
+    }
+
     return bad('That password was not right.', 401);
   }
 
