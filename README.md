@@ -19,14 +19,18 @@ banners, no trackers, no adverts and no outside fonts to download.
 **Nothing**, on Cloudflare's free plan — that covers far more visitors and
 messages than a memorial site will ever see. The only optional cost is your own
 web address (a domain name), roughly £8–£12 a year, and only if you want one.
-A free `something.pages.dev` address works perfectly well.
+A free `something.workers.dev` address works perfectly well.
 
 ---
 
 # Setting it up
 
-You do not need to be technical. Allow about half an hour. The steps are in
-order — please do them in order, because a later step depends on an earlier one.
+You do not need to be technical. Allow about half an hour. Please do the steps
+in order — each one depends on the last.
+
+Cloudflare renames things in its dashboard from time to time, so if a menu is
+not quite where this says, look for the wording in **bold** rather than the
+exact path.
 
 ## Step 1 — Get a Cloudflare account
 
@@ -35,7 +39,7 @@ create a free account. No payment card is needed.
 
 ## Step 2 — Create the database for the guestbook
 
-1. In the Cloudflare dashboard, open **Storage & Databases → D1 SQL Database**.
+1. In the dashboard, open **Storage & Databases → D1 SQL Database**.
 2. Click **Create database**.
 3. Name it exactly `memorial-guestbook`, then click **Create**.
 4. Open the new database and choose the **Console** tab.
@@ -44,47 +48,54 @@ create a free account. No payment card is needed.
 
 That builds the empty table the guestbook writes into.
 
-## Step 3 — Put the website online
+## Step 3 — Tell the website where its database is
+
+Still on the database page, find its **Database ID** — a long line of letters
+and numbers — and copy it.
+
+Now open `wrangler.toml` in this repository. You can edit it on GitHub: open
+the file, click the pencil icon, change it, then click **Commit changes**.
+Replace `PASTE-YOUR-DATABASE-ID-HERE` with the id you copied, keeping the
+quotation marks:
+
+```toml
+database_id = "a1b2c3d4-....-your-real-id-here"
+```
+
+The id is only a label, not a password, so it is safe to save in the project.
+If you skip this step the website will refuse to deploy, with an error saying
+it cannot find the database.
+
+## Step 4 — Put the website online
 
 1. In the dashboard, open **Compute (Workers) → Workers & Pages**.
-2. Click **Create → Pages → Connect to Git**, and give Cloudflare permission to
-   read this repository.
-3. Choose this repository, then set:
-   - **Framework preset:** `None`
-   - **Build command:** leave empty
-   - **Build output directory:** `public`
-4. Click **Save and Deploy**, and wait for it to finish.
+2. Click **Create**, then choose **Import a repository** (it may be worded
+   **Connect to Git**), and give Cloudflare permission to read this repository.
+3. Choose this repository and accept the settings it suggests. Cloudflare reads
+   `wrangler.toml` for everything it needs, so there is nothing to fill in — if
+   it asks for a build command, leave it empty.
+4. Click **Deploy**, and wait for it to finish.
 
-Your site is now live at an address ending in `.pages.dev`. The guestbook will
-not work yet — the next two steps connect it.
+Your site is now live at an address ending in `.workers.dev`, and Cloudflare
+will rebuild it automatically every time you change a file on GitHub.
 
-## Step 4 — Connect the database to the website
-
-1. Open your new Pages project and go to **Settings → Bindings**
-   (older dashboards call this *Functions → D1 database bindings*).
-2. Click **Add → D1 database** and enter:
-   - **Variable name:** `DB` — exactly those two capital letters
-   - **D1 database:** `memorial-guestbook`
-3. Save. If the page offers separate **Production** and **Preview** sections,
-   add the same binding to both.
+The guestbook will work already, but nobody can sign in to moderate it yet.
 
 ## Step 5 — Choose the family password
 
-Still in **Settings**, find **Variables and Secrets**:
+1. Open your new Worker and go to **Settings → Variables and Secrets**.
+2. Click **Add**.
+3. Set the type to **Secret**.
+4. **Name:** `ADMIN_PASSWORD`
+5. **Value:** a password the family agrees on. Use several words together, for
+   example `garden-kettle-tuesday-hill` — long and memorable beats short and
+   clever.
+6. Save.
 
-1. Click **Add variable**.
-2. **Name:** `ADMIN_PASSWORD`
-3. **Value:** a password the family agrees on. Use several words together, for
-   example `garden-kettle-tuesday-hill` — long and memorable beats short and clever.
-4. Set its type to **Secret** (sometimes shown as *Encrypt*), then save.
-
-> **Then redeploy.** Go to the **Deployments** tab and click
-> **Retry deployment** on the newest one. Cloudflare only picks up a new
-> database or password when the site is deployed again. Skip this and the
-> guestbook will keep saying it is not connected.
-
-Now visit `your-site.pages.dev/admin` and sign in with that password to
-check it works.
+Cloudflare usually applies a new secret immediately. Visit
+`your-site.workers.dev/admin` and sign in to check. If it still says no
+password has been set, open the **Deployments** tab and redeploy the most
+recent build, then try again.
 
 ---
 
@@ -177,7 +188,7 @@ one and do not put it in a group chat with strangers in it.
 
 ## Your own web address
 
-In the Pages project, open **Custom domains** and follow the instructions. You
+In your Worker, open **Settings → Domains & Routes** and add a custom domain. You
 can buy the domain through Cloudflare at cost price. A memorial address such as
 `remembering-firstname.com` is a kind thing to be able to say aloud.
 
@@ -187,9 +198,7 @@ Only if you would like to. You need [Node.js](https://nodejs.org) installed.
 
 ```bash
 npm install                      # once
-npm run db:create                # once — then copy the database id it prints
-                                 # into wrangler.toml
-npm run db:setup                 # once — creates the table locally
+npm run db:setup                 # once — creates the table on your own machine
 cp .dev.vars.example .dev.vars   # once — then set a password inside it
 npm start                        # opens the site on your own machine
 ```
@@ -218,13 +227,14 @@ public/                 the website itself
   assets/               stylesheet, small scripts, portrait
   _headers              security settings applied by Cloudflare
 
-functions/api/          the guestbook's small server
-  entries.js            reading approved messages, receiving new ones
-  photo/[id].js         serving guestbook photographs
-  admin/                signing in, moderating
+src/                    the guestbook's small server, one Cloudflare Worker
+  index.js              decides which of the addresses below was asked for
+  guestbook.js          reading approved messages, receiving new ones, photos
+  admin.js              signing in, listing everything, moderating
+  lib.js                sessions, tidying up what visitors typed
 
 schema.sql              the database table
-wrangler.toml           settings for previewing locally
+wrangler.toml           the settings Cloudflare reads on every deploy
 ```
 
 ## A note on the information people give you
