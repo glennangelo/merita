@@ -112,6 +112,11 @@ it cannot find the database.
 Your site is now live at an address ending in `.workers.dev`, and Cloudflare
 will rebuild it automatically every time you change a file on GitHub.
 
+If Cloudflare names the Worker after your repository rather than the `name` in
+`wrangler.toml`, change that line to match what the dashboard shows. If the two
+disagree, a later deploy can quietly create a second Worker and your address
+stops updating.
+
 The site will work already, but nobody can sign in to moderate it yet.
 
 ## Step 5 — Choose the family password
