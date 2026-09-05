@@ -1,9 +1,10 @@
--- Guestbook storage. Run once against your D1 database (see README.md, step 3).
+-- Storage for the memories and the replies.
+-- Paste the whole file into your D1 database's Console (README.md, step 2).
 --
 -- visibility  'public'  the writer is happy for it to appear on the website
 --             'private' the writer wants only the family to read it
--- approved    1 once a family member has approved a public message for the site.
---             Private messages are never shown publicly whatever this says.
+-- approved    1 once a family member has approved a public memory for the site.
+--             Private ones are never shown publicly whatever this says.
 
 CREATE TABLE IF NOT EXISTS entries (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS entries (
   created_at  TEXT    NOT NULL DEFAULT (datetime('now'))
 );
 
--- Serves the public guestbook feed without scanning the whole table.
+-- Serves the public list of memories without scanning the whole table.
 CREATE INDEX IF NOT EXISTS entries_feed
   ON entries (visibility, approved, created_at DESC);
 
