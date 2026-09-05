@@ -60,11 +60,26 @@ create a free account. No payment card is needed.
 5. Open the file `schema.sql` from this project, copy **all** of its text,
    paste it into the console box, and click **Execute**.
 
-That builds the empty tables the memories and the replies write into.
+You should see **3 commands executed successfully**. That builds the two tables
+the site writes into:
+
+- `entries` — the memories. `visibility` records whether the writer wanted it
+  public or private, and `approved` turns to 1 once a family member has said a
+  public one may appear. A private one is never shown publicly whatever that
+  says.
+- `rsvps` — the replies: a name, how many people, and which parts of the day.
+
+The file has no comments in it on purpose. Cloudflare's console rejects a
+paste that contains `--` comment lines, with a confusing complaint about the
+request having no query, so the explanation lives here instead.
+
+If the console will not take all three statements at once, run them one at a
+time — paste the first `CREATE TABLE ... );`, Execute, then the `CREATE INDEX`,
+then the second `CREATE TABLE`. The order does not matter.
 
 If you ever come back to this step — after an update to the project, say — you
-can paste `schema.sql` in and run it again. It only creates what is missing, so
-nothing already there is touched or lost.
+can paste it in and run it again. Every statement only creates what is missing,
+so nothing already there is touched or lost.
 
 ## Step 3 — Tell the website where its database is
 
