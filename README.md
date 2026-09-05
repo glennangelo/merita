@@ -223,7 +223,9 @@ your password and you will see four lists:
 
 You stay signed in for 12 hours. Changing `ADMIN_PASSWORD` signs everyone out.
 
-**Sharing the links.** Send people the main address, or `/rsvp` and `/memories` directly.
+**Sharing the links.** Send people the main address, or `/rsvp` and `/memories`
+directly. There is no menu bar: the home page carries buttons to everything,
+and every other page has a way back at the foot of it.
 Keep `/admin` and the password within the family. The admin page is hidden
 from search engines, but it is the password that protects it — so choose a good
 one and do not put it in a group chat with strangers in it.

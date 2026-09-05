@@ -13,27 +13,12 @@
 <link rel="stylesheet" href="/assets/styles.css">
 </head>
 
-<body>
-<a class="skip" href="#main">Skip to the main content</a>
-
-<header class="topbar">
-  <nav class="nav wrap" aria-label="Main">
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/rsvp">RSVP</a></li>
-      <li><a href="/memories" aria-current="page">Memories</a></li>
-    </ul>
-  </nav>
-</header>
-
+<body class="has-dock">
 <main id="main" class="wrap">
   <div class="hero hero--snug">
     <p class="hero__eyebrow">In Loving Memory</p>
     <h1 class="hero__name page-title">Memories</h1>
     <p class="hero__note">Memories shared by family and friends.</p>
-    <p class="actions actions--center">
-      <a class="btn" href="/share">Share a memory</a>
-    </p>
   </div>
 
   <div class="ornament ornament--tight" aria-hidden="true">
@@ -48,6 +33,14 @@
 
   <ul class="entries" id="entries" aria-label="Memories shared by family and friends"></ul>
 </main>
+
+<!-- Docked to the foot of the window so it stays within reach however far
+     down the page someone has read. -->
+<div class="dock">
+  <div class="wrap">
+    <a class="btn btn--block" href="/share">Share a memory</a>
+  </div>
+</div>
 
 <footer class="footer">
   <div class="wrap">

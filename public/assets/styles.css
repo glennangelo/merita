@@ -157,50 +157,6 @@ a:hover { color: var(--focus); }
 main { padding-bottom: 5rem; }
 .section { margin-top: 4rem; }
 
-/* --- Skip link ---------------------------------------------------------- */
-.skip {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -150%);
-  z-index: 50;
-  background: var(--accent-dark);
-  color: #fff;
-  padding: .75rem 1.25rem;
-  text-decoration: none;
-  font-weight: 600;
-}
-.skip:focus { transform: translate(-50%, 0); color: #fff; }
-
-/* --- Navigation --------------------------------------------------------- */
-.topbar { border-bottom: 1px solid var(--line-soft); }
-.nav ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: .25rem;
-  margin: 0;
-  padding: .4rem 0;
-}
-.nav a {
-  display: flex;
-  align-items: center;
-  min-height: var(--tap);
-  padding: 0 1.1rem;
-  text-decoration: none;
-  color: var(--ink-soft);
-  font-size: .84rem;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  border-bottom: 2px solid transparent;
-}
-@media (max-width: 32rem) {
-  .nav a { padding: 0 .65rem; font-size: .76rem; letter-spacing: .09em; }
-}
-.nav a:hover { color: var(--accent-dark); }
-.nav a[aria-current="page"] { color: var(--accent-dark); border-bottom-color: var(--gold); }
-
 /* --- Ornaments ---------------------------------------------------------- */
 .ornament {
   display: flex;
@@ -583,9 +539,11 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
 .entry + .entry { border-top: 1px solid var(--line-soft); }
 .entry:first-child { padding-top: .5rem; }
 
+/* Capped in both directions: a single photograph should sit within the page,
+   not fill it, however large the original was. */
 .entry__photo {
-  max-width: 100%;
-  max-height: 26rem;
+  max-width: min(100%, 24rem);
+  max-height: 20rem;
   width: auto;
   margin-bottom: 1.4rem;
   box-shadow: 0 1px 3px rgba(60, 48, 28, .08), 0 8px 24px rgba(60, 48, 28, .08);
@@ -675,6 +633,27 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
 .tabs button:hover { border-color: var(--accent); color: var(--accent-dark); }
 .tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
 
+/* --- Docked action ------------------------------------------------------
+   A single button held at the foot of the window, so it stays in reach
+   however far down someone has read. */
+.dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  padding: .8rem 0 calc(.8rem + env(safe-area-inset-bottom, 0px));
+  background: rgba(248, 244, 237, .94);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+}
+/* display:flex, not the button's usual inline-flex — auto side margins cannot
+   centre an inline-level box. */
+.dock .btn { display: flex; max-width: 22rem; margin-inline: auto; }
+
+/* The page must end clear of the bar rather than behind it. */
+.has-dock { padding-bottom: 6rem; }
+
 /* --- Footer ------------------------------------------------------------- */
 .footer {
   background: var(--footer-bg);
@@ -737,7 +716,7 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
 @media print {
   :root { --paper: #fff; --ink: #000; --ink-soft: #333; --line: #999; --gold: #888; }
   body { background: #fff; }
-  .topbar, .footer, .actions, .skip, form, .tabs { display: none !important; }
+  .footer, .actions, .dock, form, .tabs { display: none !important; }
   body { font-size: 11pt; }
   .event, .entry { break-inside: avoid; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: .85em; word-break: break-all; }
