@@ -90,6 +90,13 @@
   --line-soft:  #ece5d8;
   --focus:      #a8451a;
 
+  /* The page closes on a deep green — the same hue as the band above it,
+     taken right down, so the foot of the page feels finished rather than
+     simply run out. */
+  --footer-bg:   #1b3d35;
+  --footer-ink:  #cfdcd6;
+  --footer-link: #ecd9a8;
+
   --display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
   --body:    'Lora', Georgia, 'Times New Roman', serif;
 
@@ -643,14 +650,22 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
 
 /* --- Footer ------------------------------------------------------------- */
 .footer {
-  border-top: 1px solid var(--line-soft);
-  padding: 2.5rem 0 3.5rem;
-  color: var(--ink-soft);
+  background: var(--footer-bg);
+  color: var(--footer-ink);
+  padding: 3rem 0 3.25rem;
   font-size: .92rem;
   text-align: center;
 }
 .footer p { margin-inline: auto; }
-.footer a { display: inline-block; min-height: var(--tap); line-height: var(--tap); padding-inline: .6rem; }
+.footer a {
+  display: inline-block;
+  min-height: var(--tap);
+  line-height: var(--tap);
+  padding-inline: .6rem;
+  color: var(--footer-link);
+  text-underline-offset: .2em;
+}
+.footer a:hover { color: #fff; }
 
 /* --- Utilities ---------------------------------------------------------- */
 .visually-hidden {

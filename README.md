@@ -209,8 +209,10 @@ the website, whatever else happens.
 website until a family member has read it and approved it — so the page
 cannot be used to post something hurtful in a moment of grief.
 
-**The family page** is at `/admin` — there is also a quiet link in the
-footer of the home page. Sign in with your password and you will see three lists:
+**The family page** is at `/admin`. There is deliberately no link to it
+anywhere on the site, so you reach it by typing the address — add
+`/admin` to the end of your web address and save it as a bookmark. Sign in with
+your password and you will see four lists:
 
 - **Waiting for approval** — read each one, then *Approve* it, keep it *private
   instead*, or *Delete* it.
