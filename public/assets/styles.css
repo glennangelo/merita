@@ -378,6 +378,37 @@ main { padding-bottom: 5rem; }
   max-width: var(--measure);
 }
 
+/* --- A band across the page ---------------------------------------------
+   The invitation to share a memory sits on its own ground, edge to edge, so
+   it reads as a thing apart from the details of the day without being boxed
+   in. main is full width and each section carries its own .wrap, so this
+   needs no viewport-width trickery and cannot cause sideways scrolling. */
+.band {
+  margin-top: 5rem;
+  padding: 4rem 0 4.5rem;
+  background-image: linear-gradient(180deg, #eff5f2 0%, var(--accent-tint) 100%);
+  border-top: 1px solid rgba(168, 135, 63, .35);
+  border-bottom: 1px solid rgba(168, 135, 63, .35);
+}
+.band p { margin-inline: auto; }
+
+/* The band runs to the foot of the page, so the space main normally leaves
+   below its content would show as a stripe of bare parchment beneath it. */
+.ends-with-band { padding-bottom: 0; }
+
+.band__title {
+  font-size: clamp(2.1rem, 5.5vw, 2.7rem);
+  margin-bottom: .5rem;
+}
+.band__lead {
+  font-size: 1.08rem;
+  max-width: 26rem;
+}
+
+/* The ghost button's usual hover tint is the band's own ground, which would
+   make it disappear; on the band it lifts to parchment instead. */
+.band .btn--ghost:hover { background: var(--paper); }
+
 /* --- Forms -------------------------------------------------------------- */
 .field { margin-bottom: 2rem; }
 

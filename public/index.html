@@ -39,7 +39,8 @@
   </nav>
 </header>
 
-<main id="main" class="wrap">
+<main id="main" class="ends-with-band">
+ <div class="wrap">
 
   <!-- ================= Hero ================= -->
   <div class="hero">
@@ -170,14 +171,20 @@
     REMOVE THIS LINE TOO -->
   </section>
 
-  <!-- ================= Memories ================= -->
-  <section class="section center" aria-labelledby="memories-heading">
-    <p class="eyebrow">Memories</p>
-    <h2 id="memories-heading">Share a memory</h2>
-    <p>Publicly, or privately to the family alone.</p>
-    <div class="actions actions--center">
-      <a class="btn" href="/share">Share a memory</a>
-      <a class="btn btn--ghost" href="/memories">Read the memories</a>
+ </div><!-- /wrap -->
+
+  <!-- ================= Memories =================
+       Set on its own ground, running the full width of the window, so the
+       invitation reads as a thing apart from the details of the day. -->
+  <section class="band center" aria-labelledby="memories-heading">
+    <div class="wrap">
+      <p class="eyebrow">Memories</p>
+      <h2 id="memories-heading" class="band__title">Share a memory</h2>
+      <p class="band__lead">A story, a kind word, a photograph — publicly, or privately to the family alone.</p>
+      <div class="actions actions--center">
+        <a class="btn" href="/share">Share a memory</a>
+        <a class="btn btn--ghost" href="/memories">Read the memories</a>
+      </div>
     </div>
   </section>
 
