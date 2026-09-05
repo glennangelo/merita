@@ -11,8 +11,11 @@
   var tabs        = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
   var logoutBtn   = document.getElementById('logout-btn');
 
+  var totalsLine = document.getElementById('rsvp-totals');
+
   var filter = 'pending';
-  var cache  = { pending: [], private: [], public: [] };
+  var cache  = { pending: [], private: [], public: [], rsvp: [] };
+  var totals = { replies: 0, ceremony: 0, reception: 0 };
 
   /* ---------- helpers ---------- */
 
@@ -130,6 +133,50 @@
     return item;
   }
 
+  /* A reply to the invitation: who, how many, and to which part of the day. */
+  function renderRsvp(entry) {
+    var item = document.createElement('li');
+    item.className = 'entry';
+
+    var who = document.createElement('p');
+    who.className = 'entry__by';
+    var strong = document.createElement('strong');
+    strong.textContent = entry.name;
+    who.appendChild(strong);
+    item.appendChild(who);
+
+    var facts = document.createElement('p');
+    facts.className = 'rsvp__facts';
+    var parts = entry.ceremony && entry.reception ? 'ceremony and reception'
+              : entry.ceremony ? 'ceremony only'
+              : 'reception only';
+    facts.textContent = (entry.party_size === 1 ? '1 person' : entry.party_size + ' people') +
+                        ' — ' + parts;
+    item.appendChild(facts);
+
+    if (entry.contact) {
+      var contact = document.createElement('p');
+      contact.className = 'rsvp__contact';
+      contact.textContent = entry.contact;
+      item.appendChild(contact);
+    }
+
+    var when = document.createElement('p');
+    when.className = 'entry__by';
+    when.textContent = formatDate(entry.created_at);
+    item.appendChild(when);
+
+    var actions = document.createElement('div');
+    actions.className = 'actions';
+    actions.appendChild(button('Delete', 'btn btn--danger', function () {
+      if (!confirm('Delete the reply from ' + entry.name + '?')) return;
+      act(entry, 'delete', 'The reply was deleted.', '/api/admin/rsvps/');
+    }));
+    item.appendChild(actions);
+
+    return item;
+  }
+
   function button(label, className, onClick) {
     var el = document.createElement('button');
     el.type = 'button';
@@ -142,11 +189,21 @@
   var EMPTY = {
     pending: ['Nothing waiting.', 'New public messages appear here for you to read first.'],
     private: ['No private messages.', 'Messages sent privately to the family appear here.'],
-    public:  ['Nothing live yet.', 'Approve a waiting message and it will show up here.']
+    public:  ['Nothing live yet.', 'Approve a waiting message and it will show up here.'],
+    rsvp:    ['Nobody has replied yet.', 'Replies to the invitation appear here.']
   };
 
   function draw() {
     var entries = cache[filter];
+    var isRsvp = filter === 'rsvp';
+
+    totalsLine.hidden = !isRsvp || !entries.length;
+    if (isRsvp && entries.length) {
+      totalsLine.textContent =
+        (totals.replies === 1 ? '1 reply' : totals.replies + ' replies') + ' — ' +
+        totals.ceremony + ' at the ceremony, ' + totals.reception + ' at the reception';
+    }
+
     if (!entries.length) {
       var box = document.createElement('li');
       box.className = 'empty';
@@ -159,7 +216,7 @@
       box.append(h, p);
       list.replaceChildren(box);
     } else {
-      list.replaceChildren.apply(list, entries.map(render));
+      list.replaceChildren.apply(list, entries.map(isRsvp ? renderRsvp : render));
     }
 
     tabs.forEach(function (tab) {
@@ -175,8 +232,13 @@
   async function load(quiet) {
     if (!quiet) say(adminStatus, 'busy', 'Loading the messages…', '');
     try {
-      var data = await api('/api/admin/entries');
-      cache = { pending: data.pending || [], private: data.private || [], public: data.public || [] };
+      var both = await Promise.all([api('/api/admin/entries'), api('/api/admin/rsvps')]);
+      var data = both[0], replies = both[1];
+      cache = {
+        pending: data.pending || [], private: data.private || [], public: data.public || [],
+        rsvp: replies.rsvps || []
+      };
+      totals = replies.totals || { replies: 0, ceremony: 0, reception: 0 };
       draw();
       if (!quiet) say(adminStatus, '', '', '');
     } catch (err) {
@@ -186,10 +248,10 @@
     }
   }
 
-  async function act(entry, action, successNote) {
+  async function act(entry, action, successNote, path) {
     say(adminStatus, 'busy', 'Saving…', '');
     try {
-      await api('/api/admin/entries/' + entry.id, {
+      await api((path || '/api/admin/entries/') + entry.id, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: action })

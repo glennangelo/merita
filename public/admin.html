@@ -21,6 +21,7 @@
     <ul>
       <li><a href="/">Home</a></li>
       <li><a href="/guestbook">Guestbook</a></li>
+      <li><a href="/rsvp">Let us know</a></li>
     </ul>
   </nav>
 </header>
@@ -49,22 +50,27 @@
   <!-- ===================== Moderation ===================== -->
   <section id="admin-view" hidden>
     <div class="hero hero--tight">
-      <h1 class="hero__name page-title">Messages</h1>
+      <h1 class="hero__name page-title">For the family</h1>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Which messages to show">
+    <div class="tabs" role="tablist" aria-label="What to show">
       <button role="tab" id="tab-pending" aria-selected="true"  aria-controls="entries" data-filter="pending">
-        Waiting for approval <span class="count" data-count="pending"></span>
+        Waiting <span class="count" data-count="pending"></span>
       </button>
       <button role="tab" id="tab-private" aria-selected="false" aria-controls="entries" data-filter="private">
-        Private to the family <span class="count" data-count="private"></span>
+        Private <span class="count" data-count="private"></span>
       </button>
       <button role="tab" id="tab-public"  aria-selected="false" aria-controls="entries" data-filter="public">
-        Live in the guestbook <span class="count" data-count="public"></span>
+        In the guestbook <span class="count" data-count="public"></span>
+      </button>
+      <button role="tab" id="tab-rsvp"    aria-selected="false" aria-controls="entries" data-filter="rsvp">
+        Coming <span class="count" data-count="rsvp"></span>
       </button>
     </div>
 
     <div class="status-msg" id="admin-status" role="status" aria-live="polite" data-tone=""></div>
+
+    <p class="totals" id="rsvp-totals" hidden></p>
 
     <ul class="entries" id="entries" role="tabpanel" aria-labelledby="tab-pending" tabindex="0"></ul>
 

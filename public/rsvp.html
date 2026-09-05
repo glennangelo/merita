@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Let us know — In Loving Memory of [Full Name]</title>
+<meta name="description" content="Let the family know if you can come.">
+<meta name="theme-color" content="#f8f4ed">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/styles.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to the main content</a>
+
+<header class="topbar">
+  <nav class="nav wrap" aria-label="Main">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/rsvp" aria-current="page">Let us know</a></li>
+      <li><a href="/guestbook">Guestbook</a></li>
+      <li><a href="/sign">Leave a message</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+  <div class="hero hero--compact">
+    <p class="hero__eyebrow">In Loving Memory</p>
+    <h1 class="hero__name page-title">Let us know</h1>
+    <p class="hero__note">So we know how many to expect. Only the family sees this.</p>
+  </div>
+
+  <div class="ornament ornament--tight" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1">
+      <path d="M10 3 L14 10 L10 17 L6 10 Z"/>
+    </svg>
+  </div>
+
+  <!-- Announced to screen readers whenever it changes. -->
+  <div class="status-msg" id="form-status" role="status" aria-live="polite" data-tone=""></div>
+
+  <form id="rsvp-form" novalidate>
+
+    <div class="field">
+      <label for="name">Your name</label>
+      <input type="text" id="name" name="name" required maxlength="80" autocomplete="name">
+    </div>
+
+    <div class="field">
+      <label for="party">How many of you</label>
+      <span class="hint" id="party-hint">Counting yourself.</span>
+      <input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
+             inputmode="numeric" required aria-describedby="party-hint">
+    </div>
+
+    <fieldset>
+      <legend class="fieldset__legend">Which part of the day?</legend>
+      <span class="hint" id="parts-hint">Tick either, or both.</span>
+      <div class="choices" aria-describedby="parts-hint">
+        <label class="choice">
+          <input type="checkbox" id="ceremony" name="ceremony" checked>
+          <span>
+            <span class="choice__title">The ceremony</span>
+            <!-- ✏️ EDIT: keep this in step with the home page -->
+            <span class="choice__desc">11:00 am at The Chapel at Elmwood.</span>
+          </span>
+        </label>
+        <label class="choice">
+          <input type="checkbox" id="reception" name="reception" checked>
+          <span>
+            <span class="choice__title">The reception</span>
+            <!-- ✏️ EDIT: keep this in step with the home page -->
+            <span class="choice__desc">From 1:00 pm at The Garden Room.</span>
+          </span>
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="field">
+      <label for="contact">Phone or email <span class="optional">(optional)</span></label>
+      <span class="hint" id="contact-hint">In case anything changes.</span>
+      <input type="text" id="contact" name="contact" maxlength="80" aria-describedby="contact-hint">
+    </div>
+
+    <!-- Spam trap: not shown to people, and screen readers skip it. -->
+    <div class="hp" aria-hidden="true">
+      <label for="website">Leave this field empty</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button type="submit" class="btn btn--block" id="submit-btn">Send</button>
+  </form>
+</main>
+
+<footer class="footer">
+  <div class="wrap"><p><a href="/">Back to the memorial page</a></p></div>
+</footer>
+
+<script src="/assets/rsvp.js" defer></script>
+</body>
+</html>

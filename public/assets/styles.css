@@ -186,6 +186,9 @@ main { padding-bottom: 5rem; }
   text-transform: uppercase;
   border-bottom: 2px solid transparent;
 }
+@media (max-width: 32rem) {
+  .nav a { padding: 0 .65rem; font-size: .76rem; letter-spacing: .09em; }
+}
 .nav a:hover { color: var(--accent-dark); }
 .nav a[aria-current="page"] { color: var(--accent-dark); border-bottom-color: var(--gold); }
 
@@ -315,7 +318,21 @@ main { padding-bottom: 5rem; }
   color: var(--ink-soft);
   font-size: .95rem;
 }
-.maplink { display: inline-flex; align-items: center; min-height: var(--tap); font-weight: 600; }
+
+/* The address is the link — a pin beside it says where it goes, and the
+   underline says it is a link, so neither meaning rests on the icon alone. */
+.where a {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: var(--tap);
+  font-weight: 600;
+  text-align: left;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .22em;
+}
+.where .pin { flex: none; color: var(--gold-ink); }
+.where a:hover .pin { color: var(--focus); }
 
 /* --- Buttons ------------------------------------------------------------ */
 .btn {
@@ -386,6 +403,7 @@ main { padding-bottom: 5rem; }
 
 input[type="text"],
 input[type="password"],
+input[type="number"],
 input[type="file"],
 textarea {
   width: 100%;
@@ -410,6 +428,9 @@ input:hover, textarea:hover { border-color: var(--ink-soft); }
 input:focus, textarea:focus { border-color: var(--accent); }
 input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #9e3b3b; }
 
+/* A headcount is one or two digits; a full-width box invites a phone number. */
+input[type="number"] { max-width: 7rem; font-variant-numeric: lining-nums; }
+
 input[type="file"] { padding: .5rem 0; cursor: pointer; }
 input[type="file"]::file-selector-button {
   font-family: var(--body);
@@ -429,7 +450,7 @@ input[type="file"]::file-selector-button {
 input[type="file"]::file-selector-button:hover { background: var(--accent); color: #fff; }
 
 fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
-.choices { display: grid; gap: 0; }
+.choices { display: grid; gap: .3rem; }
 /* Marked by a gilt rule when chosen, rather than boxed. */
 .choice {
   display: flex;
@@ -544,6 +565,24 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
 .empty { text-align: center; color: var(--ink-soft); padding: 3rem 1rem; }
 .empty p { margin-inline: auto; }
 .empty strong { font-family: var(--display); font-size: 1.5rem; color: var(--ink); }
+
+/* --- Replies to the invitation ------------------------------------------ */
+.totals {
+  font-family: var(--display);
+  font-variant-numeric: lining-nums;
+  font-size: 1.3rem;
+  text-align: center;
+  color: var(--ink);
+  margin: 0 0 1.75rem;
+  max-width: none;
+}
+.rsvp__facts {
+  font-family: var(--display);
+  font-variant-numeric: lining-nums;
+  font-size: 1.25rem;
+  margin: .1rem 0 .25rem;
+}
+.rsvp__contact { color: var(--ink-soft); font-size: .95rem; margin: 0 0 .35rem; overflow-wrap: anywhere; }
 
 /* --- Admin tabs --------------------------------------------------------- */
 .tabs {

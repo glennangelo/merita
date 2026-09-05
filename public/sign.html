@@ -21,6 +21,7 @@
   <nav class="nav wrap" aria-label="Main">
     <ul>
       <li><a href="/">Home</a></li>
+      <li><a href="/rsvp">Let us know</a></li>
       <li><a href="/guestbook">Guestbook</a></li>
       <li><a href="/sign" aria-current="page">Leave a message</a></li>
     </ul>
@@ -45,6 +46,26 @@
 
   <form id="guestbook-form" novalidate>
 
+    <div class="field filefield">
+      <label for="photo">A photograph <span class="optional">(optional)</span></label>
+      <span class="hint" id="photo-hint">Made smaller on your own device before sending.</span>
+      <input type="file" id="photo" name="photo" accept="image/*" aria-describedby="photo-hint">
+
+      <div class="preview" id="photo-preview" data-shown="false">
+        <img id="photo-preview-img" alt="">
+        <div>
+          <p class="preview__meta" id="photo-preview-meta"></p>
+          <button type="button" class="btn btn--ghost btn--small" id="photo-remove">Remove</button>
+        </div>
+      </div>
+
+      <div id="photo-alt-field" hidden>
+        <label class="field-label" for="photo-alt">Describe it <span class="optional">(optional)</span></label>
+        <span class="hint" id="photo-alt-hint">Read aloud to visitors who cannot see the picture.</span>
+        <input type="text" id="photo-alt" name="photo_alt" maxlength="200" aria-describedby="photo-alt-hint">
+      </div>
+    </div>
+
     <div class="field">
       <label for="name">Your name</label>
       <input type="text" id="name" name="name" required maxlength="80" autocomplete="name">
@@ -58,6 +79,8 @@
         <span id="message-count">0</span> of 2,000 characters
       </p>
     </div>
+
+
 
     <fieldset>
       <legend class="fieldset__legend">Who may see this?</legend>
@@ -78,26 +101,6 @@
         </label>
       </div>
     </fieldset>
-
-    <div class="field filefield">
-      <label for="photo">A photograph <span class="optional">(optional)</span></label>
-      <span class="hint" id="photo-hint">Made smaller on your own device before sending.</span>
-      <input type="file" id="photo" name="photo" accept="image/*" aria-describedby="photo-hint">
-
-      <div class="preview" id="photo-preview" data-shown="false">
-        <img id="photo-preview-img" alt="">
-        <div>
-          <p class="preview__meta" id="photo-preview-meta"></p>
-          <button type="button" class="btn btn--ghost btn--small" id="photo-remove">Remove</button>
-        </div>
-      </div>
-
-      <div id="photo-alt-field" hidden>
-        <label class="field-label" for="photo-alt">Describe it <span class="optional">(optional)</span></label>
-        <span class="hint" id="photo-alt-hint">Read aloud to visitors who cannot see the picture.</span>
-        <input type="text" id="photo-alt" name="photo_alt" maxlength="200" aria-describedby="photo-alt-hint">
-      </div>
-    </div>
 
     <!-- Spam trap: not shown to people, and screen readers skip it. -->
     <div class="hp" aria-hidden="true">

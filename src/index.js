@@ -9,6 +9,7 @@
 import { json, bad, dbMissing } from './lib.js';
 import { listEntries, createEntry, getPhoto } from './guestbook.js';
 import { login, logout, listAll, moderate } from './admin.js';
+import { createRsvp, listRsvps, deleteRsvp } from './rsvp.js';
 
 /* Each route is [method, path pattern, handler]. A ":id" segment is passed to
    the handler as a number. Kept deliberately plain — there is no router
@@ -20,7 +21,10 @@ const ROUTES = [
   ['POST', '/api/admin/login',        (req, env)     => login(req, env)],
   ['POST', '/api/admin/logout',       ()             => logout()],
   ['GET',  '/api/admin/entries',      (req, env)     => listAll(req, env)],
-  ['POST', '/api/admin/entries/:id',  (req, env, id) => moderate(req, env, id)]
+  ['POST', '/api/admin/entries/:id',  (req, env, id) => moderate(req, env, id)],
+  ['POST', '/api/rsvp',               (req, env)     => createRsvp(req, env)],
+  ['GET',  '/api/admin/rsvps',        (req, env)     => listRsvps(req, env)],
+  ['POST', '/api/admin/rsvps/:id',    (req, env, id) => deleteRsvp(req, env, id)]
 ];
 
 function match(pattern, path) {

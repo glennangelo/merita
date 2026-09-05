@@ -33,6 +33,7 @@
   <nav class="nav wrap" aria-label="Main">
     <ul>
       <li><a href="/" aria-current="page">Home</a></li>
+      <li><a href="/rsvp">Let us know</a></li>
       <li><a href="/guestbook">Guestbook</a></li>
       <li><a href="/sign">Leave a message</a></li>
     </ul>
@@ -96,14 +97,10 @@
         </dd>
 
         <dt class="visually-hidden">Where</dt>
-        <!-- ✏️ EDIT: full address -->
-        <dd class="where">Elmwood Lane, Marbury, MR7 2QF</dd>
-
-        <dt class="visually-hidden">Directions</dt>
-        <!-- ✏️ EDIT: replace the text after "query=" with the address (spaces become +) -->
-        <dd>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=The+Chapel+at+Elmwood+Elmwood+Lane+Marbury+MR7+2QF">
-            Map and directions<span class="visually-hidden"> to the ceremony</span>
+        <!-- ✏️ EDIT: the address, and the same address after "query=" (spaces become +) -->
+        <dd class="where">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=The+Chapel+at+Elmwood+Elmwood+Lane+Marbury+MR7+2QF">
+            <svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>Elmwood Lane, Marbury, MR7 2QF<span class="visually-hidden"> — open in maps, for directions to the ceremony</span>
           </a>
         </dd>
 
@@ -132,14 +129,10 @@
         </dd>
 
         <dt class="visually-hidden">Where</dt>
-        <!-- ✏️ EDIT: full address -->
-        <dd class="where">Church Street, Marbury, MR7 3LD</dd>
-
-        <dt class="visually-hidden">Directions</dt>
-        <!-- ✏️ EDIT: replace the text after "query=" with the address -->
-        <dd>
-          <a class="maplink" href="https://www.google.com/maps/search/?api=1&amp;query=Marbury+Hall+Church+Street+Marbury+MR7+3LD">
-            Map and directions<span class="visually-hidden"> to the reception</span>
+        <!-- ✏️ EDIT: the address, and the same address after "query=" (spaces become +) -->
+        <dd class="where">
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Marbury+Hall+Church+Street+Marbury+MR7+3LD">
+            <svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>Church Street, Marbury, MR7 3LD<span class="visually-hidden"> — open in maps, for directions to the reception</span>
           </a>
         </dd>
 
@@ -149,8 +142,7 @@
     </div>
 
     <div class="actions actions--center">
-      <!-- ✏️ EDIT the file memorial.ics so this saves the right date -->
-      <a class="btn btn--ghost" href="/memorial.ics" download>Add to calendar</a>
+      <a class="btn" href="/rsvp">Let us know you're coming</a>
     </div>
   </section>
 

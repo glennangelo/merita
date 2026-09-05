@@ -5,6 +5,7 @@ A small, calm website in memory of someone, with:
 - their photograph, name and dates, under the words **In Loving Memory**
 - the details and times of the **memorial ceremony** and the **reception** that follows
 - a place for a **live stream link**, ready to be filled in when you have it
+- a **reply form**, so you know who is coming, how many of them, and to which part of the day
 - a **guestbook**, where visitors can leave their name, a message and a photograph
 - a choice for each visitor: **public** (shown on the site once the family approves it) or **private** (only the family ever sees it)
 - a **family page** for reading private messages and approving public ones
@@ -59,7 +60,11 @@ create a free account. No payment card is needed.
 5. Open the file `schema.sql` from this project, copy **all** of its text,
    paste it into the console box, and click **Execute**.
 
-That builds the empty table the guestbook writes into.
+That builds the empty tables the guestbook and the replies write into.
+
+If you ever come back to this step — after an update to the project, say — you
+can paste `schema.sql` in and run it again. It only creates what is missing, so
+nothing already there is touched or lost.
 
 ## Step 3 — Tell the website where its database is
 
@@ -130,7 +135,7 @@ itself within a minute or so.
 | A line of verse, scripture, or something they always said | the `epitaph` block — delete the whole block if you would rather not have one |
 | Ceremony venue, date, time, address | the first `event` block, headed **The Ceremony** |
 | Reception venue, date, time, address | the second `event` block, headed **Afterwards** |
-| Map links | the two `maplink` links — put the venue address after `query=`, with `+` instead of spaces |
+| Addresses | each address is itself the link to a map — change the visible address **and** the same address after `query=`, with `+` instead of spaces |
 | Parking, step-free access, flowers | the `aside` line at the end of each event — delete it if there is nothing to say |
 | Who to contact | the footer, at the very bottom |
 
@@ -141,16 +146,15 @@ change `portrait.svg` to `portrait.jpg` on the `src` line. A photo of around
 800 × 1000 pixels keeps the page fast. Please also update the `alt` text beside
 it — that short sentence is what a blind visitor hears.
 
-### The calendar file — `public/memorial.ics`
+### The reply page — `public/rsvp.html`
 
-This is what the **Add to my calendar** button downloads. Change the dates,
-times and addresses. The format is `YYYYMMDDThhmmss` in 24-hour time, so
-11 o'clock in the morning on 1 January 2026 is `20260101T110000`.
+The two tick-boxes repeat the time and venue of each part of the day. Change
+those to match the home page, so nobody is told two different things.
 
 ### The other pages
 
-`guestbook.html`, `sign.html` and `admin.html` each have their name in the
-`<title>` line near the top. Change `[Full Name]` there too.
+`rsvp.html`, `guestbook.html`, `sign.html` and `admin.html` each have their
+name in the `<title>` line near the top. Change `[Full Name]` there too.
 
 ---
 
@@ -167,6 +171,12 @@ page never looks broken or unfinished.
 ---
 
 # How the guestbook works
+
+**When someone replies** at `/rsvp`, they give their name, how many are coming,
+and whether that is for the ceremony, the reception, or both. Replies are never
+shown publicly — they appear only on the family's page, under **Coming**, with
+the totals worked out for you: how many people at the ceremony, how many at the
+reception. That is the number a caterer or a venue will ask you for.
 
 **When someone leaves a message** at `/sign`, they choose whether it is
 public or private. Their photograph is made smaller in their own browser before
@@ -187,6 +197,7 @@ footer of the home page. Sign in with your password and you will see three lists
 - **Private to the family** — messages meant only for you.
 - **Live in the guestbook** — everything currently on the public page. You can
   hide anything again at any time.
+- **Coming** — the replies, newest first, with the totals along the top.
 
 You stay signed in for 12 hours. Changing `ADMIN_PASSWORD` signs everyone out.
 
@@ -233,10 +244,10 @@ certainly will not need to.
 ```
 public/                 the website itself
   index.html            the main page — photo, name, dates, ceremony, reception, live stream
+  rsvp.html             the reply form
   guestbook.html        public messages
   sign.html             the form for leaving a message
   admin.html            the family's page
-  memorial.ics          the "add to my calendar" file
   assets/               stylesheet, small scripts, portrait
   fonts/                the two typefaces, served from your own site
   _headers              security settings applied by Cloudflare
@@ -244,10 +255,11 @@ public/                 the website itself
 src/                    the guestbook's small server, one Cloudflare Worker
   index.js              decides which of the addresses below was asked for
   guestbook.js          reading approved messages, receiving new ones, photos
+  rsvp.js               receiving replies, and totting them up for the family
   admin.js              signing in, listing everything, moderating
   lib.js                sessions, tidying up what visitors typed
 
-schema.sql              the database table
+schema.sql              the database tables
 wrangler.toml           the settings Cloudflare reads on every deploy
 ```
 
