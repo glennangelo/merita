@@ -7,6 +7,42 @@
   var party     = document.getElementById('party');
   var ceremony  = document.getElementById('ceremony');
   var reception = document.getElementById('reception');
+  var less      = document.getElementById('party-less');
+  var more      = document.getElementById('party-more');
+  var said      = document.getElementById('party-said');
+
+  var MIN = 1, MAX = 20;
+
+  /* The plus and minus buttons. The number can still be typed, so this reads
+     the field rather than keeping a count of its own. */
+  function partySize() {
+    var n = parseInt(party.value, 10);
+    return isNaN(n) ? MIN : n;
+  }
+
+  /* The buttons keep themselves within range; typing is left alone. Correcting
+     the field on every keystroke would mean it could not be cleared to retype,
+     and would quietly turn a typed 0 into 1 — sending a reply nobody made. An
+     impossible number is caught on sending instead, where it can be explained. */
+  function syncButtons() {
+    var n = partySize();
+    less.disabled = !(n > MIN);
+    more.disabled = !(n < MAX);
+  }
+
+  function setParty(n) {
+    n = Math.min(MAX, Math.max(MIN, n));
+    party.value = String(n);
+    syncButtons();
+    // Said aloud: the number changing is not otherwise announced to someone
+    // who cannot see it.
+    said.textContent = n === 1 ? '1 person' : n + ' people';
+  }
+
+  less.addEventListener('click', function () { setParty(partySize() - 1); });
+  more.addEventListener('click', function () { setParty(partySize() + 1); });
+  party.addEventListener('input', syncButtons);
+  syncButtons();
 
   function say(tone, headline, detail) {
     statusBox.dataset.tone = tone;

@@ -481,6 +481,35 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #9e3b3
 /* A headcount is one or two digits; a full-width box invites a phone number. */
 input[type="number"] { max-width: 7rem; font-variant-numeric: lining-nums; }
 
+/* Plus and minus either side of the number, each a full-sized target. */
+.stepper { display: flex; align-items: center; gap: .9rem; }
+.stepper input[type="number"] {
+  width: 4.5rem;
+  max-width: none;
+  text-align: center;
+  font-family: var(--display);
+  font-size: 1.6rem;
+  padding: .35rem 0;
+}
+.stepper__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--accent-dark);
+  font-family: var(--body);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.stepper__btn:hover:not(:disabled) { background: var(--accent); color: var(--paper); }
+.stepper__btn:disabled { opacity: .3; cursor: not-allowed; }
+
 fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
 .choices { display: grid; gap: .3rem; }
 /* Marked by a gilt rule when chosen, rather than boxed. */

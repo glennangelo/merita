@@ -20,7 +20,8 @@
     <!-- ✏️ EDIT: the name, here and in the hero on the home page -->
     <a class="wordmark" href="/">In Loving Memory of [Full Name]<span class="visually-hidden"> — back to the memorial page</span></a>
     <h1 class="hero__name page-title">RSVP</h1>
-    <p class="hero__note">So we know how many to expect. Only the family sees this.</p>
+    <!-- ✏️ EDIT: this line reads as unfinished — see the note from whoever set this up -->
+    <p class="hero__note">The family kindly request that loved ones</p>
   </div>
 
   <div class="ornament ornament--tight" aria-hidden="true">
@@ -35,25 +36,32 @@
   <form id="rsvp-form" novalidate>
 
     <div class="field">
-      <label for="name">Your name</label>
-      <input type="text" id="name" name="name" required maxlength="80" autocomplete="name">
+      <label for="party">Number of attendees:</label>
+      <!-- The number can still be typed; the buttons are there for anyone who
+           would rather not, which on a phone is most people. -->
+      <div class="stepper">
+        <button type="button" class="stepper__btn" id="party-less" aria-label="One fewer">&#8722;</button>
+        <input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
+               inputmode="numeric" required>
+        <button type="button" class="stepper__btn" id="party-more" aria-label="One more">+</button>
+      </div>
+      <p class="visually-hidden" id="party-said" role="status" aria-live="polite"></p>
     </div>
 
     <div class="field">
-      <label for="party">How many of you</label>
-      <span class="hint" id="party-hint">Counting yourself.</span>
-      <input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
-             inputmode="numeric" required aria-describedby="party-hint">
+      <label for="name">I / We:</label>
+      <span class="hint" id="name-hint">You / Your family&rsquo;s name</span>
+      <input type="text" id="name" name="name" required maxlength="80"
+             autocomplete="name" aria-describedby="name-hint">
     </div>
 
     <fieldset>
-      <legend class="fieldset__legend">Which part of the day?</legend>
-      <span class="hint" id="parts-hint">Tick either, or both.</span>
-      <div class="choices" aria-describedby="parts-hint">
+      <legend class="fieldset__legend">Would love to attend:</legend>
+      <div class="choices">
         <label class="choice">
           <input type="checkbox" id="ceremony" name="ceremony" checked>
           <span>
-            <span class="choice__title">The memorial ceremony</span>
+            <span class="choice__title">The ceremony</span>
             <!-- ✏️ EDIT: keep this in step with the home page -->
             <span class="choice__desc">11:00 am at The Chapel at Elmwood.</span>
           </span>
@@ -61,9 +69,9 @@
         <label class="choice">
           <input type="checkbox" id="reception" name="reception" checked>
           <span>
-            <span class="choice__title">The celebration of life</span>
+            <span class="choice__title">The reception</span>
             <!-- ✏️ EDIT: keep this in step with the home page -->
-            <span class="choice__desc">From 1:00 pm at The Garden Room, Marbury Hall.</span>
+            <span class="choice__desc">From 1:00 pm at The Garden Room.</span>
           </span>
         </label>
       </div>
@@ -81,7 +89,7 @@
       <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
     </div>
 
-    <button type="submit" class="btn btn--block" id="submit-btn">Send</button>
+    <button type="submit" class="btn btn--block" id="submit-btn">Send RSVP</button>
   </form>
 </main>
 
