@@ -152,6 +152,8 @@ a:hover { color: var(--focus); }
 
 /* --- Layout ------------------------------------------------------------- */
 .wrap { width: min(100% - 2.5rem, 40rem); margin-inline: auto; }
+/* Wider than the reading column, so the two events can sit abreast. */
+.wrap--wide { width: min(100% - 2.5rem, 52rem); }
 main { padding-bottom: 5rem; }
 .section { margin-top: 4rem; }
 
@@ -295,8 +297,35 @@ main { padding-bottom: 5rem; }
 
 /* --- The order of the day ----------------------------------------------
    Set like a printed programme: centred, unboxed, one thing under another. */
+.events { display: grid; }
 .event { text-align: center; }
-.event + .event { margin-top: 1rem; }
+
+/* Stacked on a phone and parted only by a hairline, not an ornament: the two
+   events are one thing, and the RSVP beneath belongs to both of them. An
+   ornament here read as a section break and made the button look as though it
+   applied to the reception alone. */
+.event + .event {
+  margin-top: 2.75rem;
+  padding-top: 2.75rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+/* The reply covers the whole day, so it must sit further from the events than
+   they sit from each other — otherwise it reads as belonging to the second
+   one alone, which is exactly the wrong hierarchy. */
+.events + .actions { margin-top: 3.5rem; }
+
+/* Side by side once there is room, parted by an upright hairline. */
+@media (min-width: 900px) {
+  .events { grid-template-columns: 1fr 1fr; }
+  .event { padding-inline: 2.75rem; }
+  .event + .event {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    border-left: 1px solid var(--line-soft);
+  }
+}
 
 .event h2 {
   font-size: clamp(1.9rem, 5vw, 2.35rem);
@@ -389,7 +418,9 @@ main { padding-bottom: 5rem; }
 .band {
   margin-top: 5rem;
   padding: 4rem 0 4.5rem;
-  background-image: linear-gradient(180deg, #eff5f2 0%, var(--accent-tint) 100%);
+  /* The same parchment, deeper — a shade of the page rather than a colour
+     set against it. */
+  background-image: linear-gradient(180deg, #f2ebdf 0%, #eae1d0 100%);
   border-top: 1px solid rgba(168, 135, 63, .35);
   border-bottom: 1px solid rgba(168, 135, 63, .35);
 }

@@ -82,9 +82,15 @@
     </svg>
   </div>
 
-  <!-- ================= The day ================= -->
-  <section class="section" aria-labelledby="ceremony-heading">
-    <div class="event">
+ </div><!-- /wrap -->
+
+  <!-- ================= The day =================
+       A wider column than the rest of the page, so the two events can sit
+       side by side once there is room for them. -->
+  <section class="section" aria-label="The day">
+   <div class="wrap wrap--wide">
+    <div class="events">
+     <article class="event" aria-labelledby="ceremony-heading">
       <p class="eyebrow">The Ceremony</p>
       <!-- ✏️ EDIT: venue name -->
       <h2 id="ceremony-heading">The Chapel at Elmwood</h2>
@@ -108,15 +114,9 @@
         <dt class="visually-hidden">Good to know</dt>
         <dd class="aside">Parking on site. Step-free entrance.</dd>
       </dl>
-    </div>
+     </article>
 
-    <div class="ornament ornament--tight" aria-hidden="true">
-      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1">
-        <path d="M10 3 L14 10 L10 17 L6 10 Z"/>
-      </svg>
-    </div>
-
-    <div class="event" aria-labelledby="reception-heading">
+     <article class="event" aria-labelledby="reception-heading">
       <p class="eyebrow">Afterwards</p>
       <!-- ✏️ EDIT: venue name -->
       <h2 id="reception-heading">The Garden Room, Marbury Hall</h2>
@@ -139,12 +139,18 @@
         <dt class="visually-hidden">Good to know</dt>
         <dd class="aside">Refreshments served. Please come, however briefly.</dd>
       </dl>
-    </div>
+     </article>
 
+    </div><!-- /events -->
+
+    <!-- One reply covers the whole day, so this sits beneath both. -->
     <div class="actions actions--center">
       <a class="btn" href="/rsvp">RSVP</a>
     </div>
+   </div><!-- /wrap--wide -->
   </section>
+
+ <div class="wrap">
 
   <div class="ornament" aria-hidden="true">
     <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1">
