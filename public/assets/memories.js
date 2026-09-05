@@ -14,14 +14,6 @@
     if (detail) statusBox.appendChild(document.createTextNode(detail));
   }
 
-  /* Dates are formatted in the reader's own locale, spelled out in full so
-     there is no ambiguity between day and month. */
-  function formatDate(iso) {
-    var date = new Date(iso.replace(' ', 'T') + (/[Zz]|[+-]\d\d:?\d\d$/.test(iso) ? '' : 'Z'));
-    if (isNaN(date)) return '';
-    return date.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' });
-  }
-
   function render(entry, index) {
     var item = document.createElement('li');
     item.className = 'entry';
@@ -43,13 +35,13 @@
     body.textContent = entry.message;           // textContent, never innerHTML
     item.appendChild(body);
 
+    // Just who it is from. A memory is not dated correspondence, and a
+    // timestamp only invites comparison between what came early and what late.
     var by = document.createElement('p');
     by.className = 'entry__by';
     var who = document.createElement('strong');
     who.textContent = entry.name;
     by.appendChild(who);
-    var when = formatDate(entry.created_at);
-    if (when) by.appendChild(document.createTextNode(when));
     item.appendChild(by);
 
     return item;

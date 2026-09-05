@@ -94,12 +94,12 @@
     body.textContent = entry.message;
     item.appendChild(body);
 
+    // No date, matching the public page. Everything is newest first anyway.
     var by = document.createElement('p');
     by.className = 'entry__by';
     var who = document.createElement('strong');
     who.textContent = entry.name;
     by.appendChild(who);
-    by.appendChild(document.createTextNode(formatDate(entry.created_at)));
     item.appendChild(by);
 
     var actions = document.createElement('div');
