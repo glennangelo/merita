@@ -100,7 +100,7 @@
     processed = null;
     fileInput.value = '';
     preview.dataset.shown = 'false';
-    pickLabel.textContent = 'Choose a photograph';
+    pickLabel.textContent = 'Upload';
     if (previewUrl) { URL.revokeObjectURL(previewUrl); previewUrl = null; }
     previewImg.removeAttribute('src');
   }
@@ -111,11 +111,11 @@
 
     if (!/^image\//.test(file.type) && !/\.(jpe?g|png|webp|heic|heif|gif)$/i.test(file.name)) {
       clearPhoto();
-      say('error', 'That file is not a picture.', ' Please choose a JPEG, PNG or WebP.');
+      say('error', 'That file is not an image.', ' Please choose a JPEG, PNG or WebP.');
       return;
     }
 
-    say('busy', 'Preparing your photograph…', '');
+    say('busy', 'Preparing your image…', '');
     submitBtn.disabled = true;
 
     try {
@@ -125,13 +125,13 @@
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       previewUrl = URL.createObjectURL(blob);
       previewImg.src = previewUrl;
-      previewImg.alt = 'The photograph you have chosen.';
+      previewImg.alt = 'The image you have chosen.';
       preview.dataset.shown = 'true';
-      pickLabel.textContent = 'Change photograph';
+      pickLabel.textContent = 'Change image';
       clearStatus();
     } catch (err) {
       clearPhoto();
-      say('error', 'We could not use that photograph.',
+      say('error', 'We could not use that image.',
         ' Some iPhone photos are in a format this page cannot read. Please try another.');
     } finally {
       submitBtn.disabled = false;

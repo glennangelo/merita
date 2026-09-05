@@ -373,6 +373,9 @@ main { padding-bottom: 5rem; }
 .btn--ghost:hover { background: var(--accent-tint); color: var(--accent-dark); }
 .btn--danger { background: transparent; border-color: #9e3b3b; color: #8a2b2b; }
 .btn--danger:hover { background: #9e3b3b; border-color: #9e3b3b; color: #fff; }
+/* A quieter button: sentence case, not the small caps of the ones that
+   carry the page. Used for the optional upload beside a required Send. */
+.btn--plain { text-transform: none; letter-spacing: .01em; font-size: .95rem; }
 .btn--small { min-height: 2.6rem; padding: .35rem 1.2rem; font-size: .8rem; }
 .btn--block { width: 100%; }
 

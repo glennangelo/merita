@@ -20,7 +20,9 @@
     <!-- ✏️ EDIT: the name, here and in the hero on the home page -->
     <a class="wordmark" href="/">In Loving Memory of [Full Name]<span class="visually-hidden"> — back to the memorial page</span></a>
     <h1 class="hero__name page-title">Share a memory</h1>
-    <p class="hero__note">Every message is read by the family.</p>
+    <!-- ✏️ EDIT: their first name -->
+    <p class="hero__note">The family would love to hear any fond memories or
+      stories you may have of [First Name]</p>
   </div>
 
   <div class="ornament ornament--tight" aria-hidden="true">
@@ -35,16 +37,14 @@
   <form id="memory-form" novalidate>
 
     <div class="field filefield">
-      <span class="field-label">A photograph <span class="optional">(optional)</span></span>
-      <span class="hint" id="photo-hint">Any size. It is made smaller on your own device before sending.</span>
+      <span class="field-label">A photo or image <span class="optional">(optional)</span></span>
 
       <!-- The input itself is hidden but still focusable; the label beside it is
            what people see and click, and its wording changes once a picture is
            chosen. The browser's own control would otherwise show the file name
            next to a preview of the very same picture. -->
-      <input type="file" id="photo" name="photo" accept="image/*"
-             class="visually-hidden" aria-describedby="photo-hint">
-      <label class="btn btn--ghost filepick" for="photo" id="photo-pick">Choose a photograph</label>
+      <input type="file" id="photo" name="photo" accept="image/*" class="visually-hidden">
+      <label class="btn btn--ghost btn--plain filepick" for="photo" id="photo-pick">Upload</label>
 
       <div class="preview" id="photo-preview" data-shown="false">
         <img id="photo-preview-img" alt="">
@@ -63,15 +63,12 @@
       <p class="counter" aria-hidden="true"><span id="message-count">0</span> / 2,000</p>
     </div>
 
-
-
     <div class="field">
       <label class="choice">
         <input type="checkbox" id="private" name="private">
         <span>
           <span class="choice__title">Keep this private</span>
-          <span class="choice__desc">Only the family will ever see it. Left unticked, it
-            appears with the memories on the website once the family has approved it.</span>
+          <span class="choice__desc">Share the memory only with the family</span>
         </span>
       </label>
     </div>
