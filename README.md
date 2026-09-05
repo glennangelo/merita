@@ -153,11 +153,17 @@ itself within a minute or so.
 | Their name | the `hero__name` heading — but see the note below, it appears in several places |
 | Dates of birth and death | the `hero__dates` paragraph — change both the visible date **and** the `datetime="YYYY-MM-DD"` next to it |
 | A line of verse, scripture, or something they always said | the `epitaph` block — delete the whole block if you would rather not have one |
-| Ceremony venue, date, time, address | the first `event` block, headed **The Ceremony** |
-| Reception venue, date, time, address | the second `event` block, headed **Afterwards** |
+| Ceremony venue, date, time, address | the first `event` block, headed **Memorial Ceremony** |
+| Celebration venue, date, time, address | the second `event` block, headed **Celebration of Life** |
 | Addresses | each address is itself the link to a map — change the visible address **and** the same address after `query=`, with `+` instead of spaces |
-| Parking, step-free access, flowers | the `aside` line at the end of each event — delete it if there is nothing to say |
+| The line describing each event | the `aside` line at the end of each one — delete it if there is nothing to say |
 | Who to contact | the footer, at the very bottom |
+
+### A first name, as well
+
+The invitation on the home page uses their first name on its own — "tributes to
+[First Name]". That is a separate placeholder from the one below, so search for
+`[First Name]` too.
 
 ### Their name appears in more than one place
 

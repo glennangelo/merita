@@ -411,13 +411,16 @@ main { padding-bottom: 5rem; }
    below its content would show as a stripe of bare parchment beneath it. */
 .ends-with-band { padding-bottom: 0; }
 
-.band__title {
-  font-size: clamp(2.1rem, 5.5vw, 2.7rem);
-  margin-bottom: .5rem;
-}
+/* The band no longer carries a large heading, so its one line of invitation
+   has to hold the section on its own. */
 .band__lead {
-  font-size: 1.08rem;
-  max-width: 26rem;
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 3.4vw, 1.65rem);
+  line-height: 1.45;
+  color: var(--ink);
+  max-width: 28rem;
+  margin-top: .25rem;
+  text-wrap: balance;
 }
 
 /* The ghost button's usual hover tint is the band's own ground, which would

@@ -147,9 +147,9 @@
 
     var facts = document.createElement('p');
     facts.className = 'rsvp__facts';
-    var parts = entry.ceremony && entry.reception ? 'ceremony and reception'
+    var parts = entry.ceremony && entry.reception ? 'ceremony and celebration'
               : entry.ceremony ? 'ceremony only'
-              : 'reception only';
+              : 'celebration only';
     facts.textContent = (entry.party_size === 1 ? '1 person' : entry.party_size + ' people') +
                         ' — ' + parts;
     item.appendChild(facts);
@@ -201,7 +201,7 @@
     if (isRsvp && entries.length) {
       totalsLine.textContent =
         (totals.replies === 1 ? '1 reply' : totals.replies + ' replies') + ' — ' +
-        totals.ceremony + ' at the ceremony, ' + totals.reception + ' at the reception';
+        totals.ceremony + ' at the ceremony, ' + totals.reception + ' at the celebration';
     }
 
     if (!entries.length) {
