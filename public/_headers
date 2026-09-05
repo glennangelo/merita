@@ -7,8 +7,13 @@
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'
 
+# Revalidated on every visit rather than held for an hour. These filenames
+# never change, so a cached copy could not otherwise be replaced, and an edit
+# would take up to an hour to reach anyone who had been here recently — the
+# page would load new markup and run the old script. Revalidating costs a
+# "not modified" reply, which is a few bytes.
 /assets/*
-  Cache-Control: public, max-age=3600
+  Cache-Control: no-cache
 
 # The typefaces never change, so they only ever download once. These live
 # outside /assets so this rule does not collide with the one above —
