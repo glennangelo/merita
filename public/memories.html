@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Memories — In Loving Memory of [Full Name]</title>
 <meta name="description" content="Messages of remembrance for [Full Name].">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#f8f4ed">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/styles.css">
@@ -28,6 +30,11 @@
     </svg>
   </div>
 
+  <noscript>
+    <p class="status-msg" data-tone="error"><strong>This page needs JavaScript.</strong>
+      Your browser has it switched off, so the memories cannot be shown.</p>
+  </noscript>
+
   <div class="status-msg" id="load-status" role="status" aria-live="polite" data-tone="busy">
     <strong>Loading…</strong>
   </div>
@@ -46,6 +53,8 @@
 <footer class="footer">
   <div class="wrap">
     <p><a href="/">Back to the memorial page</a></p>
+    <!-- ✏️ EDIT: keep this the same as the footer on the home page. -->
+    <p class="footer__contact">Questions: [Contact Name], [email or phone].</p>
   </div>
 </footer>
 

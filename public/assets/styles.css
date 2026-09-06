@@ -102,6 +102,10 @@
 
   --measure: 32rem;
   --tap:     3rem;
+  /* Deliberately not in rem. Someone who has doubled their text size wants
+     bigger words, not bigger margins — in rem these grew with the type and
+     squeezed the column they were meant to protect. */
+  --gutter:  clamp(16px, 4vw, 20px);
 }
 
 /* --- Reset -------------------------------------------------------------- */
@@ -120,6 +124,10 @@ html {
 body {
   margin: 0;
   color: var(--ink);
+  /* A long word must fold rather than push the page sideways. This matters
+     most at large text sizes, where an ordinary word can be wider than a
+     phone. Visitors' own words get the stronger "anywhere" further down. */
+  overflow-wrap: break-word;
   font-family: var(--body);
   font-size: 1rem;
   line-height: 1.75;
@@ -151,9 +159,9 @@ a:hover { color: var(--focus); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
 
 /* --- Layout ------------------------------------------------------------- */
-.wrap { width: min(100% - 2.5rem, 40rem); margin-inline: auto; }
+.wrap { width: min(100% - var(--gutter) * 2, 40rem); margin-inline: auto; }
 /* Wider than the reading column, so the two events can sit abreast. */
-.wrap--wide { width: min(100% - 2.5rem, 52rem); }
+.wrap--wide { width: min(100% - var(--gutter) * 2, 52rem); }
 main { padding-bottom: 5rem; }
 .section { margin-top: 4rem; }
 
@@ -245,6 +253,14 @@ main { padding-bottom: 5rem; }
 }
 .hero__dates .sep { padding: 0 .55rem; color: var(--gold); }
 .hero__dates time { white-space: nowrap; }
+
+/* Measured in em, so this responds to enlarged text as well as a small screen:
+   at 200% type a phone is "narrow" long before its pixel width says so. */
+@media (max-width: 30em) {
+  .hero__dates { font-size: 1.25rem; }
+  .hero__dates time { white-space: normal; }
+  .hero__dates .sep { padding: 0 .35rem; }
+}
 
 .hero__note { margin-top: 1.75rem; }
 
@@ -445,6 +461,11 @@ main { padding-bottom: 5rem; }
   margin-bottom: .3rem;
 }
 
+/* A <legend> sizes itself to its own words rather than to the fieldset around
+   it, so at large text it kept growing past the edge of the screen while every
+   other label wrapped. Given a width it behaves like the block it is set as. */
+.fieldset__legend { width: 100%; }
+
 .hint {
   display: block;
   color: var(--ink-soft);
@@ -483,9 +504,14 @@ input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #9e3b3
 
 /* A headcount is one or two digits; a full-width box invites a phone number. */
 input[type="number"] { max-width: 7rem; font-variant-numeric: lining-nums; }
+/* The browser's own tiny spinners duplicate the plus and minus beside them,
+   and are far too small to hit. The field still takes typing and arrow keys. */
+input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
 /* Plus and minus either side of the number, each a full-sized target. */
-.stepper { display: flex; align-items: center; gap: .9rem; }
+.stepper { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem; }
 .stepper input[type="number"] {
   width: 4.5rem;
   max-width: none;
@@ -513,17 +539,29 @@ input[type="number"] { max-width: 7rem; font-variant-numeric: lining-nums; }
 .stepper__btn:hover:not(:disabled) { background: var(--accent); color: var(--paper); }
 .stepper__btn:disabled { opacity: .3; cursor: not-allowed; }
 
-fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
+/* min-inline-size: browsers give a fieldset a floor of min-content, so its
+   longest single word sets a width the page cannot go below. At large text
+   that pushed the whole form off the side of the screen. */
+fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 .choices { display: grid; gap: .3rem; }
 /* Marked by a gilt rule when chosen, rather than boxed. */
 .choice {
   display: flex;
   align-items: flex-start;
-  gap: .9rem;
-  padding: 1rem .9rem;
+  /* The space either side of the words is spacing, not text, so it is held in
+     px. In rem it grew with enlarged type until it had taken most of the
+     column and words were breaking in half to fit what was left. The tickbox
+     itself still scales, because that one is a target for a finger. */
+  gap: clamp(10px, 2.5vw, 14px);
+  padding: 1rem clamp(10px, 2.5vw, 14px);
   border-left: 3px solid var(--line);
   cursor: pointer;
 }
+/* Both of these default to a floor of their own content's width — the grid
+   item and the flex item inside it — which at large text is wider than a
+   phone. Zero lets the wording wrap instead of widening the page. */
+.choice { min-width: 0; }
+.choice > span { min-width: 0; }
 .choice:hover { border-left-color: var(--accent); background: rgba(230, 239, 235, .5); }
 .choice input { width: 1.35rem; height: 1.35rem; margin: .3rem 0 0; flex: none; accent-color: var(--accent); }
 .choice:has(input:checked) { border-left-color: var(--gold); background: var(--accent-tint); }
@@ -678,6 +716,14 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
 }
 .rsvp__contact { color: var(--ink-soft); font-size: .95rem; margin: 0 0 .35rem; overflow-wrap: anywhere; }
 
+/* --- Correcting a memory ------------------------------------------------
+   The entry becomes a form where it sits, so nothing shifts under the eye. */
+.edit { padding: .5rem 0 .25rem; }
+.edit .field { margin-bottom: 1.25rem; }
+.edit .field > label { font-size: 1.1rem; }
+.edit textarea { min-height: 10rem; }
+.edit .hint { margin-bottom: 1rem; }
+
 /* --- Admin tabs --------------------------------------------------------- */
 .tabs {
   display: flex;
@@ -743,6 +789,9 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; }
   text-underline-offset: .2em;
 }
 .footer a:hover { color: #fff; }
+/* Quieter than the link above it: the forms send people here when something
+   will not send, so it has to be present, not prominent. */
+.footer__contact { margin-top: .25rem; font-size: .86rem; opacity: .85; }
 
 /* --- Utilities ---------------------------------------------------------- */
 .visually-hidden {

@@ -23,6 +23,13 @@
       img.className = 'entry__photo';
       img.src = '/api/photo/' + entry.id;
       img.alt = entry.photo_alt || ('A photograph shared by ' + entry.name + '.');
+      // The shape recorded when it was sent, so the browser holds the right
+      // amount of room before the picture arrives. Without it the page shifts
+      // under the reader's thumb as each one loads.
+      if (entry.photo_w && entry.photo_h) {
+        img.width  = entry.photo_w;
+        img.height = entry.photo_h;
+      }
       // The first picture is what a visitor sees straight away, so it is
       // fetched at once; the rest wait until they are scrolled towards.
       img.loading = index === 0 ? 'eager' : 'lazy';

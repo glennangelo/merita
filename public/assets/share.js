@@ -12,13 +12,15 @@
   var removeBtn = document.getElementById('photo-remove');
   var message   = document.getElementById('message');
   var counter   = document.getElementById('message-count');
+  var onward    = document.getElementById('onward');
 
   // Whatever someone picks is shrunk before it is sent, so there is no limit on
-  // what they may choose. These govern what is stored: D1 refuses a row over
-  // 2,000,000 bytes, and the row carries the message too, so this leaves room.
-  var MAX_EDGE   = 2000;                 // longest side, in pixels
-  var MAX_BYTES  = 1400 * 1024;          // about 1.4 MB once shrunk
-  var processed  = null;          // { blob, type, name }
+  // what they may choose. 1200 pixels is twice the widest a memory is ever
+  // shown, which is sharp on a retina screen and a third of the weight of the
+  // 2000 this used to keep — forty memories were a 40 MB page on a phone.
+  var MAX_EDGE   = 1200;                 // longest side, in pixels
+  var MAX_BYTES  = 900 * 1024;           // about 0.9 MB once shrunk
+  var processed  = null;          // { blob, type, name, width, height }
   var previewUrl = null;
 
   /* ---------- small helpers ---------- */
@@ -93,7 +95,9 @@
 
     if (source.close) source.close();
     if (blob.size > MAX_BYTES) throw new Error('too large');
-    return blob;
+    // The shape travels with the picture so the memories page can hold room
+    // for it before it arrives, instead of jumping when it does.
+    return { blob: blob, width: canvas.width, height: canvas.height };
   }
 
   function clearPhoto() {
@@ -119,11 +123,14 @@
     submitBtn.disabled = true;
 
     try {
-      var blob = await shrink(file);
-      processed = { blob: blob, type: 'image/jpeg', name: 'photo.jpg' };
+      var shrunk = await shrink(file);
+      processed = {
+        blob: shrunk.blob, type: 'image/jpeg', name: 'photo.jpg',
+        width: shrunk.width, height: shrunk.height
+      };
 
       if (previewUrl) URL.revokeObjectURL(previewUrl);
-      previewUrl = URL.createObjectURL(blob);
+      previewUrl = URL.createObjectURL(shrunk.blob);
       previewImg.src = previewUrl;
       previewImg.alt = 'The image you have chosen.';
       preview.dataset.shown = 'true';
@@ -172,8 +179,12 @@
     data.append('name', name.value.trim());
     data.append('message', message.value.trim());
     data.append('visibility', visibility);
-    data.append('website', document.getElementById('website').value); // spam trap
-    if (processed) data.append('photo', processed.blob, processed.name);
+    data.append('subject', document.getElementById('subject').value); // spam trap
+    if (processed) {
+      data.append('photo', processed.blob, processed.name);
+      data.append('photo_w', String(processed.width));
+      data.append('photo_h', String(processed.height));
+    }
 
     submitBtn.disabled = true;
     say('busy', 'Sending your message…', '');
@@ -188,8 +199,12 @@
       if (visibility === 'private') {
         say('ok', 'Thank you.', ' Your message has gone to the family. Only they will see it.');
       } else {
-        say('ok', 'Thank you.', ' The family will read it, and it will appear with the memories shortly.');
+        // Not "shortly": approving may wait until someone has a quiet moment,
+        // and a promise the family cannot keep is worse than a vaguer one.
+        say('ok', 'Thank you.',
+          ' The family will read it, and it will appear with the memories once they have.');
       }
+      onward.hidden = false;
       // Move focus to the confirmation so a screen reader reads it out and a
       // keyboard user carries on from the right place.
       statusBox.setAttribute('tabindex', '-1');

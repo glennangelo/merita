@@ -11,16 +11,23 @@
 <meta name="theme-color" content="#f8f4ed">
 <meta name="color-scheme" content="light">
 
-<!-- Preview card for WhatsApp / Facebook / iMessage.
-     ✏️ EDIT: set og:url to your final web address once the site is live. -->
+<!-- The card people see when the link is pasted into WhatsApp, Facebook or a
+     text message. These addresses must be written out in full, starting with
+     https:// — a share card is built on someone else's server, which has no
+     way to resolve "/assets/...".
+     ✏️ EDIT: both addresses below, if the site moves to its own domain. -->
+<link rel="canonical" href="https://merita.glennfamy.workers.dev/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="In Loving Memory of [Full Name]">
 <meta property="og:title" content="In Loving Memory of [Full Name]">
 <meta property="og:description" content="Details of the memorial ceremony and celebration of life, and memories shared by family and friends.">
-<meta property="og:image" content="/assets/portrait.jpg">
-<meta property="og:url" content="https://example.com/">
+<meta property="og:url" content="https://merita.glennfamy.workers.dev/">
+<meta property="og:image" content="https://merita.glennfamy.workers.dev/assets/portrait.jpg">
+<meta property="og:image:alt" content="Portrait of [Full Name].">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/styles.css">
@@ -99,7 +106,7 @@
 
         <!-- ✏️ EDIT (optional): parking, step-free access, flowers. Or delete. -->
         <dt class="visually-hidden">Good to know</dt>
-        <dd class="aside">Private mass and eulogy</dd>
+        <dd class="aside">Mass and eulogy</dd>
       </dl>
      </article>
 
@@ -154,7 +161,7 @@
          2. Delete the two lines that say REMOVE THIS LINE.
          3. Paste the streaming address into href="".
     -->
-    <p class="notice">A video link to the ceremony will be provided in time</p>
+    <p class="notice">A video link to the ceremony will be provided before the day</p>
 
     <!-- REMOVE THIS LINE TO SHOW THE BUTTON
     <p class="actions actions--center">
@@ -185,8 +192,10 @@
 
 <footer class="footer">
   <div class="wrap">
-    <!-- ✏️ EDIT (optional): who to contact with questions -->
-    <p>With love from the family. Questions: [name], [email or phone].</p>
+    <!-- ✏️ EDIT: who to contact with questions. This same line appears in the
+         footer of every page, because the forms tell people to "contact the
+         family directly" if something will not send. -->
+    <p>With love from the family. Questions: [Contact Name], [email or phone].</p>
   </div>
 </footer>
 </body>

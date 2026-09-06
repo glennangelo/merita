@@ -86,6 +86,48 @@ export function sessionCookie(value, maxAge) {
   return `${COOKIE}=${encodeURIComponent(value)}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}`;
 }
 
+/* --- Who sent it, without knowing who they are --------------------------
+   Rate limiting needs to tell one visitor from another. Keeping their IP
+   address would mean this site held personal data about people who came to
+   grieve, which it otherwise does not. So the address is hashed with the
+   site's own secret and only the first 16 characters are kept: enough to
+   count what one person sent, useless for identifying them, and not
+   reversible by anyone who obtains the database.                          */
+export async function senderKey(request, env) {
+  const address = request.headers.get('CF-Connecting-IP') ||
+                  request.headers.get('X-Forwarded-For') || '';
+  if (!address) return null;
+  const salted = keyMaterial(env) + '|' + address.split(',')[0].trim();
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(salted));
+  return hex(digest).slice(0, 16);
+}
+
+/* --- Rate limiting -------------------------------------------------------
+   Two limits, because they guard different things. The per-visitor one is
+   what actually stops a flood, and is set high enough that a family sending
+   several memories from one house is never caught by it. The whole-site one
+   is a backstop against many machines at once; it used to be 40 in five
+   minutes, which the reception itself could plausibly have tripped, and a
+   grieving visitor being told "very busy just now" is a real failure.     */
+export async function overLimit(env, table, sender, perSender, perSite) {
+  // The table name cannot be bound as a parameter, so it is checked against a
+  // fixed list rather than trusted — nothing from a request ever reaches here,
+  // and this makes sure that stays true.
+  if (table !== 'entries' && table !== 'rsvps') throw new Error('unknown table');
+
+  const busy = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM ${table} WHERE created_at > datetime('now', '-5 minutes')`
+  ).first();
+  if ((busy?.n ?? 0) >= perSite) return true;
+
+  if (!sender) return false;
+  const mine = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM ${table}
+      WHERE sender = ? AND created_at > datetime('now', '-10 minutes')`
+  ).bind(sender).first();
+  return (mine?.n ?? 0) >= perSender;
+}
+
 /* --- Misc ---------------------------------------------------------------- */
 
 /* Strips control characters and collapses runs of blank lines, so a pasted

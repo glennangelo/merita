@@ -1,8 +1,11 @@
 /* The family's side: signing in, reading everything, and moderating. */
 
 import {
-  json, bad, isAdmin, checkPassword, createSession, sessionCookie, SESSION_HOURS
+  json, bad, isAdmin, checkPassword, createSession, sessionCookie, SESSION_HOURS, tidyText
 } from './lib.js';
+
+const MAX_NAME    = 80;
+const MAX_MESSAGE = 2000;
 
 /* POST /api/admin/login */
 export async function login(request, env) {
@@ -53,7 +56,8 @@ export async function listAll(request, env) {
   if (!(await isAdmin(request, env))) return bad('Please sign in.', 401);
 
   const { results } = await env.DB.prepare(
-    `SELECT id, name, message, visibility, approved, photo_alt, created_at,
+    `SELECT id, name, message, visibility, approved, photo_alt, photo_w, photo_h,
+            created_at, edited_at,
             CASE WHEN photo IS NULL THEN 0 ELSE 1 END AS has_photo
        FROM entries
       ORDER BY created_at DESC, id DESC`
@@ -67,17 +71,18 @@ export async function listAll(request, env) {
   });
 }
 
-/* POST /api/admin/entries/:id — approve, hide, make private, or delete. */
+/* POST /api/admin/entries/:id — approve, hide, make private, edit, or delete. */
 export async function moderate(request, env, id) {
   if (!(await isAdmin(request, env))) return bad('Please sign in.', 401);
   if (!Number.isInteger(id) || id < 1) return bad('That message could not be found.', 404);
 
-  let action;
+  let body;
   try {
-    action = (await request.json())?.action;
+    body = await request.json();
   } catch (err) {
     return bad('We could not read that request.');
   }
+  const action = body?.action;
 
   let statement;
   switch (action) {
@@ -90,6 +95,20 @@ export async function moderate(request, env, id) {
     case 'make_private':  // keep it, but only for the family
       statement = env.DB.prepare(`UPDATE entries SET visibility = 'private', approved = 0 WHERE id = ?`);
       break;
+    case 'edit': {
+      // Correcting a misspelt name, or a line the writer asked to have changed.
+      // The wording is theirs, so the family is only ever tidying it — but the
+      // same limits apply as when it was written, and edited_at records that
+      // the page no longer shows exactly what arrived.
+      const name    = tidyText(body?.name, MAX_NAME);
+      const message = tidyText(body?.message, MAX_MESSAGE);
+      if (!name)    return bad('Please give a name.');
+      if (!message) return bad('Please give a message.');
+      statement = env.DB
+        .prepare(`UPDATE entries SET name = ?, message = ?, edited_at = datetime('now') WHERE id = ?`)
+        .bind(name, message, id);
+      break;
+    }
     case 'delete':
       statement = env.DB.prepare(`DELETE FROM entries WHERE id = ?`);
       break;
@@ -97,7 +116,9 @@ export async function moderate(request, env, id) {
       return bad('That is not something we can do to a message.');
   }
 
-  const result = await statement.bind(id).run();
+  // An edit binds its own values, the id among them; every other action is a
+  // bare statement still waiting for one.
+  const result = await (action === 'edit' ? statement : statement.bind(id)).run();
   if (result.meta && result.meta.changes === 0) {
     return bad('That message could not be found.', 404);
   }

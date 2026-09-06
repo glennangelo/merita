@@ -6,11 +6,15 @@
   "scripts": {
     "start": "wrangler dev",
     "deploy": "wrangler deploy",
+    "test": "node tests/run.mjs",
+    "check": "node tests/launch.mjs",
     "db:create": "wrangler d1 create memorial-guestbook",
     "db:setup": "wrangler d1 execute memorial-guestbook --local --file=./schema.sql",
-    "db:setup:remote": "wrangler d1 execute memorial-guestbook --remote --file=./schema.sql"
+    "db:setup:remote": "wrangler d1 execute memorial-guestbook --remote --file=./schema.sql",
+    "db:migrate:remote": "wrangler d1 execute memorial-guestbook --remote --file=./migrate.sql"
   },
   "devDependencies": {
-    "wrangler": "^4.129.0"
+    "wrangler": "^4.129.0",
+    "playwright": "^1.50.0"
   }
 }

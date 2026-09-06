@@ -10,6 +10,7 @@
   var less      = document.getElementById('party-less');
   var more      = document.getElementById('party-more');
   var said      = document.getElementById('party-said');
+  var onward    = document.getElementById('onward');
 
   var MIN = 1, MAX = 20;
 
@@ -94,7 +95,7 @@
           ceremony: ceremony.checked,
           reception: reception.checked,
           contact: document.getElementById('contact').value.trim(),
-          website: document.getElementById('website').value
+          subject: document.getElementById('subject').value
         })
       });
       var result = await response.json().catch(function () { return {}; });
@@ -104,6 +105,7 @@
       say('ok', 'Thank you — we have you down.',
         howMany === 1 ? ' We look forward to seeing you.'
                       : ' We look forward to seeing all ' + howMany + ' of you.');
+      onward.hidden = false;
       statusBox.setAttribute('tabindex', '-1');
       statusBox.focus();
       window.scrollTo({ top: 0 });

@@ -9,6 +9,7 @@
 <meta name="color-scheme" content="light">
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="preload" href="/fonts/lora-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/cormorant-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/styles.css">
@@ -32,6 +33,13 @@
 
   <!-- Announced to screen readers whenever it changes. -->
   <div class="status-msg" id="form-status" role="status" aria-live="polite" data-tone=""></div>
+
+  <noscript>
+    <p class="status-msg" data-tone="error"><strong>This form needs JavaScript.</strong>
+      Your browser has it switched off, so nothing typed here can be sent. Please
+      turn it on, or contact the family directly — their details are at the foot
+      of this page.</p>
+  </noscript>
 
   <form id="rsvp-form" novalidate>
 
@@ -83,18 +91,31 @@
       <input type="text" id="contact" name="contact" maxlength="80" aria-describedby="contact-hint">
     </div>
 
-    <!-- Spam trap: not shown to people, and screen readers skip it. -->
+    <!-- Spam trap: not shown to people, and screen readers skip it. Called
+         "subject" rather than "website", because form-filling extensions
+         recognise the latter and fill it in for a real visitor — whose message
+         would then be silently thrown away as a bot's. -->
     <div class="hp" aria-hidden="true">
-      <label for="website">Leave this field empty</label>
-      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+      <label for="subject">Leave this field empty</label>
+      <input type="text" id="subject" name="subject" tabindex="-1" autocomplete="off">
     </div>
 
     <button type="submit" class="btn btn--block" id="submit-btn">Send RSVP</button>
   </form>
+
+  <!-- Revealed once a reply has been sent; the form is hidden by then. -->
+  <p class="actions actions--center" id="onward" hidden>
+    <a class="btn btn--ghost" href="/share">Share a memory</a>
+    <a class="btn btn--ghost" href="/">Back to the memorial page</a>
+  </p>
 </main>
 
 <footer class="footer">
-  <div class="wrap"><p><a href="/">Back to the memorial page</a></p></div>
+  <div class="wrap">
+    <p><a href="/">Back to the memorial page</a></p>
+    <!-- ✏️ EDIT: keep this the same as the footer on the home page. -->
+    <p class="footer__contact">Questions: [Contact Name], [email or phone].</p>
+  </div>
 </footer>
 
 <script src="/assets/rsvp.js" defer></script>

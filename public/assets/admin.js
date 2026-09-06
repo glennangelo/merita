@@ -83,6 +83,10 @@
       img.className = 'entry__photo';
       img.src = '/api/photo/' + entry.id;
       img.alt = entry.photo_alt || ('A photograph shared by ' + entry.name + '.');
+      if (entry.photo_w && entry.photo_h) {
+        img.width  = entry.photo_w;
+        img.height = entry.photo_h;
+      }
       // The first picture is what a visitor sees straight away, so it is
       // fetched at once; the rest wait until they are scrolled towards.
       img.loading = index === 0 ? 'eager' : 'lazy';
@@ -100,6 +104,11 @@
     var who = document.createElement('strong');
     who.textContent = entry.name;
     by.appendChild(who);
+    // Only the family ever sees this. It is a reminder that the page no longer
+    // shows quite what arrived, which matters when someone asks about it later.
+    if (entry.edited_at) {
+      by.appendChild(document.createTextNode('Edited by the family'));
+    }
     item.appendChild(by);
 
     var actions = document.createElement('div');
@@ -123,6 +132,10 @@
         act(entry, 'approve', 'Now shared publicly.');
       }));
     }
+
+    actions.appendChild(button('Edit', 'btn btn--ghost', function () {
+      startEdit(item, entry);
+    }));
 
     actions.appendChild(button('Delete', 'btn btn--danger', function () {
       if (!confirm('Permanently delete what ' + entry.name + ' wrote?\n\nThis cannot be undone.')) return;
@@ -175,6 +188,69 @@
     item.appendChild(actions);
 
     return item;
+  }
+
+  /* Correcting a memory in place: a misspelt name, or a line the writer has
+     since asked to have changed. The entry turns into a small form where it
+     sits, so nothing moves under the eye and the surrounding memories stay
+     readable while it is open. */
+  function startEdit(item, entry) {
+    var form = document.createElement('form');
+    form.className = 'edit';
+
+    var nameField = document.createElement('div');
+    nameField.className = 'field';
+    var nameLabel = document.createElement('label');
+    nameLabel.setAttribute('for', 'edit-name-' + entry.id);
+    nameLabel.textContent = 'Name';
+    var nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.id = 'edit-name-' + entry.id;
+    nameInput.maxLength = 80;
+    nameInput.required = true;
+    nameInput.value = entry.name;
+    nameField.append(nameLabel, nameInput);
+
+    var msgField = document.createElement('div');
+    msgField.className = 'field';
+    var msgLabel = document.createElement('label');
+    msgLabel.setAttribute('for', 'edit-message-' + entry.id);
+    msgLabel.textContent = 'Message';
+    var msgInput = document.createElement('textarea');
+    msgInput.id = 'edit-message-' + entry.id;
+    msgInput.maxLength = 2000;
+    msgInput.required = true;
+    msgInput.value = entry.message;
+    msgField.append(msgLabel, msgInput);
+
+    var note = document.createElement('p');
+    note.className = 'hint';
+    note.textContent = 'These are somebody else\u2019s words. Correct a spelling or a ' +
+      'name, or take out something they have asked you to \u2014 but leave the rest as they wrote it.';
+
+    var buttons = document.createElement('div');
+    buttons.className = 'actions';
+    var save = document.createElement('button');
+    save.type = 'submit';
+    save.className = 'btn btn--small';
+    save.textContent = 'Save';
+    buttons.appendChild(save);
+    buttons.appendChild(button('Cancel', 'btn btn--ghost', function () { draw(); }));
+
+    form.append(nameField, msgField, note, buttons);
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (!nameInput.value.trim() || !msgInput.value.trim()) {
+        say(adminStatus, 'error', 'A memory needs both a name and a message.', '');
+        return;
+      }
+      act(entry, 'edit', 'The memory was corrected.', null,
+          { name: nameInput.value.trim(), message: msgInput.value.trim() });
+    });
+
+    item.replaceChildren(form);
+    nameInput.focus();
   }
 
   function button(label, className, onClick) {
@@ -248,16 +324,21 @@
     }
   }
 
-  async function act(entry, action, successNote, path) {
+  async function act(entry, action, successNote, path, extra) {
     say(adminStatus, 'busy', 'Saving…', '');
     try {
       await api((path || '/api/admin/entries/') + entry.id, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: action })
+        body: JSON.stringify(Object.assign({ action: action }, extra || {}))
       });
       await load(true);
       say(adminStatus, 'ok', successNote, '');
+      // The button that was pressed has just been redrawn away, so focus would
+      // otherwise fall back to the top of the page and someone working by
+      // keyboard would lose their place — and never hear what happened.
+      adminStatus.setAttribute('tabindex', '-1');
+      adminStatus.focus();
     } catch (err) {
       if (err.message !== 'unauthorised') {
         say(adminStatus, 'error', 'That change could not be saved.', ' Please try again.');

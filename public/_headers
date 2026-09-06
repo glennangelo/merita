@@ -1,4 +1,8 @@
 # Security and caching rules, applied by Cloudflare to the static files.
+#
+# Strict-Transport-Security: once a browser has seen this it refuses to load
+# the site over plain http, so a mistyped or forwarded link cannot be read on a
+# shared wifi. Two years, and every subdomain of whatever address it ends on.
 
 /*
   X-Content-Type-Options: nosniff
@@ -6,6 +10,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), interest-cohort=()
   Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
 
 # Revalidated on every visit rather than held for an hour. These filenames
 # never change, so a cached copy could not otherwise be replaced, and an edit
@@ -22,7 +27,18 @@
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Cloudflare serves admin.html at /admin, so match both spellings.
+# Names and words that belong to other people. Search engines are asked in, so
+# that they read the "noindex" and drop the page — a robots.txt block would keep
+# them out and leave the address itself free to be listed.
+/memories
+  X-Robots-Tag: noindex, nofollow
+
+/memories.html
+  X-Robots-Tag: noindex, nofollow
+
+# Cloudflare serves admin.html at /admin, so match both spellings. This address
+# is deliberately not named in robots.txt, which is a public file — listing it
+# there would tell every passing scanner exactly where to knock.
 /admin
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-store

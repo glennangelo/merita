@@ -1,13 +1,13 @@
 /* Replies to the invitation: who is coming, how many, and to which part of
    the day. Nothing here is ever shown publicly — it is for the family alone. */
 
-import { json, bad, tidyText, isAdmin } from './lib.js';
+import { json, bad, tidyText, isAdmin, senderKey, overLimit } from './lib.js';
 
 const MAX_NAME    = 80;
 const MAX_CONTACT = 80;
 const MAX_PARTY   = 20;
-const RATE_WINDOW = 5;    // minutes
-const RATE_LIMIT  = 40;   // replies allowed in that window
+const PER_SENDER  = 8;    // replies from one visitor in ten minutes
+const PER_SITE    = 200;  // replies from everyone in five minutes
 
 /* POST /api/rsvp — someone letting the family know. */
 export async function createRsvp(request, env) {
@@ -19,7 +19,7 @@ export async function createRsvp(request, env) {
   }
 
   // Spam trap: a real visitor never sees this field.
-  if (String(body?.website || '').trim() !== '') return json({ ok: true });
+  if (String(body?.subject || '').trim() !== '') return json({ ok: true });
 
   const name    = tidyText(body?.name, MAX_NAME);
   const contact = tidyText(body?.contact, MAX_CONTACT);
@@ -34,17 +34,16 @@ export async function createRsvp(request, env) {
     return bad(`Please give a number of people between 1 and ${MAX_PARTY}.`);
   }
 
-  const recent = await env.DB.prepare(
-    `SELECT COUNT(*) AS n FROM rsvps WHERE created_at > datetime('now', ?)`
-  ).bind(`-${RATE_WINDOW} minutes`).first();
-  if ((recent?.n ?? 0) >= RATE_LIMIT) {
-    return bad('Very busy just now. Please try again in a few minutes.', 429);
+  const sender = await senderKey(request, env);
+  if (await overLimit(env, 'rsvps', sender, PER_SENDER, PER_SITE)) {
+    return bad('That is several replies in a few minutes. Please wait a little, ' +
+               'then send the rest.', 429);
   }
 
   await env.DB.prepare(
-    `INSERT INTO rsvps (name, party_size, ceremony, reception, contact)
-     VALUES (?, ?, ?, ?, ?)`
-  ).bind(name, party, ceremony, reception, contact || null).run();
+    `INSERT INTO rsvps (name, party_size, ceremony, reception, contact, sender)
+     VALUES (?, ?, ?, ?, ?, ?)`
+  ).bind(name, party, ceremony, reception, contact || null, sender).run();
 
   return json({ ok: true }, 201);
 }
