@@ -75,11 +75,23 @@ one-way hash, used only to notice when the same person has sent a great many
 messages in a few minutes. It cannot be turned back into an address, and it
 never leaves the database.
 
-**If you set the database up before September 2026** and are updating the
-project, the tables already exist and `CREATE TABLE IF NOT EXISTS` will leave
-them as they are. Paste `migrate.sql` into the same console once to add the new
-columns. Running it twice is harmless — it will simply complain that the
-columns are already there.
+**If your tables already exist** — you set the database up before September
+2026 and are updating the project — then `schema.sql` will leave them exactly
+as they are, because every statement in it only creates what is missing. The
+new columns have to be added separately. Paste the contents of `migrate.sql`
+into the same console and Execute. You should see **7 commands executed
+successfully**. Nothing already in the tables is touched.
+
+To check it worked, paste this and Execute — it should list five rows:
+
+```sql
+SELECT 'entries' AS table_name, name AS column_name FROM pragma_table_info('entries') WHERE name IN ('photo_w','photo_h','sender','edited_at') UNION ALL SELECT 'rsvps', name FROM pragma_table_info('rsvps') WHERE name = 'sender'
+```
+
+Running `migrate.sql` a second time stops with **duplicate column name** on the
+first line. That is the database telling you it is already done, and nothing is
+changed — but if the five rows above are not all there, the paste did not
+finish. In that case run the missing `ALTER TABLE` lines one at a time.
 
 The file has no comments in it on purpose. Cloudflare's console rejects a
 paste that contains `--` comment lines, with a confusing complaint about the
