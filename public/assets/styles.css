@@ -376,7 +376,7 @@ main { padding-bottom: 5rem; }
   background: var(--accent);
   color: #fff;
   font-family: var(--body);
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: .1em;
   text-transform: uppercase;
