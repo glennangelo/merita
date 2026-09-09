@@ -311,7 +311,26 @@ main { padding-bottom: 5rem; }
 /* The reply covers the whole day, so it must sit further from the events than
    they sit from each other — otherwise it reads as belonging to the second
    one alone, which is exactly the wrong hierarchy. */
-.events + .actions { margin-top: 3.5rem; }
+/* Kept as the fallback for when the line above the button has been deleted,
+   in which case the button follows the events directly. */
+.events + .actions { margin-top: 4.25rem; }
+
+/* The asking, above the button that answers it. The gap that used to sit
+   between the events and the button now belongs to this line, since it is
+   what follows them. */
+.events + .rsvp-lead { margin-top: 4.25rem; }
+.rsvp-lead {
+  margin-inline: auto;
+  margin-bottom: 1.6rem;
+  max-width: 27rem;
+  text-align: center;
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 3.2vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.rsvp-lead + .actions { margin-top: 0; }
 
 /* Side by side once there is room, parted by an upright hairline. */
 @media (min-width: 900px) {
@@ -393,10 +412,32 @@ main { padding-bottom: 5rem; }
 /* A quieter button: sentence case, not the small caps of the ones that
    carry the page. Used for the optional upload beside a required Send. */
 .btn--plain { text-transform: none; letter-spacing: .01em; font-size: .95rem; }
+/* The one action the whole page is asking for. Bigger and lifted off the
+   paper, but the same colour and shape as everything else — this page should
+   not start shouting. The side padding is in vw as well as rem so a wide
+   button does not run off a narrow screen once the text is enlarged. */
+.btn--lead {
+  min-height: 3.5rem;
+  /* "RSVP" is four letters, so padding alone left it smaller than the longer
+     buttons further down the page — the least prominent thing on it, rather
+     than the most. A floor on the width settles that, and yields to the
+     screen on a narrow phone. */
+  min-width: min(16rem, 100%);
+  padding: .7rem clamp(1.75rem, 7vw, 3.25rem);
+  font-size: .95rem;
+  letter-spacing: .16em;
+  box-shadow: 0 1px 2px rgba(29, 64, 56, .16), 0 8px 22px rgba(29, 64, 56, .16);
+}
+.btn--lead:hover { box-shadow: 0 1px 2px rgba(29, 64, 56, .2), 0 10px 26px rgba(29, 64, 56, .22); }
+
 .btn--small { min-height: 2.6rem; padding: .35rem 1.2rem; font-size: .8rem; }
 .btn--block { width: 100%; }
 
-.actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1.75rem; }
+/* max-width: a row of buttons is not prose, and must not be held to the
+   reading measure. Some of these rows are paragraphs, which inherit that cap
+   and were then sitting 640px wide inside an 800px column, pinned to the left
+   and looking uncentred however much justify-content said otherwise. */
+.actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1.75rem; max-width: none; }
 .actions--center { justify-content: center; }
 .actions--spaced { margin-top: 3rem; }
 
@@ -449,6 +490,15 @@ main { padding-bottom: 5rem; }
 
 /* --- Forms -------------------------------------------------------------- */
 .field { margin-bottom: 2rem; }
+
+/* Two fields on one line, once there is room. The breakpoint is in em, so it
+   answers to enlarged text as well as a narrow screen: at 200% type these
+   stack on a phone long before its pixel width says they should. The headcount
+   takes only what it needs; the name takes the rest. */
+.field-row { display: grid; column-gap: 2.25rem; }
+@media (min-width: 34em) {
+  .field-row { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+}
 
 /* :not(.choice) — a tickbox's own label is a flex row, and must not be turned
    into a block-level heading by this rule. */
@@ -649,6 +699,35 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 .entry + .entry { border-top: 1px solid var(--line-soft); }
 .entry:first-child { padding-top: .5rem; }
 
+/* Two abreast once the screen is wide enough to hold two comfortably. Masonry
+   columns rather than a grid, so a short memory does not leave a hole beside a
+   long one — these are of wildly different lengths, and a grid would set every
+   row to the tallest in it.
+
+   The rules between them go on the memories themselves, since a column-rule
+   would draw a line the full height of the page whatever the memories do. */
+@media (min-width: 60em) {
+  /* The reading column is sized for one memory at a time. Two need more room,
+     or each is too narrow to read — so the page widens at the same breakpoint,
+     and only there. The heading above stays centred within it. */
+  .wrap--memories { width: min(100% - var(--gutter) * 2, 58rem); }
+  .entries {
+    columns: 2;
+    column-gap: 3.5rem;
+  }
+  .entry {
+    /* A memory must not be split down the middle across two columns. */
+    break-inside: avoid;
+    padding: 0 0 2.25rem;
+    margin-bottom: 2.25rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .entry + .entry { border-top: 0; }
+  .entry:first-child { padding-top: 0; }
+  /* No rule hanging under the final memory with nothing beneath it. */
+  .entry:last-child { border-bottom: 0; margin-bottom: 0; }
+}
+
 /* Capped in both directions: a single photograph should sit within the page,
    not fill it, however large the original was. */
 .entry__photo {
@@ -769,8 +848,12 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
    centre an inline-level box. */
 .dock .btn { display: flex; max-width: 22rem; margin-inline: auto; }
 
-/* The page must end clear of the bar rather than behind it. */
-.has-dock { padding-bottom: 6rem; }
+/* The page must end clear of the bar rather than behind it. That clearance
+   goes on the footer, not the body: on the body it sat *below* the footer and
+   showed as a stripe of bare parchment under the green. Growing the footer
+   instead means the page ends in green all the way down, and the bar floats
+   over the footer rather than over nothing. */
+.has-dock .footer { padding-bottom: calc(3.25rem + 5.5rem); }
 
 /* --- Footer ------------------------------------------------------------- */
 .footer {

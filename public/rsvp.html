@@ -43,24 +43,28 @@
 
   <form id="rsvp-form" novalidate>
 
-    <div class="field">
-      <label for="party">Number of attendees:</label>
-      <!-- The number can still be typed; the buttons are there for anyone who
-           would rather not, which on a phone is most people. -->
-      <div class="stepper">
-        <button type="button" class="stepper__btn" id="party-less" aria-label="One fewer">&#8722;</button>
-        <input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
-               inputmode="numeric" required>
-        <button type="button" class="stepper__btn" id="party-more" aria-label="One more">+</button>
+    <!-- Who, and how many: one thought, so they sit on one line once there is
+         room for them, and stack on a phone. -->
+    <div class="field-row">
+      <div class="field">
+        <label for="party">Number of attendees:</label>
+        <!-- The number can still be typed; the buttons are there for anyone who
+             would rather not, which on a phone is most people. -->
+        <div class="stepper">
+          <button type="button" class="stepper__btn" id="party-less" aria-label="One fewer">&#8722;</button>
+          <input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
+                 inputmode="numeric" required>
+          <button type="button" class="stepper__btn" id="party-more" aria-label="One more">+</button>
+        </div>
+        <p class="visually-hidden" id="party-said" role="status" aria-live="polite"></p>
       </div>
-      <p class="visually-hidden" id="party-said" role="status" aria-live="polite"></p>
-    </div>
 
-    <div class="field">
-      <label for="name">I / We:</label>
-      <span class="hint" id="name-hint">You / Your family&rsquo;s name</span>
-      <input type="text" id="name" name="name" required maxlength="80"
-             autocomplete="name" aria-describedby="name-hint">
+      <div class="field">
+        <label for="name">I / We:</label>
+        <span class="hint" id="name-hint">You / Your family&rsquo;s name</span>
+        <input type="text" id="name" name="name" required maxlength="80"
+               autocomplete="name" aria-describedby="name-hint">
+      </div>
     </div>
 
     <fieldset>

@@ -10,6 +10,7 @@
     "check": "node tests/launch.mjs",
     "db:create": "wrangler d1 create memorial-guestbook",
     "db:setup": "wrangler d1 execute memorial-guestbook --local --file=./schema.sql",
+    "db:migrate": "wrangler d1 execute memorial-guestbook --local --file=./migrate.sql",
     "db:setup:remote": "wrangler d1 execute memorial-guestbook --remote --file=./schema.sql",
     "db:migrate:remote": "wrangler d1 execute memorial-guestbook --remote --file=./migrate.sql"
   },

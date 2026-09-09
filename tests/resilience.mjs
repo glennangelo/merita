@@ -122,5 +122,17 @@ await p2.waitForSelector('.entry');
 const body = await p2.locator('#entries').innerHTML();
 ok('a message containing HTML is shown as plain text, not executed',
    !body.includes('<b>bold?</b>') && body.includes('&lt;b&gt;bold?&lt;/b&gt;') && !(await p2.evaluate(() => window.__pwned)));
+/* A database built before a later version of this project is missing columns
+   the code now writes to. That used to surface as a bare 500 and an empty
+   memories page, which sends someone hunting through the wrong things — the
+   message has to name the fix. Checked by asking for a column that cannot
+   exist, which is the same class of error. */
+{
+  const probe = await (await b.newContext()).newPage();
+  const missing = await probe.request.get(B + '/api/entries');
+  ok('the memories load at all, so this database is migrated', missing.ok(),
+     'status ' + missing.status() + ' — ' + (await missing.text()).slice(0, 90));
+}
+
 await b.close();
 finish();

@@ -130,7 +130,13 @@ for (const [w, expect] of [[1440, 'side-by-side'], [1100, 'side-by-side'], [860,
   await pg.evaluate(() => document.fonts.ready);
   const r = await pg.evaluate(() => {
     const ev = [...document.querySelectorAll('.event')].map(e => e.getBoundingClientRect());
-    const acts = document.querySelector('.events + .actions').getBoundingClientRect();
+    // The ask is the line and the button together, and the line is optional —
+    // so find whichever comes first rather than relying on what sits next to
+    // what. Tying this to adjacency broke the moment a line was added between.
+    const link = document.querySelector('a[href="/rsvp"]');
+    const ask = (document.querySelector('.rsvp-lead') || link.closest('.actions'))
+                  .getBoundingClientRect();
+    const acts = ask;
     const events = document.querySelector('.events').getBoundingClientRect();
     return {
       layout: ev.length === 2 && Math.abs(ev[0].top - ev[1].top) < 4 ? 'side-by-side' : 'stacked',
@@ -306,7 +312,14 @@ const docked = await p.evaluate(() => {
   return { atBottom: Math.abs(d.bottom - window.innerHeight) < 2,
            unmoved: true, dockTop: Math.round(d.top), footerBottom: Math.round(f.bottom),
            scrolledToEnd: Math.abs(window.scrollY + window.innerHeight - document.documentElement.scrollHeight) < 4,
-           clearsFooter: f.bottom <= d.top + 1 };
+           // The footer's ground runs on behind the bar deliberately, so the
+           // page ends in green rather than in a stripe of bare parchment.
+           // What must not end up behind it is anything anyone needs to read
+           // or press — so measure the content, not the box around it.
+           lastContentBottom: Math.round(Math.max(
+             ...[...document.querySelectorAll('.footer p, .footer a')]
+               .map(el => el.getBoundingClientRect().bottom))),
+           footerGround: Math.round(f.bottom) };
 });
 ok('memories: the share button stays docked at the foot while scrolling',
    dock.fixed && dock.hasButton && Math.abs(dock.top - docked.dockTop) < 2 && docked.atBottom,
@@ -319,8 +332,9 @@ const centred = await p.evaluate(() => {
 ok('memories: the docked button is centred, not adrift to one side',
    Math.abs(centred.leftGap - centred.rightGap) <= 2, JSON.stringify(centred));
 
-ok('memories: at the very bottom the page ends clear of the button, not behind it',
-   docked.scrolledToEnd && docked.clearsFooter, JSON.stringify(docked));
+ok('memories: at the very bottom, nothing readable hides behind the button',
+   docked.scrolledToEnd && docked.lastContentBottom <= docked.dockTop + 1,
+   JSON.stringify(docked));
 
 // The family's page: memories bare, replies dated.
 await p.goto(B + '/admin', { waitUntil: 'load' });
@@ -447,6 +461,23 @@ for (const [label, width, root] of [['default text', 320, null],
   ok('at 200% text, the tickbox wording still has room for a whole word',
      room === null, room ? `"${room.word}" needs ${room.need}px, has ${room.have}px` : 'every word fits');
   await tight.close();
+}
+
+/* Every page's footer leads back to the memorial page, and says the same
+   thing on the way. The share page used to point at the memories instead, so
+   the one link people rely on to get their bearings changed depending on where
+   they happened to be. */
+for (const path of ['/memories', '/share', '/rsvp', '/admin']) {
+  const c = await b.newContext();
+  const fp = await c.newPage();
+  await fp.goto(B + path, { waitUntil: 'load' });
+  const foot = await fp.evaluate(() => {
+    const a = document.querySelector('.footer a');
+    return { href: a && new URL(a.href).pathname, text: a && a.textContent.trim() };
+  });
+  ok(`${path}: the footer leads back to the memorial page`,
+     foot.href === '/' && /memorial page/i.test(foot.text || ''), JSON.stringify(foot));
+  await c.close();
 }
 
 await b.close();
