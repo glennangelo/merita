@@ -463,5 +463,22 @@ for (const [label, width, root] of [['default text', 320, null],
   await tight.close();
 }
 
+/* Every page's footer leads back to the memorial page, and says the same
+   thing on the way. The share page used to point at the memories instead, so
+   the one link people rely on to get their bearings changed depending on where
+   they happened to be. */
+for (const path of ['/memories', '/share', '/rsvp', '/admin']) {
+  const c = await b.newContext();
+  const fp = await c.newPage();
+  await fp.goto(B + path, { waitUntil: 'load' });
+  const foot = await fp.evaluate(() => {
+    const a = document.querySelector('.footer a');
+    return { href: a && new URL(a.href).pathname, text: a && a.textContent.trim() };
+  });
+  ok(`${path}: the footer leads back to the memorial page`,
+     foot.href === '/' && /memorial page/i.test(foot.text || ''), JSON.stringify(foot));
+  await c.close();
+}
+
 await b.close();
 finish();
