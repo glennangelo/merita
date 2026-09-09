@@ -346,6 +346,20 @@ cp .dev.vars.example .dev.vars   # once — then set a password inside it
 npm start                        # opens the site on your own machine
 ```
 
+**If you set this up before September 2026**, your own copy of the database was
+built from the older tables, and `npm run db:setup` will not add the new
+columns to tables that already exist. Run this once:
+
+```bash
+npm run db:migrate               # adds the new columns to your own copy
+```
+
+Without it the memories page comes up empty and nothing can be sent, because
+every query mentions a column that is not there. The site says so plainly if it
+happens — *"The database is missing a recent update"* — rather than leaving you
+guessing. The live database is separate and is migrated from the Cloudflare
+console, in step 2 above.
+
 Nothing you do locally touches the live site — a separate copy of the database
 lives on your own machine.
 

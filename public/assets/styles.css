@@ -310,7 +310,7 @@ main { padding-bottom: 5rem; }
 /* The reply covers the whole day, so it must sit further from the events than
    they sit from each other — otherwise it reads as belonging to the second
    one alone, which is exactly the wrong hierarchy. */
-.events + .actions { margin-top: 3.5rem; }
+.events + .actions { margin-top: 4.25rem; }
 
 /* Side by side once there is room, parted by an upright hairline. */
 @media (min-width: 900px) {
@@ -392,6 +392,24 @@ main { padding-bottom: 5rem; }
 /* A quieter button: sentence case, not the small caps of the ones that
    carry the page. Used for the optional upload beside a required Send. */
 .btn--plain { text-transform: none; letter-spacing: .01em; font-size: .95rem; }
+/* The one action the whole page is asking for. Bigger and lifted off the
+   paper, but the same colour and shape as everything else — this page should
+   not start shouting. The side padding is in vw as well as rem so a wide
+   button does not run off a narrow screen once the text is enlarged. */
+.btn--lead {
+  min-height: 3.5rem;
+  /* "RSVP" is four letters, so padding alone left it smaller than the longer
+     buttons further down the page — the least prominent thing on it, rather
+     than the most. A floor on the width settles that, and yields to the
+     screen on a narrow phone. */
+  min-width: min(16rem, 100%);
+  padding: .7rem clamp(1.75rem, 7vw, 3.25rem);
+  font-size: .95rem;
+  letter-spacing: .16em;
+  box-shadow: 0 1px 2px rgba(29, 64, 56, .16), 0 8px 22px rgba(29, 64, 56, .16);
+}
+.btn--lead:hover { box-shadow: 0 1px 2px rgba(29, 64, 56, .2), 0 10px 26px rgba(29, 64, 56, .22); }
+
 .btn--small { min-height: 2.6rem; padding: .35rem 1.2rem; font-size: .8rem; }
 .btn--block { width: 100%; }
 

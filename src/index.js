@@ -67,6 +67,17 @@ export default {
           return await handler(request, env, found.id);
         } catch (err) {
           console.error('Request failed:', path, err);
+
+          // A database built before a later version of this project is missing
+          // the columns the code now writes to. Everything fails with a 500 and
+          // no hint, which sends people hunting through the wrong things — so
+          // name the one action that fixes it. This says nothing a visitor
+          // could misuse; it is a setup step, not a secret.
+          if (/no such (column|table)/i.test(String(err && err.message))) {
+            return bad('The database is missing a recent update. Run the ' +
+                       'statements in migrate.sql — see README.md, step 2.', 503);
+          }
+
           return bad('Something went wrong at our end. Please try again.', 500);
         }
       }
