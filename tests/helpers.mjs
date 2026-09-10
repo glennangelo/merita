@@ -48,10 +48,10 @@ export function finish(note = '') {
    Leftovers used to make the reply totals climb between runs, which looks
    exactly like a real counting bug and wasted a long time once.
 
-   The session cookie is rightly marked Secure. Chromium's renderer treats
-   127.0.0.1 as a trustworthy origin and keeps it, but Playwright's request
-   context does not — it drops the cookie and every call comes back 401 — so
-   the cookie is carried by hand here rather than weakening the real header. */
+   The session cookie is carried by hand rather than left to the client: on an
+   https address it is marked Secure, and Playwright's request context drops a
+   Secure cookie unless the connection really is https, which would leave every
+   call here coming back 401. */
 export async function reset(request, base = B, password = PW) {
   const login = await request.post(base + '/api/admin/login', { data: { password } });
   if (!login.ok()) throw new Error('reset: could not sign in — ' + login.status());

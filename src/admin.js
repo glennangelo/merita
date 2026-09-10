@@ -39,13 +39,13 @@ export async function login(request, env) {
   }
 
   return json({ ok: true }, 200, {
-    'Set-Cookie': sessionCookie(await createSession(env), SESSION_HOURS * 3600)
+    'Set-Cookie': sessionCookie(await createSession(env), SESSION_HOURS * 3600, request)
   });
 }
 
 /* POST /api/admin/logout */
-export async function logout() {
-  return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie('', 0) });
+export async function logout(request) {
+  return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie('', 0, request) });
 }
 
 /* GET /api/admin/entries — every message, grouped for the moderation page.
