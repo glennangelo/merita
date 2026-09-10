@@ -133,9 +133,14 @@ await page.waitForSelector('#admin-status[data-tone="ok"]');
     { headers, data: { action: 'edit', name: '   ', message: 'still here' } });
   ok('an edit cannot leave a memory without a name', empty.status() === 400, 'status ' + empty.status());
 
-  const stranger = await page.request.post(`${B}/api/admin/entries/${id}`,
+  // From a context that has never signed in. Leaving out the Cookie header is
+  // not enough: this page's own context holds a real session and would send it
+  // along, and the request would be allowed for the very reason being tested.
+  const outside = await b.newContext();
+  const stranger = await outside.request.post(`${B}/api/admin/entries/${id}`,
     { data: { action: 'edit', name: 'Nobody', message: 'Rewritten.' } });
   ok('nobody who is not signed in can rewrite a memory', stranger.status() === 401, 'status ' + stranger.status());
+  await outside.close();
 }
 
 /* ---- how many can arrive at once ---- */
