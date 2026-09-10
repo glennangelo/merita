@@ -196,14 +196,12 @@
       if (!response.ok) throw new Error(result.error || 'Request failed');
 
       form.hidden = true;
-      if (visibility === 'private') {
-        say('ok', 'Thank you.', ' Your message has gone to the family. Only they will see it.');
-      } else {
-        // Not "shortly": approving may wait until someone has a quiet moment,
-        // and a promise the family cannot keep is worse than a vaguer one.
-        say('ok', 'Thank you.',
-          ' The family will read it, and it will appear with the memories once they have.');
-      }
+      // A private message is never shared, so only a public one is promised on.
+      // The headline is set on its own line, so the second half stands as its
+      // own sentence rather than opening with a dash.
+      say('ok', 'Thank you for your message',
+        visibility === 'private' ? 'It will be read by the family.'
+                                 : 'It will be read by the family, and shared shortly.');
       onward.hidden = false;
       // Move focus to the confirmation so a screen reader reads it out and a
       // keyboard user carries on from the right place.

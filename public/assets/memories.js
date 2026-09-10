@@ -2,6 +2,7 @@
 (function () {
   var list      = document.getElementById('entries');
   var statusBox = document.getElementById('load-status');
+  var emptyBox  = document.getElementById('empty-state');
 
   function say(tone, headline, detail) {
     statusBox.dataset.tone = tone;
@@ -54,14 +55,6 @@
     return item;
   }
 
-  function empty() {
-    var box = document.createElement('li');
-    box.className = 'empty';
-    box.innerHTML = '<p><strong>No memories yet.</strong></p>' +
-      '<p class="actions actions--center"><a class="btn" href="/share">Share the first</a></p>';
-    return box;
-  }
-
   fetch('/api/entries', { headers: { Accept: 'application/json' } })
     .then(function (response) {
       if (!response.ok) throw new Error('Request failed');
@@ -69,7 +62,8 @@
     })
     .then(function (data) {
       var entries = data.entries || [];
-      list.replaceChildren.apply(list, entries.length ? entries.map(render) : [empty()]);
+      list.replaceChildren.apply(list, entries.map(render));
+      emptyBox.hidden = entries.length > 0;
 
       // Nothing is said once they have loaded — no count. The box stays for the
       // "loading" and "could not be loaded" messages, and collapses when empty.

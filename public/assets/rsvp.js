@@ -102,9 +102,7 @@
       if (!response.ok) throw new Error(result.error || 'Request failed');
 
       form.hidden = true;
-      say('ok', 'Thank you — we have you down.',
-        howMany === 1 ? ' We look forward to seeing you.'
-                      : ' We look forward to seeing all ' + howMany + ' of you.');
+      say('ok', 'Thank you, on behalf of the family');
       onward.hidden = false;
       statusBox.setAttribute('tabindex', '-1');
       statusBox.focus();
