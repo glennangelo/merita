@@ -46,7 +46,7 @@
     // Just who it is from. A memory is not dated correspondence, and a
     // timestamp only invites comparison between what came early and what late.
     var by = document.createElement('p');
-    by.className = 'entry__by';
+    by.className = 'entry__by entry__by--signed';
     var who = document.createElement('strong');
     who.textContent = entry.name;
     by.appendChild(who);
