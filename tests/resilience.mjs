@@ -134,5 +134,25 @@ ok('a message containing HTML is shown as plain text, not executed',
      'status ' + missing.status() + ' — ' + (await missing.text()).slice(0, 90));
 }
 
+/* Signing in has to leave a session the next request can use. For a while it
+   did not on the preview at http://127.0.0.1: the cookie was marked Secure,
+   and Safari — like the client below — throws one of those away over a plain
+   connection. You signed in and were told at once that your session had ended. */
+{
+  const probe = await b.newContext();
+  const login = await probe.request.post(B + '/api/admin/login', { data: { password: PW } });
+  const setCookie = (await login.headersArray())
+    .filter(h => h.name.toLowerCase() === 'set-cookie').map(h => h.value).join('');
+  ok('the session cookie is marked Secure only where the connection is',
+     /;\s*Secure/i.test(setCookie) === B.startsWith('https:'),
+     setCookie.replace(/=[0-9a-f]{20,}/, '=…'));
+
+  // Nothing is carried by hand here, unlike the checks above: this passes only
+  // if the client kept what the sign-in gave it.
+  const next = await probe.request.get(B + '/api/admin/entries');
+  ok('signing in leaves a session the next request can use', next.ok(), 'status ' + next.status());
+  await probe.request.post(B + '/api/admin/logout');
+}
+
 await b.close();
 finish();

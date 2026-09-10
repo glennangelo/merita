@@ -21,8 +21,8 @@ const order = await page.evaluate(() => {
   });
   return seen;
 });
-ok('share: photograph first, the private tickbox last',
-   order[0] === 'photo' && order[order.length - 1] === 'private', order.join(' → '));
+ok('share: the words first, then the photograph, the private tickbox last',
+   order.join(' → ') === 'name → message → photo → private', order.join(' → '));
 
 // ---- the copy the family asked for, word for word ----
 const shareCopy = await page.evaluate(() => ({

@@ -440,6 +440,8 @@ main { padding-bottom: 5rem; }
 .actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1.75rem; max-width: none; }
 .actions--center { justify-content: center; }
 .actions--spaced { margin-top: 3rem; }
+/* One above the other, each the full width of the column. */
+.actions--stack { flex-direction: column; align-items: stretch; }
 
 /* --- Quiet notices ------------------------------------------------------ */
 /* Set as a line of italic text rather than a coloured box. */
@@ -493,11 +495,11 @@ main { padding-bottom: 5rem; }
 
 /* Two fields on one line, once there is room. The breakpoint is in em, so it
    answers to enlarged text as well as a narrow screen: at 200% type these
-   stack on a phone long before its pixel width says they should. The headcount
-   takes only what it needs; the name takes the rest. */
+   stack on a phone long before its pixel width says they should. The name comes
+   first and takes the rest; the headcount takes only what it needs. */
 .field-row { display: grid; column-gap: 2.25rem; }
 @media (min-width: 34em) {
-  .field-row { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+  .field-row { grid-template-columns: minmax(0, 1fr) auto; align-items: start; }
 }
 
 /* :not(.choice) — a tickbox's own label is a flex row, and must not be turned
@@ -751,6 +753,13 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 }
 
 .entry__by { margin: 0; color: var(--ink-soft); font-size: .88rem; letter-spacing: .04em; }
+
+/* On the public page a memory is signed rather than labelled: the name sits to
+   the right, after a dash, the way someone ends a note. It shares the reading
+   measure with the words above it, so the two right edges line up. */
+.entry__by--signed { text-align: right; max-width: var(--measure); }
+.entry__by--signed strong::before { content: "\2014\00a0"; color: var(--ink-soft); }
+
 .entry__by strong {
   display: block;
   font-family: var(--display);
@@ -775,7 +784,6 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 .tag--live    { color: var(--accent); }
 
 .empty { text-align: center; color: var(--ink-soft); padding: 3rem 1rem; }
-.empty p { margin-inline: auto; }
 .empty strong { font-family: var(--display); font-size: 1.5rem; color: var(--ink); }
 
 /* --- Replies to the invitation ------------------------------------------ */

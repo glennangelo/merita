@@ -82,8 +82,16 @@ export async function checkPassword(env, supplied) {
   return safeEqual(await digest(String(supplied ?? '')), await digest(expected));
 }
 
-export function sessionCookie(value, maxAge) {
-  return `${COOKIE}=${encodeURIComponent(value)}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${maxAge}`;
+/* "Secure" keeps the session off a plain-http connection, so the live site —
+   which is always https — always has it. The preview on your own computer is
+   served over http, though, and Safari throws away a Secure cookie there:
+   you sign in and are told at once that your session has ended. So the flag
+   follows the scheme of the request it is answering, and defaults to on. */
+export function sessionCookie(value, maxAge, request) {
+  let secure = true;
+  try { if (request) secure = new URL(request.url).protocol === 'https:'; } catch (err) { /* keep it on */ }
+  return `${COOKIE}=${encodeURIComponent(value)}; Path=/; HttpOnly;` +
+         (secure ? ' Secure;' : '') + ` SameSite=Strict; Max-Age=${maxAge}`;
 }
 
 /* --- Who sent it, without knowing who they are --------------------------

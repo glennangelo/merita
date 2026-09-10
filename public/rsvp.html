@@ -47,6 +47,14 @@
          room for them, and stack on a phone. -->
     <div class="field-row">
       <div class="field">
+        <!-- No hint under this label: the field must line up with the stepper
+             beside it, and a line of hint text would push it down. -->
+        <label for="name">You / Your name(s):</label>
+        <input type="text" id="name" name="name" required maxlength="80"
+               autocomplete="name">
+      </div>
+
+      <div class="field">
         <label for="party">Number of attendees:</label>
         <!-- The number can still be typed; the buttons are there for anyone who
              would rather not, which on a phone is most people. -->
@@ -57,13 +65,6 @@
           <button type="button" class="stepper__btn" id="party-more" aria-label="One more">+</button>
         </div>
         <p class="visually-hidden" id="party-said" role="status" aria-live="polite"></p>
-      </div>
-
-      <div class="field">
-        <label for="name">I / We:</label>
-        <span class="hint" id="name-hint">You / Your family&rsquo;s name</span>
-        <input type="text" id="name" name="name" required maxlength="80"
-               autocomplete="name" aria-describedby="name-hint">
       </div>
     </div>
 
@@ -90,8 +91,8 @@
     </fieldset>
 
     <div class="field">
-      <label for="contact">Phone or email <span class="optional">(optional)</span></label>
-      <span class="hint" id="contact-hint">In case anything changes.</span>
+      <label for="contact">Your phone or email <span class="optional">(optional)</span></label>
+      <span class="hint" id="contact-hint">We&rsquo;ll only contact you if plans change.</span>
       <input type="text" id="contact" name="contact" maxlength="80" aria-describedby="contact-hint">
     </div>
 
@@ -107,10 +108,12 @@
     <button type="submit" class="btn btn--block" id="submit-btn">Send RSVP</button>
   </form>
 
-  <!-- Revealed once a reply has been sent; the form is hidden by then. -->
-  <p class="actions actions--center" id="onward" hidden>
-    <a class="btn btn--ghost" href="/share">Share a memory</a>
-    <a class="btn btn--ghost" href="/">Back to the memorial page</a>
+  <!-- Revealed once a reply has been sent; the form is hidden by then. Well
+       clear of the thank-you above, so the reply is read before the next
+       thing is offered. -->
+  <p class="actions actions--stack actions--spaced" id="onward" hidden>
+    <a class="btn" href="/share">Share a memory</a>
+    <a class="btn btn--ghost" href="/memories">See memories</a>
   </p>
 </main>
 
