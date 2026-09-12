@@ -355,6 +355,20 @@ main { padding-bottom: 5rem; }
    it breaks after the weekday, rather than parting "10" from "October". */
 .day__date { white-space: nowrap; }
 
+/* A short gilt hairline parting the date from the events under it. Smaller
+   and plainer than an ornament on purpose: an ornament here would read as a
+   section break and cut the date off from the day it heads. */
+.day-divider {
+  width: min(100%, 4.5rem);
+  height: 1px;
+  margin: 0 auto 2.6rem;
+  border: 0;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+/* The gap that belonged to the date is shared with the rule once there is one
+   between it and the events. */
+.day:has(+ .day-divider) { margin-bottom: 1.6rem; }
+
 .day-list { list-style: none; display: grid; margin: 0; padding: 0; }
 
 /* min-width: a grid column will not shrink below its longest word unless it is
