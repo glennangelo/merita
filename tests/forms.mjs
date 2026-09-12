@@ -171,7 +171,8 @@ await page.goto(B + '/rsvp', { waitUntil: 'load' });
 const copy = await page.evaluate(() => document.querySelector('main').innerText.replace(/\s+/g, ' '));
 const wants = ['The family kindly request that loved ones inform them of their attendance',
                'Number of attendees', 'Your name',
-               'I would love to attend:', 'The ceremony', 'The celebration of life',
+               'I would love to attend on Saturday 10th October 2026:',
+               'The ceremony', 'The celebration of life',
                'Phone or email', 'We\u2019ll contact you if plans change.', 'Send RSVP'];
 const absent = wants.filter(w => !copy.toLowerCase().includes(w.toLowerCase()));
 ok('rsvp: the page reads as written', absent.length === 0, 'missing: ' + absent.join(' | '));
@@ -185,9 +186,9 @@ const speaksFor = await page.evaluate(async () => {
   return { one, two, backToOne: read() };
 });
 ok('rsvp: one person answers for themselves, a party for all of them',
-   speaksFor.one.attend === 'I would love to attend:' &&
-   speaksFor.two.attend === 'We would love to attend:' &&
-   speaksFor.backToOne.attend === 'I would love to attend:',
+   speaksFor.one.attend === 'I would love to attend on Saturday 10th October 2026:' &&
+   speaksFor.two.attend === 'We would love to attend on Saturday 10th October 2026:' &&
+   speaksFor.backToOne.attend === 'I would love to attend on Saturday 10th October 2026:',
    JSON.stringify(speaksFor));
 ok('rsvp: the afternoon is not still called a reception', !/reception/i.test(copy), copy.slice(0, 120));
 const rsvpOrder = await page.evaluate(() => [...document.querySelectorAll('#rsvp-form .field, #rsvp-form fieldset')]

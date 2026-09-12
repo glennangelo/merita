@@ -473,6 +473,27 @@ const heroVisible = await p.evaluate(() => ['.hero__eyebrow', '.portrait', '.her
 ok('the name, dates and portrait are visible once the page settles',
    heroVisible.length === 0, heroVisible.join(', '));
 
+/* The line under a page's title arrives after the title, and — the same risk
+   as the hero above — must not be left sitting at opacity 0 if the animation
+   never runs. */
+for (const path of ['/rsvp', '/share', '/memories']) {
+  const pg = await b.newPage();
+  await pg.goto(B + path, { waitUntil: 'load' });
+  await pg.evaluate(() => document.fonts.ready);
+  const order = await pg.evaluate(() => {
+    const delay = sel => parseFloat(getComputedStyle(document.querySelector(sel)).animationDelay) || 0;
+    return { after: delay('.hero__note') > delay('.hero__name') };
+  });
+  await pg.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished.catch(() => {}))));
+  const settled = await pg.evaluate(() => {
+    const el = document.querySelector('.hero__note');
+    return !!el && +getComputedStyle(el).opacity === 1 && el.getBoundingClientRect().height > 0;
+  });
+  ok(`${path}: the line under the title arrives after it, and is there once the page settles`,
+     order.after && settled, JSON.stringify({ ...order, settled }));
+  await pg.close();
+}
+
 // and immediately visible for anyone who has asked for reduced motion
 const rm = await b.newContext({ reducedMotion: 'reduce', viewport: { width: 1280, height: 900 } });
 const rp = await rm.newPage();
