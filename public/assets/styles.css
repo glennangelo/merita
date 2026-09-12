@@ -482,14 +482,17 @@ main { padding-bottom: 5rem; }
 
 /* The address is the link — a pin says where it goes, the underline says it is
    a link, so neither meaning rests on the icon alone. A flex box for the tap
-   target, which must be a finger tall whatever height the words come to; pin
-   and address sit within it as one line. */
+   target, a finger tall whatever height the words come to; pin and address sit
+   within it as one line. */
 .where a {
   display: inline-flex;
   align-items: center;
   min-height: var(--tap);
   font-weight: 600;
   text-align: left;
+  /* Off here: the line is drawn within, and two stacked read as one heavy
+     line rather than the hairline either is. */
+  text-decoration: none;
 }
 /* Drawn here rather than on the link: a flex box underlines its text alone. */
 .where__addr {
@@ -500,13 +503,13 @@ main { padding-bottom: 5rem; }
 .where .pin {
   /* The gap is padding, not margin, so the line runs across it — measured from
      the drawing out, since the page is measured the other way about, which
-     would take the gap out of the pin itself. */
+     would take the gap out of the pin. */
   box-sizing: content-box;
   padding-right: .45rem;
-  /* A browser lifts an underline over a picture in a line, so the pin is
-     dropped until its foot meets it and carries the line across itself:
-     same weight, same place, same ink. */
-  vertical-align: calc(-.22em - 2px);
+  /* A browser lifts an underline over a picture in a line, so the pin carries
+     that line across itself: dropped by the words' own offset and thickness,
+     in the same units, so both lines are one rectangle. */
+  vertical-align: calc(-.22em - 1px);
   background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 100% 1px;
   /* Its colour on the stroke, leaving the text colour to draw that line. */
   stroke: var(--gold-ink);
@@ -688,10 +691,10 @@ main { padding-bottom: 5rem; }
 
 /* Once the two pages stack — below 24.5rem, where the two 11rem columns and
    the 2.5rem between them stop fitting — each ask has the page's width to
-   itself, so the link comes round beside its mark and the pair reads as one
-   line rather than a tower. Both move together, in columns of one width: one
-   beside its mark and the other beneath would read as an accident. The floor
-   is the mark, the space beside it, and a measure the link can be read on. */
+   itself, so the link comes round beside its mark: one line, not a tower.
+   Both move together, in columns of one width, since one beside its mark and
+   the other beneath would read as an accident. The floor is the mark, the
+   space beside it, and a measure the link can be read on. */
 @container giving (width < 24.5rem) and (width >= 19rem) {
   .giving {
     /* Each column sized once for both rows, and the block of the two centred.
