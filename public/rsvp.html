@@ -55,6 +55,10 @@
     <div class="field-row">
       <div class="field">
         <label for="party">Number of attendees</label>
+        <!-- What is wrong with an answer is said above the answer itself, so
+             it is read on the way to the field rather than after it. Empty and
+             out of the way until there is something to say. -->
+        <p class="field-error" id="party-error" role="alert" hidden></p>
         <!-- The number can still be typed; the buttons are there for anyone who
              would rather not, which on a phone is most people. -->
         <div class="stepper">
@@ -73,17 +77,17 @@
              asked for, or several. It starts singular because the count starts
              at one. -->
         <label for="name" id="name-label">Your name</label>
+        <p class="field-error" id="name-error" role="alert" hidden></p>
         <input type="text" id="name" name="name" required maxlength="80"
                autocomplete="name">
       </div>
     </div>
 
     <fieldset>
-      <!-- "I" or "we", set by the number of attendees above. It starts in the
-           singular because the count starts at one.
-           ✏️ EDIT: the date, kept in step with the home page. It is written out
+      <!-- ✏️ EDIT: the date, kept in step with the home page. It is written out
            here as well as there so that nobody answers for the wrong day. -->
-      <legend class="fieldset__legend" id="attend-legend">I would love to attend on Saturday 10th October 2026:</legend>
+      <legend class="fieldset__legend" id="attend-legend">Let us know if you can attend on Saturday 10th October:</legend>
+      <p class="field-error" id="attend-error" role="alert" hidden></p>
       <div class="choices">
         <label class="choice">
           <input type="checkbox" id="ceremony" name="ceremony" checked>

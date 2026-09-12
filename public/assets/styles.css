@@ -799,6 +799,18 @@ main { padding-bottom: 5rem; }
 }
 .hint--tight { margin-top: .5rem; }
 
+/* What is wrong with an answer, set above the field it is about so it is read
+   on the way in rather than after the fact. The same red as the line drawn
+   down a failed message, taken darker — as text it has to be read, not just
+   noticed. */
+.field-error {
+  margin: 0 0 .45rem;
+  color: #8a2f2f;
+  font-size: .92rem;
+  line-height: 1.5;
+  max-width: var(--measure);
+}
+
 input[type="text"],
 input[type="password"],
 input[type="number"],
@@ -821,12 +833,11 @@ textarea {
   resize: vertical;
   line-height: 1.7;
 }
-/* The rule above squares off every field, which the focus ring then follows.
-   Rounded again while focused, so the ring reads as a frame rather than a box
-   shut around the answer. Set here rather than with :focus-visible further up,
-   because that rule is the weaker of the two. */
+/* No radius while focused: a field is drawn as a line under the answer, and a
+   rounded corner curls the end of that line up. The ring is set clear of the
+   field anyway, so it reads as a frame without one. */
 input:focus-visible,
-textarea:focus-visible { border-radius: 7px; }
+textarea:focus-visible { border-radius: 0; }
 input:hover, textarea:hover { border-color: var(--ink-soft); }
 input:focus, textarea:focus { border-color: var(--accent); }
 input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #9e3b3b; }
@@ -950,6 +961,9 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
   letter-spacing: .04em;
 }
 .status-msg:empty { display: none; }
+/* Focused so that it is read out and the keyboard carries on from here; it is
+   not something to tab to, so it is given no ring of its own. */
+.status-msg:focus { outline: none; }
 .status-msg[data-tone="ok"],
 .status-msg[data-tone="error"],
 .status-msg[data-tone="busy"] {
@@ -971,6 +985,21 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 }
 
 .note { margin: 1.75rem auto 0; text-align: center; }
+
+/* The way on from a form: a line of text, set quietly, with a finger's worth
+   of height to press all the same. */
+.quiet-link { margin: 2.5rem auto 0; text-align: center; }
+.quiet-link a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding-inline: .6rem;
+  color: var(--ink-soft);
+  font-size: .95rem;
+  text-underline-offset: .22em;
+}
+.quiet-link a:hover { color: var(--focus); }
 
 /* --- Guestbook ----------------------------------------------------------
    A book of condolences: one entry after another, parted by a hairline. */

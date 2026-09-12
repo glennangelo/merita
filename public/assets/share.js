@@ -35,6 +35,35 @@
     if (detail) statusBox.appendChild(document.createTextNode(detail));
   }
 
+  /* An error belongs beside the answer it is about: it is written into the
+     line above the field, which is empty until then. The box at the top is
+     left for what concerns the whole form — sending, and sending failing. */
+  function fault(input, boxId, text) {
+    var box = document.getElementById(boxId);
+    box.textContent = text;
+    box.hidden = false;
+    input.setAttribute('aria-invalid', 'true');
+    input.setAttribute('aria-describedby', boxId);
+    input.focus();
+  }
+  function clearFaults() {
+    ['name-error', 'message-error'].forEach(function (id) {
+      var box = document.getElementById(id);
+      box.hidden = true;
+      box.textContent = '';
+    });
+    [document.getElementById('name'), message].forEach(function (input) {
+      input.setAttribute('aria-invalid', 'false');
+      input.removeAttribute('aria-describedby');
+    });
+  }
+  /* Corrected as they are typed, rather than standing until the next attempt. */
+  [document.getElementById('name'), message].forEach(function (input) {
+    input.addEventListener('input', function () {
+      if (input.getAttribute('aria-invalid') === 'true') clearFaults();
+    });
+  });
+
   function clearStatus() {
     statusBox.dataset.tone = '';
     statusBox.textContent = '';
@@ -156,19 +185,15 @@
     event.preventDefault();
 
     var name = document.getElementById('name');
-    name.setAttribute('aria-invalid', 'false');
-    message.setAttribute('aria-invalid', 'false');
+    clearFaults();
 
     if (!name.value.trim()) {
-      name.setAttribute('aria-invalid', 'true');
-      say('error', 'Please add your name.', '');
-      name.focus();
+      fault(name, 'name-error', 'Please add your name.');
       return;
     }
     if (!message.value.trim()) {
-      message.setAttribute('aria-invalid', 'true');
-      say('error', 'Please write a message.', ' Even a single sentence is welcome.');
-      message.focus();
+      fault(message, 'message-error',
+        'Please write a message. Even a single sentence is welcome.');
       return;
     }
 
