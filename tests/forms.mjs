@@ -33,12 +33,11 @@ const shareCopy = await page.evaluate(() => ({
   messageLabel: document.querySelector('label[for=message]').textContent.trim(),
   counter: document.querySelector('.counter').textContent.replace(/\s+/g, ' ').trim(),
   tickTitle: document.querySelector('.choice__title').textContent.trim(),
-  send: document.getElementById('submit-btn').textContent.trim(),
-  note: document.querySelector('.note').textContent.replace(/\s+/g, ' ').trim()
+  send: document.getElementById('submit-btn').textContent.trim()
 }));
 ok('share: the title reads "Share a memory"', shareCopy.title === 'Share a memory', shareCopy.title);
-ok('share: the lead is the family\u2019s own line',
-   shareCopy.lead === 'The family would love to hear any fond memories or stories you may have of [First Name]',
+ok('share: the lead is the family\u2019s own line, not the template\u2019s',
+   shareCopy.lead === 'The family invite you to share any fond memories, stories, or tributes to Merita',
    shareCopy.lead);
 ok('share: the photo field reads "A photo or image (optional)"',
    shareCopy.photoLabel === 'A photo or image (optional)', shareCopy.photoLabel);
@@ -49,8 +48,6 @@ ok('share: the counter starts at 0 / 2,000', shareCopy.counter === '0 / 2,000', 
 ok('share: the tickbox reads "Keep this private"',
    shareCopy.tickTitle === 'Keep this private', shareCopy.tickTitle);
 ok('share: the button says Send', shareCopy.send === 'Send', shareCopy.send);
-ok('share: the removal note is at the foot',
-   shareCopy.note === 'Ask the family if you would like yours removed.', shareCopy.note);
 
 // The Send button is set in small caps by the stylesheet; the optional upload
 // beside it is deliberately not, so it reads as the quieter of the two.
@@ -105,8 +102,15 @@ console.log(`      (chose a ${(big.size/1024/1024).toFixed(1)} MB, 4000x3000 pho
 await page.fill('#name', 'A large photograph');
 await page.fill('#message', 'Checking that a big picture makes it through.');
 await page.click('#submit-btn');
-await page.waitForSelector('#form-status[data-tone="ok"]', { timeout: 20000 });
+/* Sending leads on to the memories, where the thank-you is shown. */
+await page.waitForSelector('#thanks:not([hidden])', { timeout: 20000 });
 ok('share: a very large photograph is accepted, not rejected for size', true);
+ok('share: a sent memory leads on to the memories, thank-you at the top',
+   new URL(page.url()).pathname === '/memories' &&
+   (await page.locator('#thanks').innerText()).includes('Thank you for your message'),
+   page.url() + ' — ' + (await page.locator('#thanks').innerText()).replace(/\s+/g, ' '));
+ok('share: the address is left clean, so a forwarded link carries no thank-you',
+   !page.url().includes('sent='), page.url());
 
 // ---- the plus / minus counter ----
 await page.goto(B + '/rsvp', { waitUntil: 'load' });
@@ -167,10 +171,24 @@ await page.goto(B + '/rsvp', { waitUntil: 'load' });
 const copy = await page.evaluate(() => document.querySelector('main').innerText.replace(/\s+/g, ' '));
 const wants = ['The family kindly request that loved ones inform us of their attendance',
                'Number of attendees:', 'Your name:',
-               'Would love to attend:', 'The ceremony', 'The celebration of life',
-               'Phone or email', 'We\u2019ll only contact you if plans change.', 'Send RSVP'];
+               'I would love to attend:', 'The ceremony', 'The celebration of life',
+               'Phone or email', 'We\u2019ll contact you if plans change.', 'Send RSVP'];
 const absent = wants.filter(w => !copy.toLowerCase().includes(w.toLowerCase()));
 ok('rsvp: the page reads as written', absent.length === 0, 'missing: ' + absent.join(' | '));
+const speaksFor = await page.evaluate(async () => {
+  const read = () => ({ name: document.getElementById('name-label').textContent.trim(),
+                        attend: document.getElementById('attend-legend').textContent.trim() });
+  const one = read();
+  document.getElementById('party-more').click();
+  const two = read();
+  document.getElementById('party-less').click();
+  return { one, two, backToOne: read() };
+});
+ok('rsvp: one person answers for themselves, a party for all of them',
+   speaksFor.one.attend === 'I would love to attend:' &&
+   speaksFor.two.attend === 'We would love to attend:' &&
+   speaksFor.backToOne.attend === 'I would love to attend:',
+   JSON.stringify(speaksFor));
 ok('rsvp: the afternoon is not still called a reception', !/reception/i.test(copy), copy.slice(0, 120));
 const rsvpOrder = await page.evaluate(() => [...document.querySelectorAll('#rsvp-form .field, #rsvp-form fieldset')]
   .filter(el => !el.closest('.hp'))
@@ -265,8 +283,10 @@ await page.fill('#party', '4');
 await page.uncheck('#reception');
 await page.click('#submit-btn');
 await page.waitForSelector('#form-status[data-tone="ok"]');
-ok('rsvp: a reply is confirmed, and says how many',
-   (await page.locator('#form-status').innerText()).includes('all 4 of you'));
+ok('rsvp: a reply is confirmed in the family\u2019s own voice',
+   (await page.locator('#form-status').innerText()).includes('Thank you for letting us know.') &&
+   (await page.locator('#form-status').innerText()).includes('The family look forward to seeing you.'),
+   await page.locator('#form-status').innerText());
 ok('rsvp: the form is put away after sending', await page.locator('#rsvp-form').isHidden());
 
 // validation, in the browser

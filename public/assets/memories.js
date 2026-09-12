@@ -3,6 +3,31 @@
   var list      = document.getElementById('entries');
   var statusBox = document.getElementById('load-status');
   var emptyBox  = document.getElementById('empty-state');
+  var thanksBox = document.getElementById('thanks');
+
+  /* Someone who has just sent a memory is brought here rather than left on the
+     form. The thank-you is shown at the top, and the address tidied up
+     afterwards, so a refresh or a forwarded link does not carry it. A memory
+     waits for the family to read it before it appears in the list below, which
+     is why the note says so rather than leaving someone hunting for theirs. */
+  (function () {
+    var sent = new URLSearchParams(location.search).get('sent');
+    if (sent !== 'public' && sent !== 'private') return;
+
+    var strong = document.createElement('strong');
+    strong.textContent = 'Thank you for your message';
+    thanksBox.appendChild(strong);
+    thanksBox.appendChild(document.createTextNode(
+      sent === 'private' ? 'It will be read by the family.'
+                         : 'It will be read by the family, and shared shortly.'));
+    thanksBox.hidden = false;
+
+    /* Focus it, so a screen reader reads it out and a keyboard carries on from
+       the top of the page rather than from wherever the form was. */
+    thanksBox.setAttribute('tabindex', '-1');
+    thanksBox.focus();
+    history.replaceState(null, '', location.pathname);
+  })();
 
   function say(tone, headline, detail) {
     statusBox.dataset.tone = tone;

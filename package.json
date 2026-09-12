@@ -8,6 +8,7 @@
     "deploy": "wrangler deploy",
     "test": "node tests/run.mjs",
     "check": "node tests/launch.mjs",
+    "og": "node tools/shoot-og.mjs",
     "db:create": "wrangler d1 create memorial-guestbook",
     "db:setup": "wrangler d1 execute memorial-guestbook --local --file=./schema.sql",
     "db:migrate": "wrangler d1 execute memorial-guestbook --local --file=./migrate.sql",

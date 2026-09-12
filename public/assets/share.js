@@ -12,7 +12,6 @@
   var removeBtn = document.getElementById('photo-remove');
   var message   = document.getElementById('message');
   var counter   = document.getElementById('message-count');
-  var onward    = document.getElementById('onward');
 
   // Whatever someone picks is shrunk before it is sent, so there is no limit on
   // what they may choose. 1200 pixels is twice the widest a memory is ever
@@ -195,19 +194,14 @@
 
       if (!response.ok) throw new Error(result.error || 'Request failed');
 
+      /* Sent: on to the memories, where the thank-you is shown at the top of
+         the page. A confirmation left on the form is a dead end, and the
+         memories are where someone who has just written one wants to be.
+         Which note is shown depends on whether this one is to be shared, so
+         the page is told which was sent rather than having to guess. */
       form.hidden = true;
-      // A private message is never shared, so only a public one is promised on.
-      // The headline is set on its own line, so the second half stands as its
-      // own sentence rather than opening with a dash.
-      say('ok', 'Thank you for your message',
-        visibility === 'private' ? 'It will be read by the family.'
-                                 : 'It will be read by the family, and shared shortly.');
-      onward.hidden = false;
-      // Move focus to the confirmation so a screen reader reads it out and a
-      // keyboard user carries on from the right place.
-      statusBox.setAttribute('tabindex', '-1');
-      statusBox.focus();
-      window.scrollTo({ top: 0 });
+      window.location.href = '/memories?sent=' +
+        (visibility === 'private' ? 'private' : 'public');
     } catch (err) {
       submitBtn.disabled = false;
       say('error', 'Your message could not be sent.',

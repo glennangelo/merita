@@ -1,0 +1,30 @@
+/* Build-time only: the layout of the share card, shot by shoot-og.mjs.
+   Kept in a file of its own because the site's Content-Security-Policy
+   allows no inline <style>. */
+html, body { margin: 0; padding: 0; }
+body {
+  width: 1200px; height: 630px; overflow: hidden;
+  background: var(--paper);
+  display: flex; align-items: center; justify-content: center; gap: 4.5rem;
+}
+.og__portrait {
+  width: 360px; aspect-ratio: 4/5; object-fit: cover; object-position: 50% 20%;
+  border-radius: 48% 48% 3px 3px / 34% 34% 2px 2px;
+  box-shadow: 0 2px 4px rgba(60, 48, 28, .07), 0 14px 40px rgba(60, 48, 28, .10);
+}
+.og__words { text-align: left; }
+.og__eyebrow {
+  font-family: var(--display); font-style: italic;
+  font-size: 1.9rem; color: var(--accent); letter-spacing: .06em;
+  margin: 0 0 .7rem; max-width: none;
+}
+.og__name {
+  font-family: var(--display); font-size: 4.4rem; line-height: 1.05;
+  letter-spacing: .01em; margin: 0 0 1rem; color: var(--ink);
+}
+.og__dates {
+  font-family: var(--display); font-variant-numeric: lining-nums;
+  font-size: 1.6rem; letter-spacing: .04em; color: var(--ink-soft);
+  margin: 0; max-width: none;
+}
+.og__dates .sep { padding: 0 .5rem; color: var(--gold); }

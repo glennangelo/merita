@@ -11,6 +11,7 @@
   var more      = document.getElementById('party-more');
   var said      = document.getElementById('party-said');
   var nameLabel = document.getElementById('name-label');
+  var attendLeg = document.getElementById('attend-legend');
   var onward    = document.getElementById('onward');
 
   var MIN = 1, MAX = 20;
@@ -22,9 +23,13 @@
     return isNaN(n) ? MIN : n;
   }
 
-  /* One person is asked for a name, a party for all of theirs. */
+  /* One person is asked for a name, a party for all of theirs — and answers
+     for themselves or for all of them. */
   function asksFor(n) {
     return n > 1 ? 'Your names:' : 'Your name:';
+  }
+  function answersAs(n) {
+    return n > 1 ? 'We would love to attend:' : 'I would love to attend:';
   }
 
   /* The buttons keep themselves within range, and the name field asks for as
@@ -37,6 +42,7 @@
     less.disabled = !(n > MIN);
     more.disabled = !(n < MAX);
     nameLabel.textContent = asksFor(n);
+    attendLeg.textContent = answersAs(n);
   }
 
   function setParty(n) {
@@ -110,8 +116,12 @@
       if (!response.ok) throw new Error(result.error || 'Request failed');
 
       form.hidden = true;
-      say('ok', 'Thank you, on behalf of the family');
+      say('ok', 'Thank you for letting us know.',
+        'The family look forward to seeing you.');
       onward.hidden = false;
+      /* The invitation below runs to the foot of the page, so the space main
+         normally leaves beneath it would show as a stripe of bare parchment. */
+      document.getElementById('main').classList.add('ends-with-band');
       statusBox.setAttribute('tabindex', '-1');
       statusBox.focus();
       window.scrollTo({ top: 0 });
