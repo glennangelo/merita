@@ -10,6 +10,7 @@
   var less      = document.getElementById('party-less');
   var more      = document.getElementById('party-more');
   var said      = document.getElementById('party-said');
+  var nameLabel = document.getElementById('name-label');
   var onward    = document.getElementById('onward');
 
   var MIN = 1, MAX = 20;
@@ -21,20 +22,27 @@
     return isNaN(n) ? MIN : n;
   }
 
-  /* The buttons keep themselves within range; typing is left alone. Correcting
+  /* One person is asked for a name, a party for all of theirs. */
+  function asksFor(n) {
+    return n > 1 ? 'Your names:' : 'Your name:';
+  }
+
+  /* The buttons keep themselves within range, and the name field asks for as
+     many names as there are people coming; typing is left alone. Correcting
      the field on every keystroke would mean it could not be cleared to retype,
      and would quietly turn a typed 0 into 1 — sending a reply nobody made. An
      impossible number is caught on sending instead, where it can be explained. */
-  function syncButtons() {
+  function syncToParty() {
     var n = partySize();
     less.disabled = !(n > MIN);
     more.disabled = !(n < MAX);
+    nameLabel.textContent = asksFor(n);
   }
 
   function setParty(n) {
     n = Math.min(MAX, Math.max(MIN, n));
     party.value = String(n);
-    syncButtons();
+    syncToParty();
     // Said aloud: the number changing is not otherwise announced to someone
     // who cannot see it.
     said.textContent = n === 1 ? '1 person' : n + ' people';
@@ -42,8 +50,8 @@
 
   less.addEventListener('click', function () { setParty(partySize() - 1); });
   more.addEventListener('click', function () { setParty(partySize() + 1); });
-  party.addEventListener('input', syncButtons);
-  syncButtons();
+  party.addEventListener('input', syncToParty);
+  syncToParty();
 
   function say(tone, headline, detail) {
     statusBox.dataset.tone = tone;
@@ -63,7 +71,7 @@
 
     if (!name.value.trim()) {
       name.setAttribute('aria-invalid', 'true');
-      say('error', 'Please add your name.', '');
+      say('error', partySize() > 1 ? 'Please add your names.' : 'Please add your name.', '');
       name.focus();
       return;
     }

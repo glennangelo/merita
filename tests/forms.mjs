@@ -114,14 +114,19 @@ const step = async () => page.evaluate(() => ({
   value: document.getElementById('party').value,
   lessOff: document.getElementById('party-less').disabled,
   moreOff: document.getElementById('party-more').disabled,
-  said: document.getElementById('party-said').textContent.trim()
+  said: document.getElementById('party-said').textContent.trim(),
+  label: document.querySelector('label[for=name]').textContent.trim()
 }));
 ok('rsvp: starts at one, with nothing to take away', JSON.stringify(await step()) ===
-   JSON.stringify({ value: '1', lessOff: true, moreOff: false, said: '' }), JSON.stringify(await step()));
+   JSON.stringify({ value: '1', lessOff: true, moreOff: false, said: '', label: 'Your name:' }),
+   JSON.stringify(await step()));
 await page.click('#party-more'); await page.click('#party-more');
 const up = await step();
 ok('rsvp: the plus button counts up, and says so aloud',
    up.value === '3' && !up.lessOff && up.said === '3 people', JSON.stringify(up));
+// The name field asks for one name or several, following the headcount.
+ok('rsvp: a party of more than one is asked for their names',
+   up.label === 'Your names:', up.label);
 await page.click('#party-less');
 const down = await step();
 ok('rsvp: the minus button counts down', down.value === '2' && down.said === '2 people', JSON.stringify(down));
@@ -140,11 +145,15 @@ ok('rsvp: it stops at twenty rather than running on',
 await press('party-less', 30);
 const bottom = await step();
 ok('rsvp: and stops at one', bottom.value === '1' && bottom.lessOff, JSON.stringify(bottom));
+ok('rsvp: back down to one, and it asks for a name again',
+   bottom.label === 'Your name:', bottom.label);
 // typing still works, and the buttons follow what was typed
 await page.fill('#party', '7');
 const typed = await step();
 ok('rsvp: the number can still be typed, and the buttons keep up',
    typed.value === '7' && !typed.lessOff && !typed.moreOff, JSON.stringify(typed));
+ok('rsvp: a typed number moves the wording too',
+   typed.label === 'Your names:', typed.label);
 const targets = await page.evaluate(() => ['party-less', 'party-more'].map(id => {
   const r = document.getElementById(id).getBoundingClientRect();
   return Math.round(Math.min(r.width, r.height));
@@ -152,9 +161,12 @@ const targets = await page.evaluate(() => ['party-less', 'party-more'].map(id =>
 ok('rsvp: both buttons are full-sized targets', targets.every(t => t >= 44), JSON.stringify(targets));
 
 // ---- the copy ----
+// Freshly loaded, so the name label is read in the singular it starts in
+// rather than the plural the counter above left behind.
+await page.goto(B + '/rsvp', { waitUntil: 'load' });
 const copy = await page.evaluate(() => document.querySelector('main').innerText.replace(/\s+/g, ' '));
 const wants = ['The family kindly request that loved ones inform us of their attendance',
-               'Number of attendees:', 'I / We:',
+               'Number of attendees:', 'Your name:',
                'Would love to attend:', 'The ceremony', 'The celebration of life',
                'Phone or email', 'In case anything changes.', 'Send RSVP'];
 const absent = wants.filter(w => !copy.toLowerCase().includes(w.toLowerCase()));

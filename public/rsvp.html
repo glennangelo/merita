@@ -48,8 +48,10 @@
     <div class="field-row">
       <div class="field">
         <!-- No hint under this label: the field must line up with the stepper
-             beside it, and a line of hint text would push it down. -->
-        <label for="name">You / Your name(s):</label>
+             beside it, and a line of hint text would push it down. The wording
+             follows the number of attendees — one name asked for, or several.
+             It starts singular because the count starts at one. -->
+        <label for="name" id="name-label">Your name:</label>
         <input type="text" id="name" name="name" required maxlength="80"
                autocomplete="name">
       </div>
