@@ -168,11 +168,9 @@ a:hover { color: var(--focus); }
 
 /* --- Layout ------------------------------------------------------------- */
 .wrap { width: min(100% - var(--gutter) * 2, 40rem); margin-inline: auto; }
-/* The ask measures itself: its styles answer to how much room this column has
-   rather than to the width of the window, which is not the same thing once the
-   gutters and enlarged type are taken off. Its width is set above, from the
-   window and not from what it holds, so measuring it cannot chase its own
-   tail. */
+/* The ask measures its own column rather than the window, which is not the
+   same thing once the gutters and enlarged type are taken off. Its width is
+   set above, from the window, so measuring it cannot chase its own tail. */
 .wrap--giving { container: giving / inline-size; }
 /* Wider than the reading column, so the two events can sit abreast. */
 .wrap--wide { width: min(100% - var(--gutter) * 2, 52rem); }
@@ -420,7 +418,10 @@ main { padding-bottom: 5rem; }
   max-width: none;
   white-space: nowrap;
 }
-.event .eyebrow { margin-bottom: .45rem; }
+/* The hour is the largest thing on the card and its label the smallest, so the
+   label needs air beneath it to read as a heading over the hour rather than as
+   something the hour is about to run into. */
+.event .eyebrow { margin-bottom: .95rem; }
 
 .event__venue {
   font-family: var(--display);
@@ -480,19 +481,29 @@ main { padding-bottom: 5rem; }
 }
 
 /* The address is the link — a pin beside it says where it goes, and the
-   underline says it is a link, so neither meaning rests on the icon alone. */
+   underline says it is a link, so neither meaning rests on the icon alone.
+   A flex box: the mark is centred on the words, the line is drawn under the
+   words alone, and the whole of it — mark, space and address — is a target a
+   finger tall. */
 .where a {
   display: inline-flex;
   align-items: center;
-  gap: .5rem;
+  gap: .5em;
   min-height: var(--tap);
   font-weight: 600;
   text-align: left;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
   text-underline-offset: .22em;
 }
-.where .pin { flex: none; color: var(--gold-ink); }
-.where a:hover .pin { color: var(--focus); }
+.where .pin {
+  flex: none;
+  /* Measured in the words' own em, so it keeps its size beside them at any
+     text size, and drawn at the weight of the type it stands with — a fifth
+     of its own height, which comes to the width of Lora's stems. */
+  width: .92em;
+  height: 1.15em;
+  stroke-width: 2.1;
+}
 
 /* --- Buttons ------------------------------------------------------------ */
 .btn {
@@ -594,10 +605,9 @@ main { padding-bottom: 5rem; }
   margin: 2.5rem 0 0;
   padding: 0;
 }
-/* Set as a column with the mark's slot taking up the slack, so the two links
-   sit on one line whatever height the marks themselves come out at: the pair
-   are stretched to a common height by the list above, and the space that
-   difference leaves falls above the links rather than between them. */
+/* A column with the mark's slot taking up the slack, so the two links sit on
+   one line whatever height the marks come out at: the pair are stretched to a
+   common height, and the difference falls above the links, not between. */
 .give {
   text-align: center;
   display: flex;
@@ -643,13 +653,11 @@ main { padding-bottom: 5rem; }
 }
 .give__logo--cruk { width: 8.5rem; }
 .give__logo--pcuk { width: 8.4rem; }
-/* Given a little more size once the two pages sit abreast with room to spare,
-   where the marks at their phone size read as small against the width of the
-   column. They grow with the column and stop at 10rem — larger than this and a
-   charity's mark starts to speak louder than the ask it belongs to. The two
-   are one size written twice: the squarer mark is set a shade narrower
-   throughout, which is what matches them by eye. The base sizes above are left
-   in place, so a browser that cannot measure the column keeps them. */
+/* Given more size once the two sit abreast with room to spare, where their
+   phone size reads as small against the column: grown with it, and stopped at
+   10rem, beyond which a charity's mark speaks louder than the ask. One size
+   written twice — the squarer a shade narrower, which is what matches them by
+   eye — over the sizes above, which a browser that cannot measure keeps. */
 @container giving (width >= 34rem) {
   .give__logo--cruk { width: clamp(8.5rem, 25cqi, 10rem); }
   .give__logo--pcuk { width: clamp(8.4rem, 24.7cqi, 9.9rem); }
@@ -670,24 +678,17 @@ main { padding-bottom: 5rem; }
   text-underline-offset: .22em;
 }
 
-/* Once the two pages stack — below 24.5rem, which is where the two 11rem
-   columns and the 2.5rem between them stop fitting — each ask has the width of
-   the page to itself and nothing beside it. So the link comes round to the
-   right of its own mark rather than sitting under it, and the pair reads as
-   one line rather than as a tower.
-
-   Both move together, and the marks and the links are set in columns of one
-   width, so the two asks stay matched: one set beside its mark and the other
-   beneath would read as an accident rather than as a pair. The floor is what
-   that costs — the mark at 8.5rem, the space beside it, and a measure the link
-   can still be read on. Below it the link goes back under the mark, where it
-   has the whole width to itself. */
+/* Once the two pages stack — below 24.5rem, where the two 11rem columns and
+   the 2.5rem between them stop fitting — each ask has the page's width to
+   itself, so the link comes round beside its mark: one line, not a tower.
+   Both move together, in columns of one width, since one beside its mark and
+   the other beneath would read as an accident. The floor is the mark, the
+   space beside it, and a measure the link can be read on. */
 @container giving (width < 24.5rem) and (width >= 19rem) {
   .giving {
-    /* The marks in one column and the links in another, each column sized once
-       for both rows, and the block of the two centred on the page.
-       minmax(0, auto): wording longer than the room left beside the mark folds
-       onto a second line rather than taking the page sideways. */
+    /* Each column sized once for both rows, and the block of the two centred.
+       minmax(0, auto): wording longer than the room beside the mark folds onto
+       a second line rather than taking the page sideways. */
     grid-template-columns: auto minmax(0, auto);
     justify-content: center;
     align-items: center;
@@ -699,11 +700,10 @@ main { padding-bottom: 5rem; }
     grid-template-columns: subgrid;
     align-items: center;
   }
-  /* The space under the mark parted it from the link beneath it; the link is
-     beside it now. These are paragraphs, and the auto margins that centre a
-     paragraph in this band would float both away from their columns, so they
-     are set aside here as well — hence the .giving in front, which the rule
-     setting those margins outweighs without it. */
+  /* The space under the mark parted it from the link beneath; the link is
+     beside it now. They are paragraphs, and the auto margins that centre one
+     in this band would float both out of their columns — hence the .giving in
+     front, which the rule setting those margins outweighs without it. */
   .giving .give__cause { margin: 0; }
   .giving .give__act { margin: 0; text-align: left; text-wrap: balance; }
 }
@@ -1206,7 +1206,7 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 
 /* --- A quiet arrival ---------------------------------------------------- */
 @media (prefers-reduced-motion: no-preference) {
-  .hero__eyebrow, .portrait, .wordmark, .hero__name, .hero__dates {
+  .hero__eyebrow, .portrait, .wordmark, .hero__name, .hero__dates, .hero__note {
     animation: rise .9s cubic-bezier(.22, .61, .36, 1) both;
   }
   .portrait    { animation-delay: .1s; }
@@ -1215,6 +1215,8 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
   .wordmark    { animation-delay: .15s; }
   .hero__name  { animation-delay: .2s; }
   .hero__dates { animation-delay: .3s; }
+  /* A page's title, then the line beneath it — as the name, then the dates. */
+  .hero__note  { animation-delay: .3s; }
 }
 @keyframes rise {
   from { opacity: 0; transform: translateY(10px); }
