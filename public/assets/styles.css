@@ -454,6 +454,69 @@ main { padding-bottom: 5rem; }
   max-width: var(--measure);
 }
 
+/* --- In place of flowers -------------------------------------------------
+   The two fundraising pages, set like the order of the day further up: the
+   cause in small caps, the runner's name beneath it, and one link onwards.
+   Unboxed, and quieter than the day itself — this section asks, it does not
+   press. */
+
+/* The request, in the same voice as the line above the RSVP button. */
+.giving__ask {
+  margin: 0 auto 1.1rem;
+  max-width: 27rem;
+  font-family: var(--display);
+  font-size: clamp(1.25rem, 3.2vw, 1.5rem);
+  line-height: 1.5;
+  color: var(--ink);
+  text-wrap: balance;
+}
+/* Who is running, and when. Full body text rather than a footnote: this is
+   the part people read out to one another. */
+.giving__note { margin: 0 auto; }
+
+.giving { list-style: none; display: grid; margin: 2.75rem 0 0; padding: 0; }
+.give { text-align: center; }
+/* Stacked on a phone, parted by a hairline rather than an ornament — the two
+   pages are one ask, the same way the two events are one day. */
+.give + .give {
+  margin-top: 2.25rem;
+  padding-top: 2.25rem;
+  border-top: 1px solid var(--line-soft);
+}
+.give__who {
+  font-size: clamp(1.5rem, 4vw, 1.85rem);
+  margin: 0 0 .5rem;
+}
+.give__act { margin: 0; max-width: none; }
+/* A link, not a button. The page already asks for a reply and for a memory in
+   small caps on a pill; two more of those would leave five things shouting and
+   nothing leading. Set tall enough to be a comfortable target on a phone all
+   the same, and centred by the flex box rather than by the text alignment,
+   which an inline-flex box does not answer to. */
+.give__act a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  padding-inline: .6rem;
+  font-weight: 600;
+  text-underline-offset: .22em;
+}
+
+/* Side by side once there is room, parted by an upright hairline — the same
+   way the two events are. Narrower than the events' breakpoint because this
+   sits in the reading column, not the wide one. */
+@media (min-width: 760px) {
+  .giving { grid-template-columns: 1fr 1fr; }
+  .give { padding-inline: 1.75rem; }
+  .give + .give {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    border-left: 1px solid var(--line-soft);
+  }
+}
+
 /* --- A band across the page ---------------------------------------------
    The invitation to share a memory sits on its own ground, edge to edge, so
    it reads as a thing apart from the details of the day without being boxed

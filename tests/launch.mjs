@@ -22,9 +22,13 @@ for (const path of PAGES) {
     for (let n = walk.nextNode(); n; n = walk.nextNode()) {
       for (const m of n.textContent.matchAll(/\[[^\]\n]{2,40}\]/g)) found.add(m[0]);
     }
-    // Attributes carry them too: titles, descriptions, the portrait's alt text.
-    for (const el of document.querySelectorAll('[content], [alt], [title]')) {
-      for (const a of ['content', 'alt', 'title']) {
+    // Attributes carry them too: titles, descriptions, the portrait's alt text,
+    // and the addresses of the fundraising pages — a link still reading
+    // [JustGiving address] looks finished on the page and leads nowhere, which
+    // is the one placeholder a visitor would find by clicking rather than by
+    // reading.
+    for (const el of document.querySelectorAll('[content], [alt], [title], [href]')) {
+      for (const a of ['content', 'alt', 'title', 'href']) {
         const v = el.getAttribute(a);
         if (v) for (const m of v.matchAll(/\[[^\]\n]{2,40}\]/g)) found.add(m[0]);
       }
@@ -52,6 +56,15 @@ ok('the page says which address is the real one', card.canonical.startsWith('htt
 
 const picture = await p.request.get(card.image.replace(/^https:\/\/[^/]+/, B));
 ok('and that picture actually exists', picture.ok(), 'status ' + picture.status());
+
+/* The two fundraising pages. Both must be real addresses at JustGiving, not
+   the placeholders the template ships with — the section reads as an
+   invitation to give, so a link leading nowhere costs a donation. */
+const giving = await p.evaluate(() =>
+  [...document.querySelectorAll('.give__act a')].map(a => a.getAttribute('href')));
+ok('both fundraising pages have a real address',
+   giving.length === 2 && giving.every(h => /^https:\/\/(www\.)?justgiving\.com\//.test(h)),
+   giving.join('  '));
 
 /* The portrait, which starts as a drawn placeholder. */
 const portrait = await p.evaluate(() => {
