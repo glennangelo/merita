@@ -198,9 +198,13 @@
        ask reads as its own ground rather than as more of the same: two
        fundraising pages, each with the charity's own mark and the link that
        leads to it. The two marks sit in a slot of the same height so the
-       links line up side by side. -->
+       links line up side by side. Once the page is too narrow to hold the two
+       abreast, each link moves round to the right of its own mark rather than
+       under it, so long as it fits there. -->
   <section class="band band--deep center" aria-labelledby="giving-heading">
-   <div class="wrap">
+   <!-- Named as a measuring point, so the styles can ask how wide the ask
+        itself is rather than guessing it from the width of the window. -->
+   <div class="wrap wrap--giving">
     <h2 class="eyebrow" id="giving-heading">Contributions</h2>
 
     <!-- ✏️ EDIT: who is running, and for whom. -->
