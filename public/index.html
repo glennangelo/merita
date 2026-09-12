@@ -108,7 +108,7 @@
       <p class="event__venue">Forest Park Crematorium</p>
       <!-- ✏️ EDIT: the address, and the address the link opens in maps -->
       <p class="where">
-       <a href="https://maps.app.goo.gl/QneQaP4oEUrd7hmQA"><svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>Forest Road, Hainault, IG6 3HP<span class="visually-hidden"> — open in maps, for directions to the ceremony</span></a>
+       <a href="https://maps.app.goo.gl/QneQaP4oEUrd7hmQA"><span class="where__addr"><svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>Forest Road, Hainault, IG6 3HP</span><span class="visually-hidden"> — open in maps, for directions to the ceremony</span></a>
       </p>
       <!-- ✏️ EDIT (optional): parking, step-free access, anything practical.
            Or delete the line. -->
@@ -123,7 +123,7 @@
       <p class="event__venue">Foxburrows Barn</p>
       <!-- ✏️ EDIT: the address, and the address the link opens in maps -->
       <p class="where">
-       <a href="https://maps.app.goo.gl/LaNQXAafnNL7tf158"><svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>3 Fox Burrow Rd, IG7 4QN<span class="visually-hidden"> — open in maps, for directions to the celebration of life</span></a>
+       <a href="https://maps.app.goo.gl/LaNQXAafnNL7tf158"><span class="where__addr"><svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>3 Fox Burrow Rd, IG7 4QN</span><span class="visually-hidden"> — open in maps, for directions to the celebration of life</span></a>
       </p>
       <!-- ✏️ EDIT (optional): parking, step-free access, anything practical.
            Or delete the line. -->
@@ -198,12 +198,11 @@
        ask reads as its own ground rather than as more of the same: two
        fundraising pages, each with the charity's own mark and the link that
        leads to it. The two marks sit in a slot of the same height so the
-       links line up side by side. Once the page is too narrow to hold the two
-       abreast, each link moves round to the right of its own mark rather than
-       under it, so long as it fits there. -->
+       links line up side by side. Too narrow to hold the two abreast, and each
+       link moves round to the right of its own mark instead. -->
   <section class="band band--deep center" aria-labelledby="giving-heading">
-   <!-- Named as a measuring point, so the styles can ask how wide the ask
-        itself is rather than guessing it from the width of the window. -->
+   <!-- wrap--giving: a measuring point, so the styles can ask how wide this
+        column is rather than guess it from the window. -->
    <div class="wrap wrap--giving">
     <h2 class="eyebrow" id="giving-heading">Contributions</h2>
 
@@ -256,10 +255,9 @@
 
 <footer class="footer">
   <div class="wrap">
-    <!-- ✏️ EDIT: the line the page closes on. No telephone number or address
-         is given anywhere on the site, by choice — everyone invited knows the
-         family, and the forms ask anyone whose message will not send to
-         contact them directly, by whatever means they already have. -->
+    <!-- ✏️ EDIT: the line the page closes on. No number or address is given
+         anywhere, by choice: everyone invited knows the family, and the forms
+         say to contact them directly, by whatever means they have. -->
     <p>With love from the Baltazar Family</p>
   </div>
 </footer>
