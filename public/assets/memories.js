@@ -18,8 +18,8 @@
     strong.textContent = 'Thank you for your message';
     thanksBox.appendChild(strong);
     thanksBox.appendChild(document.createTextNode(
-      sent === 'private' ? 'It will be read by the family.'
-                         : 'It will be read by the family, and shared shortly.'));
+      sent === 'private' ? 'It will be shared privately with the family.'
+                         : 'It will be shared with the family and shown here shortly.'));
     thanksBox.hidden = false;
 
     /* Focus it, so a screen reader reads it out and a keyboard carries on from

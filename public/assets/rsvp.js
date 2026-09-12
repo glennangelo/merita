@@ -11,7 +11,6 @@
   var more      = document.getElementById('party-more');
   var said      = document.getElementById('party-said');
   var nameLabel = document.getElementById('name-label');
-  var attendLeg = document.getElementById('attend-legend');
   var onward    = document.getElementById('onward');
 
   var MIN = 1, MAX = 20;
@@ -28,12 +27,6 @@
   function asksFor(n) {
     return n > 1 ? 'Your names' : 'Your name';
   }
-  /* ✏️ EDIT: the date, kept in step with the legend in rsvp.html and with the
-     day named on the home page. */
-  function answersAs(n) {
-    var day = ' would love to attend on Saturday 10th October 2026:';
-    return (n > 1 ? 'We' : 'I') + day;
-  }
 
   /* The buttons keep themselves within range, and the name field asks for as
      many names as there are people coming; typing is left alone. Correcting
@@ -45,7 +38,6 @@
     less.disabled = !(n > MIN);
     more.disabled = !(n < MAX);
     nameLabel.textContent = asksFor(n);
-    attendLeg.textContent = answersAs(n);
   }
 
   function setParty(n) {
@@ -62,6 +54,43 @@
   party.addEventListener('input', syncToParty);
   syncToParty();
 
+  /* An error belongs beside the answer it is about: it is written into the
+     line above the field, which is empty and out of the way until then. The
+     box at the top of the form is left for what concerns the whole of it —
+     sending, and the sending failing. */
+  function fault(input, boxId, text) {
+    var box = document.getElementById(boxId);
+    box.textContent = text;
+    box.hidden = false;
+    if (input) {
+      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-describedby', boxId);
+      input.focus();
+    }
+  }
+  function clearFaults() {
+    ['party-error', 'name-error', 'attend-error'].forEach(function (id) {
+      var box = document.getElementById(id);
+      box.hidden = true;
+      box.textContent = '';
+    });
+    [name, party].forEach(function (input) {
+      input.setAttribute('aria-invalid', 'false');
+      input.removeAttribute('aria-describedby');
+    });
+  }
+  /* Corrected as they are typed, rather than standing until the next attempt. */
+  [name, party].forEach(function (input) {
+    input.addEventListener('input', function () {
+      if (input.getAttribute('aria-invalid') === 'true') clearFaults();
+    });
+  });
+  [ceremony, reception].forEach(function (box) {
+    box.addEventListener('change', function () {
+      if (ceremony.checked || reception.checked) clearFaults();
+    });
+  });
+
   function say(tone, headline, detail) {
     statusBox.dataset.tone = tone;
     statusBox.innerHTML = '';
@@ -75,26 +104,23 @@
 
   form.addEventListener('submit', async function (event) {
     event.preventDefault();
-    name.setAttribute('aria-invalid', 'false');
-    party.setAttribute('aria-invalid', 'false');
+    clearFaults();
 
     if (!name.value.trim()) {
-      name.setAttribute('aria-invalid', 'true');
-      say('error', partySize() > 1 ? 'Please add your names.' : 'Please add your name.', '');
-      name.focus();
+      fault(name, 'name-error',
+        partySize() > 1 ? 'Please add your names.' : 'Please add your name.');
       return;
     }
 
     var howMany = parseInt(party.value, 10);
     if (!(howMany >= 1 && howMany <= 20)) {
-      party.setAttribute('aria-invalid', 'true');
-      say('error', 'How many of you are coming?', ' A number between 1 and 20.');
-      party.focus();
+      fault(party, 'party-error', 'How many of you are coming? A number between 1 and 20.');
       return;
     }
 
     if (!ceremony.checked && !reception.checked) {
-      say('error', 'Which part of the day?', ' Please tick the ceremony, the celebration of life, or both.');
+      fault(null, 'attend-error',
+        'Which part of the day? Please tick the ceremony, the celebration of life, or both.');
       ceremony.focus();
       return;
     }
@@ -119,8 +145,7 @@
       if (!response.ok) throw new Error(result.error || 'Request failed');
 
       form.hidden = true;
-      say('ok', 'Thank you for letting us know.',
-        'The family look forward to seeing you.');
+      say('ok', 'Thank you for letting us know.', '');
       onward.hidden = false;
       /* The invitation below runs to the foot of the page, so the space main
          normally leaves beneath it would show as a stripe of bare parchment. */

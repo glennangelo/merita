@@ -55,12 +55,16 @@
     <div class="field-row">
       <div class="field">
         <label for="party">Number of attendees</label>
+        <!-- What is wrong with an answer is said above the answer itself, so
+             it is read on the way to the field rather than after it. Empty and
+             out of the way until there is something to say. -->
+        <p class="field-error" id="party-error" role="alert" hidden></p>
         <!-- The number can still be typed; the buttons are there for anyone who
              would rather not, which on a phone is most people. -->
         <div class="stepper">
           <button type="button" class="stepper__btn" id="party-less" aria-label="One fewer">&#8722;</button>
-          <input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
-                 inputmode="numeric" required>
+          <span class="ring"><input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
+                 inputmode="numeric" required></span>
           <button type="button" class="stepper__btn" id="party-more" aria-label="One more">+</button>
         </div>
         <p class="visually-hidden" id="party-said" role="status" aria-live="polite"></p>
@@ -73,17 +77,17 @@
              asked for, or several. It starts singular because the count starts
              at one. -->
         <label for="name" id="name-label">Your name</label>
-        <input type="text" id="name" name="name" required maxlength="80"
-               autocomplete="name">
+        <p class="field-error" id="name-error" role="alert" hidden></p>
+        <span class="ring"><input type="text" id="name" name="name" required maxlength="80"
+               autocomplete="name"></span>
       </div>
     </div>
 
     <fieldset>
-      <!-- "I" or "we", set by the number of attendees above. It starts in the
-           singular because the count starts at one.
-           ✏️ EDIT: the date, kept in step with the home page. It is written out
+      <!-- ✏️ EDIT: the date, kept in step with the home page. It is written out
            here as well as there so that nobody answers for the wrong day. -->
-      <legend class="fieldset__legend" id="attend-legend">I would love to attend on Saturday 10th October 2026:</legend>
+      <legend class="fieldset__legend" id="attend-legend">Let us know if you can attend on Saturday 10th October:</legend>
+      <p class="field-error" id="attend-error" role="alert" hidden></p>
       <div class="choices">
         <label class="choice">
           <input type="checkbox" id="ceremony" name="ceremony" checked>
@@ -107,7 +111,7 @@
     <div class="field">
       <label for="contact">Your phone or email <span class="optional">(optional)</span></label>
       <span class="hint" id="contact-hint">We&rsquo;ll contact you if plans change.</span>
-      <input type="text" id="contact" name="contact" maxlength="80" aria-describedby="contact-hint">
+      <span class="ring"><input type="text" id="contact" name="contact" maxlength="80" aria-describedby="contact-hint"></span>
     </div>
 
     <!-- Spam trap: not shown to people, and screen readers skip it. Called
