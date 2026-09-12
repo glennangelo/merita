@@ -25,6 +25,10 @@ const CONTRAST = `(() => {
   check('btnSolid',   '.btn:not(.btn--ghost)', 'own');
   check('btnGhost',   '.btn--ghost');
   check('notice',     '.notice');
+  check('givingAsk',  '.giving__ask');
+  check('givingNote', '.giving__note');
+  check('givingWho',  '.give__who');
+  check('givingLink', '.give__act a');
   check('bandEyebrow','.band .eyebrow');
   check('bandLead',   '.band__lead');
   check('bandGhost',  '.band .btn--ghost');
@@ -152,6 +156,37 @@ for (const [w, expect] of [[1440, 'side-by-side'], [1100, 'side-by-side'], [860,
   await c.close();
 }
 
+/* In place of flowers: the two fundraising pages. Abreast when there is room,
+   stacked when there is not, each link named for its own cause, and never
+   above the RSVP — the family ask for a reply first and a donation second.
+   That the addresses are real ones lives in launch.mjs, with the rest of the
+   checks that fail until the family's own words are in. */
+for (const [w, expect] of [[1280, 'side-by-side'], [390, 'stacked']]) {
+  const c = await b.newContext({ viewport: { width: w, height: 900 } });
+  const pg = await c.newPage();
+  await pg.goto(B + '/', { waitUntil: 'load' });
+  await pg.evaluate(() => document.fonts.ready);
+  const r = await pg.evaluate(() => {
+    const gives = [...document.querySelectorAll('.give')].map(e => e.getBoundingClientRect());
+    const links = [...document.querySelectorAll('.give__act a')];
+    return {
+      count: gives.length,
+      layout: gives.length === 2 && Math.abs(gives[0].top - gives[1].top) < 4 ? 'side-by-side' : 'stacked',
+      // Each page names its own cause for anyone listening rather than reading:
+      // two links both saying only "Donate at JustGiving" would be
+      // indistinguishable in a screen reader's list of links.
+      distinct: new Set(links.map(a => a.textContent.replace(/\s+/g, ' ').trim())).size === links.length,
+      belowRsvp: (() => {
+        const rsvp = document.querySelector('a[href="/rsvp"]').getBoundingClientRect();
+        return gives.every(g => g.top >= rsvp.bottom - 1);
+      })()
+    };
+  });
+  ok(`giving at ${w}px: two pages ${expect}, each named, both beneath the RSVP`,
+     r.count === 2 && r.layout === expect && r.distinct && r.belowRsvp, JSON.stringify(r));
+  await c.close();
+}
+
 // The band must be the same paper taken deeper, not a second colour set
 // against it. Its background is a gradient, so read its stops and compare
 // their hue and lightness with the page's own ground.
@@ -182,8 +217,17 @@ for (const path of ['/', '/rsvp', '/memories', '/share', '/admin']) {
   const leftovers = await p.evaluate(() => ({
     header: document.querySelectorAll('header, .topbar, .nav').length,
     skip: document.querySelectorAll('a.skip').length,
+    // href="#" on its own is the template's stand-in for an address nobody
+    // knows yet — the celebration venue — and not a link into the page, so
+    // there is nothing for it to dangle from. Asking querySelector about it
+    // throws, which used to stop this whole suite at its 30th check and take
+    // every check after it down with it, unrun and unreported.
     danglingSkip: [...document.querySelectorAll('a[href^="#"]')]
-      .filter(a => !document.querySelector(a.getAttribute('href'))).length
+      .filter(a => {
+        const href = a.getAttribute('href');
+        if (href === '#') return false;
+        try { return !document.querySelector(href); } catch { return true; }
+      }).length
   }));
   ok(`${path}: no header, no orphaned skip link`,
      leftovers.header === 0 && leftovers.skip === 0 && leftovers.danglingSkip === 0,

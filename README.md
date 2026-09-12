@@ -181,6 +181,7 @@ itself within a minute or so.
 | Celebration venue, date, time, address | the second `event` block, headed **Celebration of Life** |
 | Addresses | each address is itself the link to a map — change the visible address **and** the same address after `query=`, with `+` instead of spaces |
 | The line describing each event | the `aside` line at the end of each one — delete it if there is nothing to say |
+| The two fundraising pages | the section headed **In place of flowers** — see below |
 | Who to contact | the footer, at the very bottom — **and the same line in the footers of `memories.html`, `share.html` and `rsvp.html`**, because the forms tell people to contact you directly if something will not send |
 | The share card | the `og:` lines near the top — see below |
 
@@ -189,6 +190,22 @@ itself within a minute or so.
 The invitation on the home page uses their first name on its own — "tributes to
 [First Name]". That is a separate placeholder from the one below, so search for
 `[First Name]` too.
+
+### The two fundraising pages
+
+The section headed **In place of flowers** asks well-wishers to give rather than
+send flowers, and names the two people running for each charity. It ships with
+`[Abigail's JustGiving address]` and `[Mark and Glenn's JustGiving address]` in
+place of the real links.
+
+Open each JustGiving page in a browser, copy the address from the top of the
+window, and paste it between the quotation marks in `href=""`. It must be
+written out in full, starting with `https://`.
+
+`npm run check` fails until both are real addresses at justgiving.com, so the
+links cannot quietly go out leading nowhere. If a runner drops out, delete that
+whole `<li class="give">` block and the one that is left fills the section on
+its own.
 
 ### Their name appears in more than one place
 
@@ -407,7 +424,7 @@ Worth running after any change to the pages, however small.
 
 ```
 public/                 the website itself
-  index.html            the main page — photo, name, dates, ceremony, celebration, live stream
+  index.html            the main page — photo, name, dates, ceremony, celebration, live stream, donations
   rsvp.html             the reply form
   memories.html         the memories people have shared
   share.html            the form for sharing one
