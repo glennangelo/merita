@@ -6,7 +6,7 @@
 
 <!-- ✏️ EDIT: page title and description (shown in search results and when the link is shared) -->
 <title>In Loving Memory of Merita Shaw</title>
-<meta name="description" content="Remembering Merita Shaw, [1234]–[2026]. Details of the memorial ceremony and celebration of life, and memories shared by family and friends.">
+<meta name="description" content="Remembering Merita Shaw, 1945–2026. Details of the memorial ceremony and celebration of life, and memories shared by family and friends.">
 
 <meta name="theme-color" content="#f8f4ed">
 <meta name="color-scheme" content="light">
@@ -15,15 +15,20 @@
      text message. These addresses must be written out in full, starting with
      https:// — a share card is built on someone else's server, which has no
      way to resolve "/assets/...".
-     ✏️ EDIT: both addresses below, if the site moves to its own domain. -->
+     The picture itself is built by "npm run og", which photographs
+     /og-card.html at the size these services expect.
+     ✏️ EDIT: the addresses below, if the site moves to its own domain. -->
 <link rel="canonical" href="https://merita.memorial">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="In Loving Memory of Merita Shaw">
 <meta property="og:title" content="In Loving Memory of Merita Shaw">
 <meta property="og:description" content="Details of the memorial ceremony and celebration of life, and memories shared by family and friends.">
 <meta property="og:url" content="https://merita.memorial">
-<meta property="og:image" content="https://merita.memorialassets/portrait.jpg">
-<meta property="og:image:alt" content="Portrait of Merita Shaw.">
+<meta property="og:image" content="https://merita.memorial/assets/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Merita Shaw, with her name and the dates of her life.">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🕊️</text></svg>">
@@ -56,18 +61,17 @@
     <!-- ✏️ EDIT: dates. Keep the datetime="YYYY-MM-DD" values accurate — they help
          screen readers and search engines read the dates correctly. -->
     <p class="hero__dates">
-      <time datetime="1234-01-01">30th August 1945</time>
+      <time datetime="1945-08-30">30th August 1945</time>
       <span class="sep" aria-hidden="true">·</span>
       <span class="visually-hidden">to</span>
-      <time datetime="2026-01-01"> 3rd September 2026</time>
+      <time datetime="2026-09-03">3rd September 2026</time>
     </p>
   </div>
 
   <!-- ✏️ EDIT: a line about the person, in your own words. Delete it if you
        would rather the page went straight to the details of the day. -->
   <p class="epitaph">
-    Join us in a celebration of our sister, auntie, friend and devoted wife.
-  </p>
+  Join us in celebrating the life of a devoted wife, sister, aunt and friend.  </p>
 
   <div class="ornament" aria-hidden="true">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1">
@@ -79,62 +83,52 @@
  </div><!-- /wrap -->
 
   <!-- ================= The day =================
-       A wider column than the rest of the page, so the two events can sit
-       side by side once there is room for them. -->
+       Set as an order of the day: the date once at its head, then each event
+       against the hour it begins, the way a printed programme runs. A wider
+       column than the rest of the page, so the hour and the details can sit
+       side by side. -->
   <section class="section" aria-label="The day">
    <div class="wrap wrap--wide">
-    <div class="events">
-     <article class="event" aria-labelledby="ceremony-heading">
-      <p class="eyebrow">Memorial Ceremony</p>
-      <!-- ✏️ EDIT: venue name -->
-      <h2 id="ceremony-heading">Forest Park Crematorium</h2>
-      <dl>
-        <dt class="visually-hidden">When</dt>
-        <!-- ✏️ EDIT: ceremony date and time -->
-        <dd class="when">
-          <time datetime="2026-10-10">Saturday, 10 October  2026</time><br>
-          <time datetime="2026-10-10T11:30">11:30 am</time>
-        </dd>
 
-        <dt class="visually-hidden">Where</dt>
-        <!-- ✏️ EDIT: the address, and the same address after "query=" (spaces become +) -->
-        <dd class="where">
-          <a href="https://maps.app.goo.gl/QneQaP4oEUrd7hmQA">
-            <svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>
-Forest Road, Hainault, IG6 3HP<span class="visually-hidden"> — open in maps, for directions to the ceremony</span>
-          </a>
-        </dd>
+    <!-- ✏️ EDIT: the date of the day. Keep datetime="YYYY-MM-DD" the same as
+         the date written beside it. If the two events ever fall on different
+         days, give each one its own date beneath its hour instead. -->
+    <p class="day"><time datetime="2026-10-10">Saturday, <span class="day__date">10 October 2026</span></time></p>
 
-        <!-- ✏️ EDIT (optional): parking, step-free access, flowers. Or delete. -->
-        <dd class="aside">Mass and Committal </dd>
-      </dl>
-     </article>
+    <ol class="day-list">
+     <li class="event">
+      <!-- ✏️ EDIT: the hour the ceremony begins -->
+      <p class="when"><time datetime="2026-10-10T11:15">11:15 am</time></p>
+      <div class="event__detail">
+       <h2 class="eyebrow">Memorial Ceremony</h2>
+       <!-- ✏️ EDIT: venue name -->
+       <p class="event__venue">Forest Park Crematorium</p>
+       <!-- ✏️ EDIT: the address, and the address the link opens in maps -->
+       <p class="where">
+        <a href="https://maps.app.goo.gl/QneQaP4oEUrd7hmQA"><svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>Forest Road, Hainault, IG6 3HP<span class="visually-hidden"> — open in maps, for directions to the ceremony</span></a>
+       </p>
+       <!-- ✏️ EDIT (optional): what will happen, then anything practical —
+            parking, step-free access. Or delete the line. -->
+       <p class="aside">Mass and Committal &middot; Parking on site</p>
+      </div>
+     </li>
 
-     <article class="event" aria-labelledby="reception-heading">
-      <p class="eyebrow">Celebration of Life</p>
-      <!-- ✏️ EDIT: venue name -->
-      <h2 id="reception-heading">Venue <br/>TBC</h2>
-      <dl>
-        <dt class="visually-hidden">When</dt>
-        <!-- ✏️ EDIT: celebration of life date and time -->
-         <dd class="when">
-          <time datetime="2026-10-10">Saturday, 10 October  2026</time><br>
-          <time datetime="2026-10-10T13:00">1:00 pm</time>
-        </dd>
-
-        <dt class="visually-hidden">Where</dt>
-        <!-- ✏️ EDIT: the address, and the same address after "query=" (spaces become +) -->
-        <dd class="where">
-          <a href="#">
-            <svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>Address TBC<span class="visually-hidden"> — open in maps, for directions to the celebration of life</span>
-          </a>
-        </dd>
-
-        <dd class="aside">Refreshments and sharing of memories</dd>
-      </dl>
-     </article>
-
-    </div><!-- /events -->
+     <li class="event">
+      <!-- ✏️ EDIT: the hour the celebration begins -->
+      <p class="when"><time datetime="2026-10-10T13:00">1:00 pm</time></p>
+      <div class="event__detail">
+       <h2 class="eyebrow">Celebration of Life</h2>
+       <!-- ✏️ EDIT: venue name -->
+       <p class="event__venue">Foxburrows Barn</p>
+       <!-- ✏️ EDIT: the address, and the address the link opens in maps -->
+       <p class="where">
+        <a href="https://maps.app.goo.gl/LaNQXAafnNL7tf158"><svg class="pin" width="15" height="19" viewBox="0 0 16 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M8 1.2c3.2 0 5.8 2.6 5.8 5.8 0 4.1-5.8 11.8-5.8 11.8S2.2 11.1 2.2 7c0-3.2 2.6-5.8 5.8-5.8z"/><circle cx="8" cy="7" r="2.2"/></svg>3 Fox Burrow Rd, IG7 4QN<span class="visually-hidden"> — open in maps, for directions to the celebration of life</span></a>
+       </p>
+       <!-- ✏️ EDIT (optional): what will happen, then anything practical. -->
+       <p class="aside">Refreshments and sharing of memories &middot; Paid parking nearby, entrance through the courtyard</p>
+      </div>
+     </li>
+    </ol>
 
     <!-- Parts the two events from the ask that follows them. -->
     <div class="ornament ornament--tight" aria-hidden="true">
@@ -179,54 +173,9 @@ Forest Road, Hainault, IG6 3HP<span class="visually-hidden"> — open in maps, f
     REMOVE THIS LINE TOO -->
   </section>
 
-  <div class="ornament" aria-hidden="true">
-    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.1">
-      <path d="M10 3 L14 10 L10 17 L6 10 Z"/>
-    </svg>
-  </div>
-
-  <!-- ================= In place of flowers =================
-       Two fundraising pages, set like the order of the day above: the cause,
-       then who is running for it, then the one link that leads there. -->
-  <section class="section center" aria-labelledby="giving-heading">
-    <h2 class="eyebrow" id="giving-heading">In place of flowers</h2>
-
-    <!-- ✏️ EDIT: the request itself, in your own words. -->
-    <p class="giving__ask">The family kindly ask that, in place of flowers,
-      well-wishers consider a donation to one of two causes close to us</p>
-
-    <!-- ✏️ EDIT: who is running, for whom, and the date of the race. Keep
-         the datetime="YYYY-MM-DD" the same as the date written beside it. -->
-    <p class="giving__note">Abigail is raising money for Cancer Research UK, and
-      Mark and Glenn for Pancreatic Cancer UK. All three are running the London
-      Landmarks Half Marathon on
-      <time datetime="2027-04-04">Sunday, 4 April 2027</time>.</p>
-
-    <!-- ✏️ EDIT: paste each JustGiving address between the quotation marks
-         in href="", replacing the words in [square brackets]. They must be
-         written out in full, starting with https://. Until they are, "npm run
-         check" will fail and say so, rather than letting the links go out
-         leading nowhere. -->
-    <ul class="giving">
-      <li class="give">
-        <p class="eyebrow">Cancer Research UK</p>
-        <h3 class="give__who">Abigail</h3>
-        <p class="give__act">
-          <a href="[Abigail's JustGiving address]">Donate at JustGiving<span class="visually-hidden"> — Abigail's page, raising money for Cancer Research UK</span></a>
-        </p>
-      </li>
-
-      <li class="give">
-        <p class="eyebrow">Pancreatic Cancer UK</p>
-        <h3 class="give__who">Mark and Glenn</h3>
-        <p class="give__act">
-          <a href="[Mark and Glenn's JustGiving address]">Donate at JustGiving<span class="visually-hidden"> — Mark and Glenn's page, raising money for Pancreatic Cancer UK</span></a>
-        </p>
-      </li>
-    </ul>
-  </section>
-
  </div><!-- /wrap -->
+
+
 
   <!-- ================= Memories =================
        Set on its own ground, running the full width of the window, so the
@@ -242,6 +191,60 @@ Forest Road, Hainault, IG6 3HP<span class="visually-hidden"> — open in maps, f
         <a class="btn btn--ghost" href="/memories">See the memories</a>
       </div>
     </div>
+  </section>
+  <!-- ================= Contributions =================
+       The same parchment as the invitation above it, a shade deeper, so the
+       ask reads as its own ground rather than as more of the same: two
+       fundraising pages, each with the charity's own mark and the link that
+       leads to it. The two marks sit in a slot of the same height so the
+       links line up side by side. -->
+  <section class="band band--deep center" aria-labelledby="giving-heading">
+   <div class="wrap">
+    <h2 class="eyebrow" id="giving-heading">Contributions</h2>
+
+    <!-- ✏️ EDIT: who is running, and for whom. -->
+
+    <!-- ✏️ EDIT: the request itself, in your own words. -->
+    <p class="giving__note">Merita’s niece and nephews are running the <a href="https://llhm.co.uk">London Landmarks Half
+      Marathon</a> in her memory. The family kindly ask that well-wishers consider a
+      contribution to causes close to us.</p>
+
+    <!-- ✏️ EDIT: each JustGiving address between the quotation marks in
+         href="". They must be written out in full, starting with https://. -->
+    <ul class="giving">
+      <li class="give">
+        <p class="give__cause">
+          <!-- The mark leads to the same page as the words below it. A second
+               link to one place would be read out twice and stopped at twice on
+               the way through, so this one is for the mouse and the thumb only:
+               hidden from a screen reader, and passed over by the keyboard. -->
+          <a class="give__markline" href="https://www.justgiving.com/page/abigail-baltazar-1" tabindex="-1" aria-hidden="true">
+            <img class="give__logo give__logo--cruk" src="/assets/cancer-research-uk.svg"
+                 width="268" height="108" alt="Cancer Research UK">
+          </a>
+        </p>
+        <p class="give__act">
+          <a href="https://www.justgiving.com/page/abigail-baltazar-1">Donate to Abigail<span class="visually-hidden"> — her JustGiving page, raising money for Cancer Research UK</span></a>
+        </p>
+      </li>
+
+      <li class="give">
+        <p class="give__cause">
+          <!-- The mark leads to the same page as the words below it. A second
+               link to one place would be read out twice and stopped at twice on
+               the way through, so this one is for the mouse and the thumb only:
+               hidden from a screen reader, and passed over by the keyboard. -->
+          <a class="give__markline" href="https://www.justgiving.com/fundraising/ll027formerita" tabindex="-1" aria-hidden="true">
+            <img class="give__logo give__logo--pcuk" src="/assets/pancreatic-cancer-uk.svg"
+                 width="225" height="67" alt="Pancreatic Cancer UK">
+          </a>
+        </p>
+        <p class="give__act">
+          <a href="https://www.justgiving.com/fundraising/ll027formerita">Donate to Mark &amp; Glenn<span class="visually-hidden"> — their JustGiving page, raising money for Pancreatic Cancer UK</span></a>
+        </p>
+      </li>
+    </ul>
+   </div><!-- /wrap -->
   </section>
 
 </main>

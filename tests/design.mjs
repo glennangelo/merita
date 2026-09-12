@@ -25,9 +25,7 @@ const CONTRAST = `(() => {
   check('btnSolid',   '.btn:not(.btn--ghost)', 'own');
   check('btnGhost',   '.btn--ghost');
   check('notice',     '.notice');
-  check('givingAsk',  '.giving__ask');
   check('givingNote', '.giving__note');
-  check('givingWho',  '.give__who');
   check('givingLink', '.give__act a');
   check('bandEyebrow','.band .eyebrow');
   check('bandLead',   '.band__lead');
@@ -125,33 +123,41 @@ for (const w of [320, 390, 768, 1280, 1920]) {
   await c.close();
 }
 
-// The two events: abreast when there is room, stacked when there is not, and
-// the RSVP always further from them than they are from each other.
-for (const [w, expect] of [[1440, 'side-by-side'], [1100, 'side-by-side'], [860, 'stacked'], [390, 'stacked']]) {
+// The order of the day: one event under the other at every width, the hour
+// beside the details where there is room for it and above them on a phone, and
+// the RSVP always further from the events than they are from each other.
+for (const [w, expect] of [[1440, 'beside'], [1100, 'beside'], [860, 'beside'], [390, 'above']]) {
   const c = await b.newContext({ viewport: { width: w, height: 900 } });
   const pg = await c.newPage();
   await pg.goto(B + '/', { waitUntil: 'load' });
   await pg.evaluate(() => document.fonts.ready);
   const r = await pg.evaluate(() => {
     const ev = [...document.querySelectorAll('.event')].map(e => e.getBoundingClientRect());
+    const when = [...document.querySelectorAll('.event .when')].map(e => e.getBoundingClientRect());
+    const detail = [...document.querySelectorAll('.event__detail')].map(e => e.getBoundingClientRect());
     // The ask is the line and the button together, and the line is optional —
     // so find whichever comes first rather than relying on what sits next to
     // what. Tying this to adjacency broke the moment a line was added between.
     const link = document.querySelector('a[href="/rsvp"]');
     const ask = (document.querySelector('.rsvp-lead') || link.closest('.actions'))
                   .getBoundingClientRect();
-    const acts = ask;
-    const events = document.querySelector('.events').getBoundingClientRect();
+    const list = document.querySelector('.day-list').getBoundingClientRect();
     return {
-      layout: ev.length === 2 && Math.abs(ev[0].top - ev[1].top) < 4 ? 'side-by-side' : 'stacked',
+      inOrder: ev.length === 2 && ev[1].top >= ev[0].bottom - 1,
+      // The date is said once at the head of the day, above both of them.
+      dateAtTheHead: (() => {
+        const d = document.querySelector('.day');
+        return !!d && d.getBoundingClientRect().bottom <= ev[0].top + 1;
+      })(),
+      hour: when.every((t, i) => t.right <= detail[i].left + 1) ? 'beside' : 'above',
       // gap between the two events, and the gap above the RSVP
-      between: ev.length === 2 ? Math.round(Math.min(Math.abs(ev[1].top - ev[0].bottom), Math.abs(ev[1].left - ev[0].right))) : 0,
-      aboveRsvp: Math.round(acts.top - events.bottom),
-      rsvpBelowBoth: ev.every(e => acts.top >= e.bottom - 1)
+      between: ev.length === 2 ? Math.round(ev[1].top - ev[0].bottom) : 0,
+      aboveRsvp: Math.round(ask.top - list.bottom),
+      rsvpBelowBoth: ev.every(e => ask.top >= e.bottom - 1)
     };
   });
-  ok(`${w}px: events ${expect}, RSVP beneath both and set further off`,
-     r.layout === expect && r.rsvpBelowBoth && r.aboveRsvp > r.between,
+  ok(`${w}px: the hour ${expect} the details, the RSVP beneath both and set further off`,
+     r.inOrder && r.dateAtTheHead && r.hour === expect && r.rsvpBelowBoth && r.aboveRsvp > r.between,
      JSON.stringify(r));
   await c.close();
 }
@@ -251,8 +257,11 @@ for (const path of ['/rsvp', '/memories', '/share', '/admin']) {
       goesHome: new URL(el.href).pathname === '/',
       namesThem: /In Loving Memory of/i.test(el.textContent),
       tall: Math.round(r.height) >= 44,
-      aboveTheFold: r.top < 200,
-      saysWhereItGoes: /back to the memorial page/i.test(el.textContent)
+      // Read without scrolling, on the shortest phone anyone still carries.
+      // Only her portrait is allowed above it, which is what puts the line
+      // itself past the first 200px it used to have to sit within.
+      aboveTheFold: r.bottom < 360,
+      saysWhereItGoes: /back to the memorial details/i.test(el.textContent)
     };
   });
   const gap = await p.evaluate(() => {
@@ -294,7 +303,8 @@ async function seedMemory(page, name, w, h) {
   await page.setInputFiles('#photo', { name: 'p.jpg', mimeType: 'image/jpeg', buffer: Buffer.from(bytes) });
   await page.waitForSelector('.preview[data-shown="true"]');
   await page.click('#submit-btn');
-  await page.waitForSelector('#form-status[data-tone="ok"]');
+  /* Sending leads on to the memories, where the thank-you is shown. */
+  await page.waitForSelector('#thanks:not([hidden])');
 }
 await p.goto(B + '/share', { waitUntil: 'load' });
 await seedMemory(p, 'A wide photograph', 2400, 1000);
@@ -348,8 +358,13 @@ const dock = await p.evaluate(() => {
            hasButton: !!d.querySelector('a[href="/share"]') };
 });
 // The page scrolls smoothly, so an animated jump would be measured mid-flight.
+// Twice, with a pause between: the photographs settle to their final heights
+// as they arrive, and a page that grows by a few pixels after the first jump
+// would leave this measuring a foot of page it never reached.
 await p.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
 await p.waitForTimeout(400);
+await p.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+await p.waitForTimeout(100);
 const docked = await p.evaluate(() => {
   const d = document.querySelector('.dock').getBoundingClientRect();
   const f = document.querySelector('.footer').getBoundingClientRect();
@@ -507,7 +522,7 @@ for (const [label, width, root] of [['default text', 320, null],
   await tight.close();
 }
 
-/* Every page's footer leads back to the memorial page, and says the same
+/* Every page's footer leads back to the memorial details, and says the same
    thing on the way. The share page used to point at the memories instead, so
    the one link people rely on to get their bearings changed depending on where
    they happened to be. */
@@ -519,8 +534,8 @@ for (const path of ['/memories', '/share', '/rsvp', '/admin']) {
     const a = document.querySelector('.footer a');
     return { href: a && new URL(a.href).pathname, text: a && a.textContent.trim() };
   });
-  ok(`${path}: the footer leads back to the memorial page`,
-     foot.href === '/' && /memorial page/i.test(foot.text || ''), JSON.stringify(foot));
+  ok(`${path}: the footer leads back to the memorial details`,
+     foot.href === '/' && /memorial details/i.test(foot.text || ''), JSON.stringify(foot));
   await c.close();
 }
 

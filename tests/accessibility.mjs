@@ -90,7 +90,8 @@ ok('photo shrunk in the browser before upload',
    Math.max(shrunk.w, shrunk.h) <= 2000 && shrunk.w < 3000,
    `3000x2000 chosen -> ${shrunk.w}x${shrunk.h} to send`);
 await page.click('#submit-btn');
-await page.waitForSelector('#form-status[data-tone="ok"]');
+/* Sending a memory leads on to the memories, where the thank-you is shown. */
+await page.waitForSelector('#thanks:not([hidden])');
 ok('submission confirmed', true);
 
 // a private one too
@@ -99,7 +100,8 @@ await page.fill('#name', 'A quiet friend');
 await page.fill('#message', 'For the family only.');
 await page.check('#private');
 await page.click('#submit-btn');
-await page.waitForSelector('#form-status[data-tone="ok"]');
+/* Sending a memory leads on to the memories, where the thank-you is shown. */
+await page.waitForSelector('#thanks:not([hidden])');
 
 // public guestbook must not show either yet
 await page.goto(B + '/memories', { waitUntil: 'load' });

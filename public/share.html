@@ -18,8 +18,14 @@
 <body>
 <main id="main" class="wrap">
   <div class="hero hero--compact">
+    <!-- Her likeness at the size of a locket, above the line that names her, on
+         the pages that carry no hero portrait of their own. Decorative: the
+         line below says who she is, and a screen reader repeating it here
+         would only be in the way. -->
+    <img class="portrait portrait--small" src="/assets/merita-small.jpg"
+         width="280" height="350" alt="" decoding="async">
     <!-- ✏️ EDIT: the name, here and in the hero on the home page -->
-    <a class="wordmark" href="/">In Loving Memory of Merita<span class="visually-hidden"> — back to the memorial page</span></a>
+    <a class="wordmark" href="/">In Loving Memory of Merita<span class="visually-hidden"> — back to the memorial details</span></a>
     <h1 class="hero__name page-title">Share a memory</h1>
     <!-- ✏️ EDIT: their first name -->
     <p class="hero__note">The family invite you to share any fond memories,
@@ -93,18 +99,17 @@
     <button type="submit" class="btn btn--block" id="submit-btn">Send</button>
   </form>
 
-  <!-- Revealed once a memory has been sent: the form is hidden by then, and a
-       confirmation with no way onward is a dead end. -->
-  <p class="actions actions--center" id="onward" hidden>
+  <!-- The way through to the memories for anyone who came to read rather than
+       to write. Sending one leads there by itself, thank-you and all. -->
+  <p class="actions actions--center actions--spaced">
     <a class="btn btn--ghost" href="/memories">See the memories</a>
-    <a class="btn btn--ghost" href="/">Back to the memorial page</a>
   </p>
 
 </main>
 
 <footer class="footer">
   <div class="wrap">
-    <p><a href="/">Back to the memorial page</a></p>
+    <p><a href="/">Back to the memorial details</a></p>
     <!-- ✏️ EDIT: keep this the same as the footer on the home page. -->
   </div>
 </footer>

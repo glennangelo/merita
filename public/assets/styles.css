@@ -156,7 +156,15 @@ p { margin: 0 0 1.1em; max-width: var(--measure); }
 a { color: var(--accent-dark); text-underline-offset: .18em; }
 a:hover { color: var(--focus); }
 
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+/* The ring is drawn clear of what it marks rather than tight against it, and
+   softened at the corners: on a field it reads as a frame around the answer
+   being given, not as a box shut around it. The radius is on the element so
+   the outline follows it — nothing else about the field changes. */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 6px;
+  border-radius: 7px;
+}
 
 /* --- Layout ------------------------------------------------------------- */
 .wrap { width: min(100% - var(--gutter) * 2, 40rem); margin-inline: auto; }
@@ -189,7 +197,7 @@ main { padding-bottom: 5rem; }
 .hero { text-align: center; padding: 4rem 0 0; }
 .hero p { margin-inline: auto; }
 
-/* The line that names them, doubling as the way back to the memorial page.
+/* The line that names them, doubling as the way back to the memorial details.
    No underline at rest, as a masthead rather than a link in a sentence, but
    plainly one on hover and to the keyboard. */
 .wordmark {
@@ -235,6 +243,19 @@ main { padding-bottom: 5rem; }
   box-shadow: 0 2px 4px rgba(60, 48, 28, .07), 0 14px 40px rgba(60, 48, 28, .10);
 }
 
+/* The same portrait at the size of a locket, under the line that names her on
+   pages with no hero of their own. Its own file, cropped closer and saved
+   small: at this size the full photograph would be a hundred times the picture
+   anyone can see. */
+.portrait--small {
+  width: 5.5rem;
+  /* Nothing above: the line that names her already leaves room beneath it, and
+     the portrait belongs with the title below rather than adrift between. */
+  margin: 0 auto 1.35rem;
+  border-radius: 48% 48% 2px 2px / 34% 34% 1px 1px;
+  box-shadow: 0 1px 3px rgba(60, 48, 28, .08), 0 6px 18px rgba(60, 48, 28, .09);
+}
+
 .hero__name {
   font-size: clamp(2.7rem, 10vw, 4.1rem);
   line-height: 1.05;
@@ -245,7 +266,10 @@ main { padding-bottom: 5rem; }
 .hero__dates {
   font-family: var(--display);
   font-variant-numeric: lining-nums;
-  font-size: 1.45rem;
+  /* Capped against the width of the screen as well as set in rem: a date is
+     never broken across two lines, so at very large text the line has to stop
+     growing rather than run off the side of the page. */
+  font-size: min(1.45rem, 5.5vw);
   letter-spacing: .04em;
   color: var(--ink-soft);
   margin: 0 auto;
@@ -255,11 +279,21 @@ main { padding-bottom: 5rem; }
 .hero__dates time { white-space: nowrap; }
 
 /* Measured in em, so this responds to enlarged text as well as a small screen:
-   at 200% type a phone is "narrow" long before its pixel width says so. */
-@media (max-width: 30em) {
-  .hero__dates { font-size: 1.25rem; }
-  .hero__dates time { white-space: normal; }
-  .hero__dates .sep { padding: 0 .35rem; }
+   at 200% type a phone is "narrow" long before its pixel width says so.
+   Rather than letting a date break across two lines, the two dates stack one
+   above the other with the dot centred between them, the way they are set on
+   a memorial card. The stack holds until there is room for the pair on one
+   line — a little past the usual phone, because two written-out dates side by
+   side need more room than a phone has. */
+@media (max-width: 34em) {
+  .hero__dates {
+    font-size: min(1.25rem, 9vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .1rem;
+  }
+  .hero__dates .sep { padding: 0; line-height: 1.2; }
 }
 
 .hero__note { margin-top: 1.75rem; }
@@ -294,31 +328,110 @@ main { padding-bottom: 5rem; }
 }
 
 /* --- The order of the day ----------------------------------------------
-   Set like a printed programme: centred, unboxed, one thing under another. */
-.events { display: grid; }
-.event { text-align: center; }
+   Set like a printed programme: the date at its head, then each event against
+   the hour it begins. Unboxed, parted only by a hairline — the two events are
+   one day, and the reply beneath belongs to both of them. */
 
-/* Stacked on a phone and parted only by a hairline, not an ornament: the two
-   events are one thing, and the RSVP beneath belongs to both of them. An
-   ornament here read as a section break and made the button look as though it
-   applied to the celebration alone. */
+/* The date, said once for the whole day. The largest words in the section,
+   because everything under it hangs off this one fact. */
+.day {
+  font-family: var(--display);
+  font-variant-numeric: lining-nums;
+  /* Capped against the width of the screen as well as set in rem: the date is
+     never broken between the day and the month, so at very large text the line
+     has to stop growing rather than run off the side of the page. */
+  font-size: min(clamp(1.9rem, 5.2vw, 2.5rem), 12vw);
+  line-height: 1.2;
+  letter-spacing: .01em;
+  text-align: center;
+  color: var(--ink);
+  margin: 0 auto 3rem;
+  max-width: none;
+  text-wrap: balance;
+}
+
+/* The day and the date hold together: where the line has to break on a phone
+   it breaks after the weekday, rather than parting "10" from "October". */
+.day__date { white-space: nowrap; }
+
+/* The list holds the two columns so that both events share them: each event is
+   a grid of its own, and left to themselves their hours would line up to
+   nothing. The plain two-column rule above it is what a browser without
+   subgrid falls back to — the hours sit a few pixels apart there, which is the
+   whole of what is lost. */
+.day-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  column-gap: 1.75rem;
+}
+
+/* The hour in a column of its own, the details in the next: the eye runs down
+   the times and stops at the one it wants. min-width: a grid column will not
+   shrink below its longest word unless it is told it may, and at 200% text a
+   venue name would otherwise hold the page open. */
+.event {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  grid-template-columns: subgrid;
+  column-gap: 1.75rem;
+  text-align: left;
+  min-width: 0;
+}
 .event + .event {
-  margin-top: 2.75rem;
-  padding-top: 2.75rem;
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
   border-top: 1px solid var(--line-soft);
 }
+.event__detail { min-width: 0; }
+.event__detail > * { margin-inline: 0; }
+
+/* The hour, set at the size the venue name used to be: on a page of one day,
+   this is what tells the two events apart. Right-aligned against the details,
+   so the column reads as a margin of times. */
+.event .when {
+  font-family: var(--display);
+  font-variant-numeric: lining-nums;
+  font-size: clamp(1.6rem, 4.6vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  text-align: right;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.event__venue {
+  font-family: var(--display);
+  font-size: clamp(1.45rem, 3.6vw, 1.7rem);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 .45rem;
+  max-width: none;
+  color: var(--ink);
+  /* Hyphenated where the language allows it, broken where it does not: at very
+     large text a single long word is wider than a phone, and a venue name
+     wrapped mid-word reads better than a page that scrolls sideways. */
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+.event .eyebrow { margin-bottom: .3rem; }
 
 /* The reply covers the whole day, so it must sit further from the events than
    they sit from each other — otherwise it reads as belonging to the second
    one alone, which is exactly the wrong hierarchy. */
 /* Kept as the fallback for when the line above the button has been deleted,
    in which case the button follows the events directly. */
-.events + .actions { margin-top: 4.25rem; }
+.day-list + .actions { margin-top: 4.25rem; }
 
 /* The asking, above the button that answers it. The gap that used to sit
    between the events and the button now belongs to this line, since it is
    what follows them. */
-.events + .rsvp-lead { margin-top: 4.25rem; }
+.day-list + .ornament { margin-top: 3.25rem; }
+.day-list + .rsvp-lead { margin-top: 4.25rem; }
 .rsvp-lead {
   margin-inline: auto;
   margin-bottom: 1.6rem;
@@ -332,36 +445,16 @@ main { padding-bottom: 5rem; }
 }
 .rsvp-lead + .actions { margin-top: 0; }
 
-/* Side by side once there is room, parted by an upright hairline. */
-@media (min-width: 900px) {
-  .events { grid-template-columns: 1fr 1fr; }
-  .event { padding-inline: 2.75rem; }
-  .event + .event {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: 0;
-    border-left: 1px solid var(--line-soft);
-  }
+/* Narrow, or with the text enlarged: the hour goes above the details rather
+   than beside them, since two columns of large type on a phone leave neither
+   enough room. Still left-aligned, so the programme still reads as one. */
+@media (max-width: 30em) {
+  .day-list { grid-template-columns: 1fr; }
+  .event { grid-template-columns: 1fr; row-gap: .35rem; }
+  .event .when { text-align: left; }
 }
 
-.event h2 {
-  font-size: clamp(1.9rem, 5vw, 2.35rem);
-  margin: 0 0 1.1rem;
-}
-
-.event dl { margin: 0; }
-.event dd { margin: 0 auto .9rem; max-width: var(--measure); }
-.event dd:last-child { margin-bottom: 0; }
-
-.event .when {
-  font-family: var(--display);
-  font-variant-numeric: lining-nums;
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--ink);
-}
-.event .where { font-size: 1.02rem; line-height: 1.6; }
+.event .where { font-size: 1.02rem; line-height: 1.6; margin: 0; }
 .event .aside {
   font-style: italic;
   color: var(--ink-soft);
@@ -386,6 +479,11 @@ main { padding-bottom: 5rem; }
 /* --- Buttons ------------------------------------------------------------ */
 .btn {
   display: inline-flex;
+  max-width: 100%;
+  /* Two taps in quick succession are a double-tap to the browser, which answers
+     by zooming the page. On anything meant to be pressed more than once — the
+     plus and minus above all — that has to be turned off. */
+  touch-action: manipulation;
   align-items: center;
   justify-content: center;
   min-height: var(--tap);
@@ -454,39 +552,70 @@ main { padding-bottom: 5rem; }
   max-width: var(--measure);
 }
 
-/* --- In place of flowers -------------------------------------------------
-   The two fundraising pages, set like the order of the day further up: the
-   cause in small caps, the runner's name beneath it, and one link onwards.
-   Unboxed, and quieter than the day itself — this section asks, it does not
-   press. */
+/* --- Contributions -------------------------------------------------------
+   Set on the same ground as the invitation that follows it: the runners named
+   in the band's own voice, the ask beneath in full body text, and then the two
+   fundraising pages — the charity's own mark, and one link onwards. Unboxed,
+   and quieter than the day itself — this section asks, it does not press. */
 
-/* The request, in the same voice as the line above the RSVP button. */
-.giving__ask {
-  margin: 0 auto 1.1rem;
-  max-width: 27rem;
-  font-family: var(--display);
-  font-size: clamp(1.25rem, 3.2vw, 1.5rem);
-  line-height: 1.5;
-  color: var(--ink);
-  text-wrap: balance;
+/* The ask, under the line naming the runners. Full body text rather than a
+   footnote: this is the part people read out to one another. */
+.giving__note { margin: .9rem auto 0; }
+
+/* Side by side as soon as two columns will fit, and stacked below that, with
+   no rule drawn between them — the two pages are one ask, and a line down the
+   middle would set them against each other. */
+.giving {
+  list-style: none;
+  display: grid;
+  /* min(11rem, 100%): the floor is what decides whether two will fit, but a
+     floor wider than the page itself would hold the column open and take the
+     page sideways at 200% text. */
+  grid-template-columns: repeat(auto-fit, minmax(min(11rem, 100%), 1fr));
+  gap: 2.5rem 2.5rem;
+  margin: 2.5rem 0 0;
+  padding: 0;
 }
-/* Who is running, and when. Full body text rather than a footnote: this is
-   the part people read out to one another. */
-.giving__note { margin: 0 auto; }
-
-.giving { list-style: none; display: grid; margin: 2.75rem 0 0; padding: 0; }
 .give { text-align: center; }
-/* Stacked on a phone, parted by a hairline rather than an ornament — the two
-   pages are one ask, the same way the two events are one day. */
-.give + .give {
-  margin-top: 2.25rem;
-  padding-top: 2.25rem;
-  border-top: 1px solid var(--line-soft);
+/* Each charity's own mark, in its own colours, kept to a slot of one height so
+   the two links line up when the pages sit side by side. The marks are
+   different shapes, so they are matched by eye rather than by the numbers —
+   the squarer one is given more height to carry the same weight on the page. */
+.give__cause {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.4rem;
+  margin: 0 0 1rem;
+  max-width: none;
 }
-.give__who {
-  font-size: clamp(1.5rem, 4vw, 1.85rem);
-  margin: 0 0 .5rem;
+/* Sized by width with the height left to follow, and never wider than the
+   column: at 200% text a mark sized by height grew to half again the width of
+   a phone and took the page sideways with it. The two are set to the same
+   width by eye — they are different shapes, so the squarer one stands taller
+   at the same width, which is what balances them. */
+/* The mark as a target: no underline and no colour of its own, since what it
+   leads to is said in words beneath it. It lifts very slightly under the
+   cursor, which is the whole of the invitation to press it. */
+.give__markline {
+  display: inline-block;
+  max-width: 100%;
+  text-decoration: none;
+  transition: transform .2s ease, opacity .2s ease;
 }
+.give__markline:hover { transform: translateY(-2px); opacity: .88; }
+@media (prefers-reduced-motion: reduce) {
+  .give__markline { transition: none; }
+  .give__markline:hover { transform: none; }
+}
+
+.give__logo {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+.give__logo--cruk { width: 8.5rem; }
+.give__logo--pcuk { width: 8.4rem; }
 .give__act { margin: 0; max-width: none; }
 /* A link, not a button. The page already asks for a reply and for a memory in
    small caps on a pill; two more of those would leave five things shouting and
@@ -501,20 +630,6 @@ main { padding-bottom: 5rem; }
   padding-inline: .6rem;
   font-weight: 600;
   text-underline-offset: .22em;
-}
-
-/* Side by side once there is room, parted by an upright hairline — the same
-   way the two events are. Narrower than the events' breakpoint because this
-   sits in the reading column, not the wide one. */
-@media (min-width: 760px) {
-  .giving { grid-template-columns: 1fr 1fr; }
-  .give { padding-inline: 1.75rem; }
-  .give + .give {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: 0;
-    border-left: 1px solid var(--line-soft);
-  }
 }
 
 /* --- A band across the page ---------------------------------------------
@@ -532,6 +647,21 @@ main { padding-bottom: 5rem; }
   border-bottom: 1px solid rgba(168, 135, 63, .35);
 }
 .band p { margin-inline: auto; }
+
+/* The second of two bands in a row — the invitation, then the ask — is cut
+   from the same parchment a shade deeper, so each reads as its own ground.
+   They meet directly, on a single hairline, rather than with a stripe of
+   paper between them. */
+.band--deep {
+  margin-top: 0;
+  border-top: 0;
+  background-image: linear-gradient(180deg, #e6dbc4 0%, #dfd3b9 100%);
+}
+/* Small caps are the one thing on the page set in gold rather than ink, and
+   the deeper ground costs them contrast. A little more ink here keeps them as
+   readable as they are everywhere else — the same colour, taken darker, the
+   way --gold-ink itself is. */
+.band--deep .eyebrow { color: #543c12; }
 
 /* The band runs to the foot of the page, so the space main normally leaves
    below its content would show as a stripe of bare parchment beneath it. */
@@ -558,11 +688,12 @@ main { padding-bottom: 5rem; }
 
 /* Two fields on one line, once there is room. The breakpoint is in em, so it
    answers to enlarged text as well as a narrow screen: at 200% type these
-   stack on a phone long before its pixel width says they should. The name comes
-   first and takes the rest; the headcount takes only what it needs. */
+   stack on a phone long before its pixel width says they should. The headcount
+   comes first, because the name field's wording follows it. */
 .field-row { display: grid; column-gap: 2.25rem; }
+/* The stepper takes only the room it needs; the name field takes the rest. */
 @media (min-width: 34em) {
-  .field-row { grid-template-columns: minmax(0, 1fr) auto; align-items: start; }
+  .field-row { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
 }
 
 /* :not(.choice) — a tickbox's own label is a flex row, and must not be turned
@@ -614,6 +745,12 @@ textarea {
   resize: vertical;
   line-height: 1.7;
 }
+/* The rule above squares off every field, which the focus ring then follows.
+   Rounded again while focused, so the ring reads as a frame rather than a box
+   shut around the answer. Set here rather than with :focus-visible further up,
+   because that rule is the weaker of the two. */
+input:focus-visible,
+textarea:focus-visible { border-radius: 7px; }
 input:hover, textarea:hover { border-color: var(--ink-soft); }
 input:focus, textarea:focus { border-color: var(--accent); }
 input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #9e3b3b; }
@@ -629,6 +766,7 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 /* Plus and minus either side of the number, each a full-sized target. */
 .stepper { display: flex; flex-wrap: wrap; align-items: center; gap: .9rem; }
 .stepper input[type="number"] {
+  touch-action: manipulation;
   width: 4.5rem;
   max-width: none;
   text-align: center;
@@ -638,6 +776,7 @@ input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; marg
 }
 .stepper__btn {
   display: flex;
+  touch-action: manipulation;
   align-items: center;
   justify-content: center;
   flex: none;
@@ -664,6 +803,7 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 .choice {
   display: flex;
   align-items: flex-start;
+  touch-action: manipulation;
   /* The space either side of the words is spacing, not text, so it is held in
      px. In rem it grew with enlarged type until it had taken most of the
      column and words were breaking in half to fit what was left. The tickbox
@@ -689,7 +829,7 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 /* The file input is hidden but still focusable, so the ring has to show on the
    label that stands in for it. */
 .filepick { cursor: pointer; }
-#photo:focus-visible + .filepick { outline: 3px solid var(--focus); outline-offset: 3px; }
+#photo:focus-visible + .filepick { outline: 3px solid var(--focus); outline-offset: 6px; }
 
 .preview { display: none; align-items: center; gap: 1.1rem; }
 .preview[data-shown="true"] { display: flex; }
@@ -795,12 +935,20 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 
 /* Capped in both directions: a single photograph should sit within the page,
    not fill it, however large the original was. */
+/* Set as a print rather than as an image on a page: a white margin around it
+   the way a photograph from a shop comes, a hairline so the white still has an
+   edge against the parchment, and enough shadow to lift it a little off the
+   page without it looking pasted on. */
 .entry__photo {
   max-width: min(100%, 24rem);
   max-height: 20rem;
   width: auto;
   margin-bottom: 1.4rem;
-  box-shadow: 0 1px 3px rgba(60, 48, 28, .08), 0 8px 24px rgba(60, 48, 28, .08);
+  padding: .55rem;
+  background: #fff;
+  border: 1px solid rgba(60, 48, 28, .10);
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(60, 48, 28, .10), 0 10px 26px rgba(60, 48, 28, .10);
 }
 
 /* Visitors' words can contain a very long web address or an unbroken run of
@@ -911,13 +1059,27 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
   bottom: 0;
   z-index: 20;
   padding: .8rem 0 calc(.8rem + env(safe-area-inset-bottom, 0px));
-  background: rgba(248, 244, 237, .94);
+  /* The footer's own green, so that the bar reads as the foot of the page
+     risen to meet the reader rather than as a panel laid over it. Held just
+     short of opaque, with the words behind it blurred, so it is plain that
+     there is more page underneath. */
+  background: rgba(27, 61, 53, .94);
   backdrop-filter: blur(10px);
-  border-top: 1px solid var(--line);
+  /* No rule along the top: against the parchment the green is edge enough, and
+     against the footer a line would be the one thing giving the join away. */
 }
 /* display:flex, not the button's usual inline-flex — auto side margins cannot
-   centre an inline-level box. */
-.dock .btn { display: flex; max-width: 22rem; margin-inline: auto; }
+   centre an inline-level box. On the green the button is set in reverse:
+   white, with the green carried in the words. */
+.dock .btn {
+  display: flex;
+  max-width: 22rem;
+  margin-inline: auto;
+  background: #fff;
+  border-color: #fff;
+  color: var(--accent-dark);
+}
+.dock .btn:hover { background: var(--paper); border-color: var(--paper); }
 
 /* The page must end clear of the bar rather than behind it. That clearance
    goes on the footer, not the body: on the body it sat *below* the footer and
@@ -968,10 +1130,13 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 
 /* --- A quiet arrival ---------------------------------------------------- */
 @media (prefers-reduced-motion: no-preference) {
-  .hero__eyebrow, .portrait, .hero__name, .hero__dates {
+  .hero__eyebrow, .portrait, .wordmark, .hero__name, .hero__dates {
     animation: rise .9s cubic-bezier(.22, .61, .36, 1) both;
   }
   .portrait    { animation-delay: .1s; }
+  /* Between the portrait and the page's own title, which is the order the line
+     that names her is read in on the pages that carry it. */
+  .wordmark    { animation-delay: .15s; }
   .hero__name  { animation-delay: .2s; }
   .hero__dates { animation-delay: .3s; }
 }

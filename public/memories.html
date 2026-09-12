@@ -18,10 +18,18 @@
 <body class="has-dock">
 <main id="main" class="wrap wrap--memories">
   <div class="hero hero--snug">
+    <!-- Her likeness at the size of a locket, above the line that names her, on
+         the pages that carry no hero portrait of their own. Decorative: the
+         line below says who she is, and a screen reader repeating it here
+         would only be in the way. -->
+    <img class="portrait portrait--small" src="/assets/merita-small.jpg"
+         width="280" height="350" alt="" decoding="async">
     <!-- ✏️ EDIT: the name, here and in the hero on the home page -->
-    <a class="wordmark" href="/">In Loving Memory of Merita<span class="visually-hidden"> — back to the memorial page</span></a>
+    <a class="wordmark" href="/">In Loving Memory of Merita<span class="visually-hidden"> — back to the memorial details</span></a>
     <h1 class="hero__name page-title">Memories</h1>
-    <p class="hero__note">Memories shared by family and friends.</p>
+    <!-- ✏️ EDIT: their first name -->
+    <p class="hero__note">Memories, stories, or tributes to Merita from friends
+      and family</p>
   </div>
 
   <div class="ornament ornament--tight" aria-hidden="true">
@@ -34,6 +42,11 @@
     <p class="status-msg" data-tone="error"><strong>This page needs JavaScript.</strong>
       Your browser has it switched off, so the memories cannot be shown.</p>
   </noscript>
+
+  <!-- Shown only to someone who has just sent a memory. The thank-you belongs
+       at the top of the page they are sent on to, rather than on the form they
+       have left behind. -->
+  <div class="status-msg" id="thanks" role="status" aria-live="polite" data-tone="ok" hidden></div>
 
   <div class="status-msg" id="load-status" role="status" aria-live="polite" data-tone="busy">
     <strong>Loading…</strong>
@@ -56,7 +69,7 @@
 
 <footer class="footer">
   <div class="wrap">
-    <p><a href="/">Back to the memorial page</a></p>
+    <p><a href="/">Back to the memorial details</a></p>
   </div>
 </footer>
 
