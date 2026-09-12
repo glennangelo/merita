@@ -140,8 +140,8 @@
 
     <!-- One reply covers the whole day, so this sits beneath both.
          ✏️ EDIT: keep this line the same as the one at the top of the RSVP page. -->
-    <p class="rsvp-lead">The family kindly request that loved ones inform us of
-      their attendance</p>
+    <p class="rsvp-lead">The family kindly request that loved ones inform them
+      of their attendance</p>
     <div class="actions actions--center">
       <a class="btn btn--lead" href="/rsvp">RSVP</a>
     </div>
@@ -158,7 +158,7 @@
 
   <!-- ================= Livestream ================= -->
   <section class="section center" aria-labelledby="livestream-heading">
-    <h2 class="eyebrow" id="livestream-heading">For those away and sending love from far</h2>
+    <h2 class="eyebrow" id="livestream-heading">For those away and sending love from afar</h2>
 
     <!-- ✏️ WHEN THE LINK IS READY:
          1. Delete the <p class="notice"> line just below.
@@ -198,17 +198,21 @@
        ask reads as its own ground rather than as more of the same: two
        fundraising pages, each with the charity's own mark and the link that
        leads to it. The two marks sit in a slot of the same height so the
-       links line up side by side. -->
+       links line up side by side. Once the page is too narrow to hold the two
+       abreast, each link moves round to the right of its own mark rather than
+       under it, so long as it fits there. -->
   <section class="band band--deep center" aria-labelledby="giving-heading">
-   <div class="wrap">
+   <!-- Named as a measuring point, so the styles can ask how wide the ask
+        itself is rather than guessing it from the width of the window. -->
+   <div class="wrap wrap--giving">
     <h2 class="eyebrow" id="giving-heading">Contributions</h2>
 
     <!-- ✏️ EDIT: who is running, and for whom. -->
 
     <!-- ✏️ EDIT: the request itself, in your own words. -->
     <p class="giving__note">Merita’s niece and nephews are running the <a href="https://llhm.co.uk">London Landmarks Half
-      Marathon</a> in her memory. The family kindly ask that well-wishers consider a
-      contribution to causes close to us.</p>
+      Marathon</a> in her memory. Both causes are close to the family, who kindly
+      ask that well-wishers consider a contribution.</p>
 
     <!-- ✏️ EDIT: each JustGiving address between the quotation marks in
          href="". They must be written out in full, starting with https://. -->
@@ -219,13 +223,13 @@
                link to one place would be read out twice and stopped at twice on
                the way through, so this one is for the mouse and the thumb only:
                hidden from a screen reader, and passed over by the keyboard. -->
-          <a class="give__markline" href="https://www.justgiving.com/page/abigail-baltazar-1" tabindex="-1" aria-hidden="true">
+          <a class="give__markline" href="https://www.justgiving.com/page/abi-inmemoryofmerita" tabindex="-1" aria-hidden="true">
             <img class="give__logo give__logo--cruk" src="/assets/cancer-research-uk.svg"
                  width="268" height="108" alt="Cancer Research UK">
           </a>
         </p>
         <p class="give__act">
-          <a href="https://www.justgiving.com/page/abigail-baltazar-1">Donate to Abigail<span class="visually-hidden"> — her JustGiving page, raising money for Cancer Research UK</span></a>
+          <a href="https://www.justgiving.com/page/abi-inmemoryofmerita">Donate to Abigail<span class="visually-hidden"> — her JustGiving page, raising money for Cancer Research UK</span></a>
         </p>
       </li>
 
@@ -252,9 +256,10 @@
 
 <footer class="footer">
   <div class="wrap">
-    <!-- ✏️ EDIT: who to contact with questions. This same line appears in the
-         footer of every page, because the forms tell people to "contact the
-         family directly" if something will not send. -->
+    <!-- ✏️ EDIT: the line the page closes on. No telephone number or address
+         is given anywhere on the site, by choice — everyone invited knows the
+         family, and the forms ask anyone whose message will not send to
+         contact them directly, by whatever means they already have. -->
     <p>With love from the Baltazar Family</p>
   </div>
 </footer>

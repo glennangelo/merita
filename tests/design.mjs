@@ -198,6 +198,44 @@ for (const [w, expect] of [[1280, 'side-by-side'], [390, 'stacked']]) {
   await c.close();
 }
 
+/* Stacked, each page has the width of the page to itself, so the link moves
+   round to the right of its own mark once there is room for it there — both of
+   them at once, and lined up with one another, since the two asks are set
+   alike. A phone is too narrow for that, and the links stay under the marks,
+   which is where they have the width to themselves. */
+for (const [w, expect] of [[470, 'beside'], [390, 'beneath']]) {
+  const c = await b.newContext({ viewport: { width: w, height: 900 } });
+  const pg = await c.newPage();
+  await pg.goto(B + '/', { waitUntil: 'load' });
+  await pg.evaluate(() => document.fonts.ready);
+  const r = await pg.evaluate(() => {
+    const pairs = [...document.querySelectorAll('.give')].map(g => {
+      const mark = g.querySelector('.give__logo').getBoundingClientRect();
+      const link = g.querySelector('.give__act a').getBoundingClientRect();
+      return { mark, link, beside: link.left >= mark.right &&
+        Math.abs((link.top + link.bottom) / 2 - (mark.top + mark.bottom) / 2) < 8 };
+    });
+    return {
+      stacked: Math.abs(pairs[0].mark.top - pairs[1].mark.top) > 4,
+      // "mixed" — one link beside its mark and the other beneath — reads as an
+      // accident rather than as a pair, so it is a failure of its own.
+      where: pairs.every(p => p.beside) ? 'beside'
+           : pairs.some(p => p.beside) ? 'mixed' : 'beneath',
+      // Set alike: the two marks in a column of one width, the two links in
+      // another, so neither row is a step out of line with the other.
+      lined: Math.abs(pairs[0].mark.left - pairs[1].mark.left) < 4 &&
+             Math.abs(pairs[0].link.left - pairs[1].link.left) < 4,
+      sideways: document.documentElement.scrollWidth > document.documentElement.clientWidth
+    };
+  });
+  ok(`giving at ${w}px: stacked, each link ${expect} its own mark, nothing pushed sideways`,
+     r.stacked && r.where === expect && !r.sideways, JSON.stringify(r));
+  if (expect === 'beside')
+    ok(`giving at ${w}px: the marks in one column and the links in another`,
+       r.lined, JSON.stringify(r));
+  await c.close();
+}
+
 // The band must be the same paper taken deeper, not a second colour set
 // against it. Its background is a gradient, so read its stops and compare
 // their hue and lightness with the page's own ground.
