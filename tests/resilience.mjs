@@ -9,7 +9,7 @@ await p1.goto(B + '/', { waitUntil: 'load' });
 const text = await p1.locator('main').innerText();
 // innerText reflects text-transform, so compare without regard to case.
 const flat = text.toLowerCase();
-const missing = ['In Loving Memory','Memorial Ceremony','Celebration of Life','sending love from far','Memories']
+const missing = ['In Loving Memory','Memorial Ceremony','Celebration of Life','sending love from afar','Memories']
   .filter(t => !flat.includes(t.toLowerCase()));
 ok('no-JS: the page still reads correctly', missing.length === 0, 'missing: ' + missing.join(', '));
 // Structural, so it keeps working once the family puts their own words in.

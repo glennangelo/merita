@@ -26,7 +26,7 @@
   /* One person is asked for a name, a party for all of theirs — and answers
      for themselves or for all of them. */
   function asksFor(n) {
-    return n > 1 ? 'Your names:' : 'Your name:';
+    return n > 1 ? 'Your names' : 'Your name';
   }
   function answersAs(n) {
     return n > 1 ? 'We would love to attend:' : 'I would love to attend:';
