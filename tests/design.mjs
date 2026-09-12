@@ -16,7 +16,7 @@ const CONTRAST = `(() => {
     const bg = prop === 'own' ? s.backgroundColor : bgOf(el.parentElement || el);
     out[label] = +ratio(s.color, /rgba\\(0, 0, 0, 0\\)|transparent/.test(bg) ? bgOf(el) : bg).toFixed(1);
   };
-  check('body',       '.event .aside');
+  check('body',       '.event .practical');
   check('bodyText',   '.event .where');
   check('heroDates',  '.hero__dates');
   check('eventWhen',  '.event .when');
@@ -123,10 +123,10 @@ for (const w of [320, 390, 768, 1280, 1920]) {
   await c.close();
 }
 
-// The order of the day: one event under the other at every width, the hour
-// beside the details where there is room for it and above them on a phone, and
-// the RSVP always further from the events than they are from each other.
-for (const [w, expect] of [[1440, 'beside'], [1100, 'beside'], [860, 'beside'], [390, 'above']]) {
+// The day: the date at its head, the two events abreast when there is room and
+// stacked when there is not, the hour above the place on each, and the RSVP
+// always further from the events than they are from each other.
+for (const [w, expect] of [[1440, 'side-by-side'], [1100, 'side-by-side'], [860, 'stacked'], [390, 'stacked']]) {
   const c = await b.newContext({ viewport: { width: w, height: 900 } });
   const pg = await c.newPage();
   await pg.goto(B + '/', { waitUntil: 'load' });
@@ -134,7 +134,7 @@ for (const [w, expect] of [[1440, 'beside'], [1100, 'beside'], [860, 'beside'], 
   const r = await pg.evaluate(() => {
     const ev = [...document.querySelectorAll('.event')].map(e => e.getBoundingClientRect());
     const when = [...document.querySelectorAll('.event .when')].map(e => e.getBoundingClientRect());
-    const detail = [...document.querySelectorAll('.event__detail')].map(e => e.getBoundingClientRect());
+    const venue = [...document.querySelectorAll('.event__venue')].map(e => e.getBoundingClientRect());
     // The ask is the line and the button together, and the line is optional —
     // so find whichever comes first rather than relying on what sits next to
     // what. Tying this to adjacency broke the moment a line was added between.
@@ -143,21 +143,26 @@ for (const [w, expect] of [[1440, 'beside'], [1100, 'beside'], [860, 'beside'], 
                   .getBoundingClientRect();
     const list = document.querySelector('.day-list').getBoundingClientRect();
     return {
-      inOrder: ev.length === 2 && ev[1].top >= ev[0].bottom - 1,
-      // The date is said once at the head of the day, above both of them.
+      layout: ev.length === 2 && Math.abs(ev[0].top - ev[1].top) < 4 ? 'side-by-side' : 'stacked',
+      // The date is said once at the head of the day, under its own label,
+      // above both events.
       dateAtTheHead: (() => {
         const d = document.querySelector('.day');
-        return !!d && d.getBoundingClientRect().bottom <= ev[0].top + 1;
+        const label = d && d.previousElementSibling;
+        return !!d && d.getBoundingClientRect().bottom <= ev[0].top + 1 &&
+               !!label && label.classList.contains('eyebrow') &&
+               label.getBoundingClientRect().bottom <= d.getBoundingClientRect().top + 1;
       })(),
-      hour: when.every((t, i) => t.right <= detail[i].left + 1) ? 'beside' : 'above',
+      hourAboveThePlace: when.every((t, i) => t.bottom <= venue[i].top + 1),
       // gap between the two events, and the gap above the RSVP
-      between: ev.length === 2 ? Math.round(ev[1].top - ev[0].bottom) : 0,
+      between: ev.length === 2 ? Math.round(Math.min(Math.abs(ev[1].top - ev[0].bottom), Math.abs(ev[1].left - ev[0].right))) : 0,
       aboveRsvp: Math.round(ask.top - list.bottom),
       rsvpBelowBoth: ev.every(e => ask.top >= e.bottom - 1)
     };
   });
-  ok(`${w}px: the hour ${expect} the details, the RSVP beneath both and set further off`,
-     r.inOrder && r.dateAtTheHead && r.hour === expect && r.rsvpBelowBoth && r.aboveRsvp > r.between,
+  ok(`${w}px: events ${expect}, the hour above the place, the RSVP beneath both and set further off`,
+     r.layout === expect && r.dateAtTheHead && r.hourAboveThePlace &&
+     r.rsvpBelowBoth && r.aboveRsvp > r.between,
      JSON.stringify(r));
   await c.close();
 }

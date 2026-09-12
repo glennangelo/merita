@@ -327,13 +327,15 @@ main { padding-bottom: 5rem; }
   line-height: 1.5;
 }
 
-/* --- The order of the day ----------------------------------------------
-   Set like a printed programme: the date at its head, then each event against
-   the hour it begins. Unboxed, parted only by a hairline — the two events are
-   one day, and the reply beneath belongs to both of them. */
+/* --- The day -------------------------------------------------------------
+   The date at the head of it, then the two events beneath: each led by the
+   hour it begins, abreast once there is room and one under the other when
+   there is not. Unboxed, parted only by a hairline — the two are one day, and
+   the reply beneath belongs to both of them. */
 
-/* The date, said once for the whole day. The largest words in the section,
-   because everything under it hangs off this one fact. */
+/* The date, said once for the whole day, under a label in the same small caps
+   as everything else the page names. The largest words in the section, since
+   everything under it hangs off this one fact. */
 .day {
   font-family: var(--display);
   font-variant-numeric: lining-nums;
@@ -345,71 +347,66 @@ main { padding-bottom: 5rem; }
   letter-spacing: .01em;
   text-align: center;
   color: var(--ink);
-  margin: 0 auto 3rem;
+  margin: 0 auto 3.25rem;
   max-width: none;
   text-wrap: balance;
 }
-
 /* The day and the date hold together: where the line has to break on a phone
    it breaks after the weekday, rather than parting "10" from "October". */
 .day__date { white-space: nowrap; }
 
-/* The list holds the two columns so that both events share them: each event is
-   a grid of its own, and left to themselves their hours would line up to
-   nothing. The plain two-column rule above it is what a browser without
-   subgrid falls back to — the hours sit a few pixels apart there, which is the
-   whole of what is lost. */
-.day-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-  column-gap: 1.75rem;
-}
+.day-list { list-style: none; display: grid; margin: 0; padding: 0; }
 
-/* The hour in a column of its own, the details in the next: the eye runs down
-   the times and stops at the one it wants. min-width: a grid column will not
-   shrink below its longest word unless it is told it may, and at 200% text a
-   venue name would otherwise hold the page open. */
-.event {
-  display: grid;
-  grid-column: 1 / -1;
-  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
-  grid-template-columns: subgrid;
-  column-gap: 1.75rem;
-  text-align: left;
-  min-width: 0;
-}
+/* min-width: a grid column will not shrink below its longest word unless it is
+   told it may. Without this, a venue name like "Forest Park Crematorium" holds
+   the column open at 200% text and pushes the whole page sideways. */
+.event { text-align: center; min-width: 0; }
+
+/* One under the other on a phone, parted only by a hairline, not an ornament:
+   the two events are one thing, and the RSVP beneath belongs to both of them.
+   An ornament here read as a section break and made the button look as though
+   it applied to the celebration alone. */
 .event + .event {
-  margin-top: 2.5rem;
-  padding-top: 2.5rem;
+  margin-top: 2.75rem;
+  padding-top: 2.75rem;
   border-top: 1px solid var(--line-soft);
 }
-.event__detail { min-width: 0; }
-.event__detail > * { margin-inline: 0; }
 
-/* The hour, set at the size the venue name used to be: on a page of one day,
-   this is what tells the two events apart. Right-aligned against the details,
-   so the column reads as a margin of times. */
+/* Abreast once there is room, parted by an upright hairline. */
+@media (min-width: 900px) {
+  .day-list { grid-template-columns: 1fr 1fr; }
+  .event { padding-inline: 2.75rem; }
+  .event + .event {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    border-left: 1px solid var(--line-soft);
+  }
+}
+
+/* The hour, above the place: on a day of two events this is what tells them
+   apart, so it is the largest thing on the card. */
 .event .when {
   font-family: var(--display);
   font-variant-numeric: lining-nums;
-  font-size: clamp(1.6rem, 4.6vw, 2.1rem);
+  font-size: clamp(1.8rem, 4.6vw, 2.2rem);
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.15;
   color: var(--ink);
-  text-align: right;
-  margin: 0;
+  margin: 0 0 .5rem;
+  max-width: none;
   white-space: nowrap;
 }
+.event .eyebrow { margin-bottom: .45rem; }
 
 .event__venue {
   font-family: var(--display);
-  font-size: clamp(1.45rem, 3.6vw, 1.7rem);
+  font-size: clamp(1.4rem, 3.4vw, 1.6rem);
   font-weight: 600;
-  line-height: 1.25;
-  margin: 0 0 .45rem;
+  line-height: 1.3;
+  /* Barely any: the address beneath is a link with a finger's worth of height
+     of its own, which is space enough between the two. */
+  margin: 0 auto .1rem;
   max-width: none;
   color: var(--ink);
   /* Hyphenated where the language allows it, broken where it does not: at very
@@ -418,19 +415,18 @@ main { padding-bottom: 5rem; }
   hyphens: auto;
   overflow-wrap: anywhere;
 }
-.event .eyebrow { margin-bottom: .3rem; }
 
 /* The reply covers the whole day, so it must sit further from the events than
-   they sit from each other — otherwise it reads as belonging to the second
-   one alone, which is exactly the wrong hierarchy. */
+   they sit from each other — otherwise it reads as belonging to the second one
+   alone, which is exactly the wrong hierarchy. */
 /* Kept as the fallback for when the line above the button has been deleted,
    in which case the button follows the events directly. */
 .day-list + .actions { margin-top: 4.25rem; }
+.day-list + .ornament { margin-top: 3.25rem; }
 
 /* The asking, above the button that answers it. The gap that used to sit
    between the events and the button now belongs to this line, since it is
    what follows them. */
-.day-list + .ornament { margin-top: 3.25rem; }
 .day-list + .rsvp-lead { margin-top: 4.25rem; }
 .rsvp-lead {
   margin-inline: auto;
@@ -445,20 +441,16 @@ main { padding-bottom: 5rem; }
 }
 .rsvp-lead + .actions { margin-top: 0; }
 
-/* Narrow, or with the text enlarged: the hour goes above the details rather
-   than beside them, since two columns of large type on a phone leave neither
-   enough room. Still left-aligned, so the programme still reads as one. */
-@media (max-width: 30em) {
-  .day-list { grid-template-columns: 1fr; }
-  .event { grid-template-columns: 1fr; row-gap: .35rem; }
-  .event .when { text-align: left; }
-}
+.event .where { font-size: 1.02rem; line-height: 1.6; margin: 0 auto; }
 
-.event .where { font-size: 1.02rem; line-height: 1.6; margin: 0; }
-.event .aside {
-  font-style: italic;
+/* Parking, the way in, step-free access. Last and smallest: read once on the
+   way there, and never again. */
+.event .practical {
+  margin: 1rem auto 0;
+  font-size: .85rem;
+  line-height: 1.6;
   color: var(--ink-soft);
-  font-size: .95rem;
+  max-width: var(--measure);
 }
 
 /* The address is the link — a pin beside it says where it goes, and the
