@@ -594,13 +594,22 @@ main { padding-bottom: 5rem; }
   margin: 2.5rem 0 0;
   padding: 0;
 }
-.give { text-align: center; }
+/* Set as a column with the mark's slot taking up the slack, so the two links
+   sit on one line whatever height the marks themselves come out at: the pair
+   are stretched to a common height by the list above, and the space that
+   difference leaves falls above the links rather than between them. */
+.give {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
 /* Each charity's own mark, in its own colours, kept to a slot of one height so
    the two links line up when the pages sit side by side. The marks are
    different shapes, so they are matched by eye rather than by the numbers —
    the squarer one is given more height to carry the same weight on the page. */
 .give__cause {
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: center;
   min-height: 3.4rem;
@@ -634,6 +643,17 @@ main { padding-bottom: 5rem; }
 }
 .give__logo--cruk { width: 8.5rem; }
 .give__logo--pcuk { width: 8.4rem; }
+/* Given a little more size once the two pages sit abreast with room to spare,
+   where the marks at their phone size read as small against the width of the
+   column. They grow with the column and stop at 10rem — larger than this and a
+   charity's mark starts to speak louder than the ask it belongs to. The two
+   are one size written twice: the squarer mark is set a shade narrower
+   throughout, which is what matches them by eye. The base sizes above are left
+   in place, so a browser that cannot measure the column keeps them. */
+@container giving (width >= 34rem) {
+  .give__logo--cruk { width: clamp(8.5rem, 25cqi, 10rem); }
+  .give__logo--pcuk { width: clamp(8.4rem, 24.7cqi, 9.9rem); }
+}
 .give__act { margin: 0; max-width: none; }
 /* A link, not a button. The page already asks for a reply and for a memory in
    small caps on a pill; two more of those would leave five things shouting and
