@@ -28,8 +28,11 @@
   function asksFor(n) {
     return n > 1 ? 'Your names' : 'Your name';
   }
+  /* ✏️ EDIT: the date, kept in step with the legend in rsvp.html and with the
+     day named on the home page. */
   function answersAs(n) {
-    return n > 1 ? 'We would love to attend:' : 'I would love to attend:';
+    var day = ' would love to attend on Saturday 10th October 2026:';
+    return (n > 1 ? 'We' : 'I') + day;
   }
 
   /* The buttons keep themselves within range, and the name field asks for as

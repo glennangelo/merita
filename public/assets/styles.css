@@ -418,9 +418,9 @@ main { padding-bottom: 5rem; }
   max-width: none;
   white-space: nowrap;
 }
-/* The hour is the largest thing on the card and its label the smallest, so
-   the label needs air beneath it to read as a heading over the hour rather
-   than as something the hour is about to run into. */
+/* The hour is the largest thing on the card and its label the smallest, so the
+   label needs air beneath it to read as a heading over the hour rather than as
+   something the hour is about to run into. */
 .event .eyebrow { margin-bottom: .95rem; }
 
 .event__venue {
@@ -480,10 +480,10 @@ main { padding-bottom: 5rem; }
   max-width: var(--measure);
 }
 
-/* The address is the link — a pin beside it says where it goes, and the
-   underline says it is a link, so neither meaning rests on the icon alone.
-   A flex box for the sake of the tap target, which must be a finger tall
-   whatever height the words come to; pin and address sit in it as one line. */
+/* The address is the link — a pin says where it goes, the underline says it is
+   a link, so neither meaning rests on the icon alone. A flex box for the tap
+   target, which must be a finger tall whatever height the words come to; pin
+   and address sit within it as one line. */
 .where a {
   display: inline-flex;
   align-items: center;
@@ -498,18 +498,17 @@ main { padding-bottom: 5rem; }
   text-underline-offset: .22em;
 }
 .where .pin {
-  /* The gap beside the pin is padding, not margin, so the line below runs
-     across it — and measured from the drawing out, since the page is measured
-     the other way about, which would take the gap out of the pin itself. */
+  /* The gap is padding, not margin, so the line runs across it — measured from
+     the drawing out, since the page is measured the other way about, which
+     would take the gap out of the pin itself. */
   box-sizing: content-box;
   padding-right: .45rem;
-  /* A browser lifts an underline over a picture set in a line, so the pin is
-     dropped until its foot meets the line and then carries it across itself:
+  /* A browser lifts an underline over a picture in a line, so the pin is
+     dropped until its foot meets it and carries the line across itself:
      same weight, same place, same ink. */
   vertical-align: calc(-.22em - 2px);
   background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 100% 1px;
-  /* Its own colour on the stroke, so the text colour is left to draw the
-     line above and match the words'. */
+  /* Its colour on the stroke, leaving the text colour to draw that line. */
   stroke: var(--gold-ink);
 }
 .where a:hover .pin { stroke: var(--focus); }
@@ -1215,7 +1214,7 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
 
 /* --- A quiet arrival ---------------------------------------------------- */
 @media (prefers-reduced-motion: no-preference) {
-  .hero__eyebrow, .portrait, .wordmark, .hero__name, .hero__dates {
+  .hero__eyebrow, .portrait, .wordmark, .hero__name, .hero__dates, .hero__note {
     animation: rise .9s cubic-bezier(.22, .61, .36, 1) both;
   }
   .portrait    { animation-delay: .1s; }
@@ -1224,6 +1223,8 @@ fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-inline-size: 0; }
   .wordmark    { animation-delay: .15s; }
   .hero__name  { animation-delay: .2s; }
   .hero__dates { animation-delay: .3s; }
+  /* A page's title, then the line beneath it — as the name, then the dates. */
+  .hero__note  { animation-delay: .3s; }
 }
 @keyframes rise {
   from { opacity: 0; transform: translateY(10px); }
