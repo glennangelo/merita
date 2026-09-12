@@ -355,6 +355,20 @@ main { padding-bottom: 5rem; }
    it breaks after the weekday, rather than parting "10" from "October". */
 .day__date { white-space: nowrap; }
 
+/* A short gilt hairline parting the date from the events under it. Smaller
+   and plainer than an ornament on purpose: an ornament here would read as a
+   section break and cut the date off from the day it heads. */
+.day-divider {
+  width: min(100%, 4.5rem);
+  height: 1px;
+  margin: 0 auto 2.6rem;
+  border: 0;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+/* The gap that belonged to the date is shared with the rule once there is one
+   between it and the events. */
+.day:has(+ .day-divider) { margin-bottom: 1.6rem; }
+
 .day-list { list-style: none; display: grid; margin: 0; padding: 0; }
 
 /* min-width: a grid column will not shrink below its longest word unless it is
@@ -393,7 +407,10 @@ main { padding-bottom: 5rem; }
   font-weight: 600;
   line-height: 1.15;
   color: var(--ink);
-  margin: 0 0 .5rem;
+  /* Set clear of the place beneath it: the hour is what tells the two events
+     apart, and it reads as a heading over the venue rather than a line of the
+     same breath only when there is air between them. */
+  margin: 0 0 1.15rem;
   max-width: none;
   white-space: nowrap;
 }
@@ -404,9 +421,9 @@ main { padding-bottom: 5rem; }
   font-size: clamp(1.4rem, 3.4vw, 1.6rem);
   font-weight: 600;
   line-height: 1.3;
-  /* Barely any: the address beneath is a link with a finger's worth of height
-     of its own, which is space enough between the two. */
-  margin: 0 auto .1rem;
+  /* None: the place and its address are one thought, and the link beneath
+     carries a finger's worth of height of its own. */
+  margin: 0 auto;
   max-width: none;
   color: var(--ink);
   /* Hyphenated where the language allows it, broken where it does not: at very
@@ -441,7 +458,10 @@ main { padding-bottom: 5rem; }
 }
 .rsvp-lead + .actions { margin-top: 0; }
 
-.event .where { font-size: 1.02rem; line-height: 1.6; margin: 0 auto; }
+/* Drawn up under the venue name. The negative margin takes back some of the
+   slack in the link's tap target, not the target itself: it stays a finger
+   tall, it simply begins closer to the name it belongs to. */
+.event .where { font-size: 1.02rem; line-height: 1.6; margin: -.4rem auto 0; }
 
 /* Parking, the way in, step-free access. Last and smallest: read once on the
    way there, and never again. */
