@@ -51,12 +51,16 @@
 
     <div class="field">
       <label for="name">Your name</label>
-      <input type="text" id="name" name="name" required maxlength="80" autocomplete="name">
+      <!-- What is wrong with an answer is said above the answer itself, so it
+           is read on the way to the field rather than after it. -->
+      <p class="field-error" id="name-error" role="alert" hidden></p>
+      <span class="ring"><input type="text" id="name" name="name" required maxlength="80" autocomplete="name"></span>
     </div>
 
     <div class="field">
       <label for="message">Your message</label>
-      <textarea id="message" name="message" required maxlength="2000"></textarea>
+      <p class="field-error" id="message-error" role="alert" hidden></p>
+      <span class="ring"><textarea id="message" name="message" required maxlength="2000"></textarea></span>
       <p class="counter" aria-hidden="true"><span id="message-count">0</span> / 2,000</p>
     </div>
 
@@ -81,7 +85,7 @@
         <input type="checkbox" id="private" name="private">
         <span>
           <span class="choice__title">Keep this private</span>
-          <span class="choice__desc">Share the memory only with the family</span>
+          <span class="choice__desc">Share this only with the family</span>
         </span>
       </label>
     </div>
@@ -99,9 +103,11 @@
   </form>
 
   <!-- The way through to the memories for anyone who came to read rather than
-       to write. Sending one leads there by itself, thank-you and all. -->
-  <p class="actions actions--center actions--spaced">
-    <a class="btn btn--ghost" href="/memories">See the memories</a>
+       to write. Sending one leads there by itself, thank-you and all — so this
+       is a line of text rather than a second button under the one that sends,
+       which would ask as loudly as the form does. -->
+  <p class="quiet-link">
+    <a href="/memories">See the memories</a>
   </p>
 
 </main>

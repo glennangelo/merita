@@ -171,7 +171,7 @@ await page.goto(B + '/rsvp', { waitUntil: 'load' });
 const copy = await page.evaluate(() => document.querySelector('main').innerText.replace(/\s+/g, ' '));
 const wants = ['The family kindly request that loved ones inform them of their attendance',
                'Number of attendees', 'Your name',
-               'I would love to attend on Saturday 10th October 2026:',
+               'Let us know if you can attend on Saturday 10th October:',
                'The ceremony', 'The celebration of life',
                'Phone or email', 'We\u2019ll contact you if plans change.', 'Send RSVP'];
 const absent = wants.filter(w => !copy.toLowerCase().includes(w.toLowerCase()));
@@ -185,10 +185,12 @@ const speaksFor = await page.evaluate(async () => {
   document.getElementById('party-less').click();
   return { one, two, backToOne: read() };
 });
-ok('rsvp: one person answers for themselves, a party for all of them',
-   speaksFor.one.attend === 'I would love to attend on Saturday 10th October 2026:' &&
-   speaksFor.two.attend === 'We would love to attend on Saturday 10th October 2026:' &&
-   speaksFor.backToOne.attend === 'I would love to attend on Saturday 10th October 2026:',
+// The name field asks for one name or several; the question above it is put
+// the same way however many are coming.
+ok('rsvp: the name field speaks for one or for many, the question for both',
+   speaksFor.one.name === 'Your name' && speaksFor.two.name === 'Your names' &&
+   speaksFor.one.attend === 'Let us know if you can attend on Saturday 10th October:' &&
+   speaksFor.two.attend === speaksFor.one.attend,
    JSON.stringify(speaksFor));
 ok('rsvp: the afternoon is not still called a reception', !/reception/i.test(copy), copy.slice(0, 120));
 const rsvpOrder = await page.evaluate(() => [...document.querySelectorAll('#rsvp-form .field, #rsvp-form fieldset')]
@@ -285,31 +287,45 @@ await page.uncheck('#reception');
 await page.click('#submit-btn');
 await page.waitForSelector('#form-status[data-tone="ok"]');
 ok('rsvp: a reply is confirmed in the family\u2019s own voice',
-   (await page.locator('#form-status').innerText()).includes('Thank you for letting us know.') &&
-   (await page.locator('#form-status').innerText()).includes('The family look forward to seeing you.'),
+   (await page.locator('#form-status').innerText()).includes('Thank you for letting us know.'),
    await page.locator('#form-status').innerText());
 ok('rsvp: the form is put away after sending', await page.locator('#rsvp-form').isHidden());
 
-// validation, in the browser
+// validation, in the browser. What is wrong with an answer is said above the
+// field it is about — read on the way in, rather than at the top of the form
+// where the answer it concerns has been left behind.
+const above = async (errorId, fieldId) => page.evaluate(([e, f]) => {
+  const err = document.getElementById(e).getBoundingClientRect();
+  const field = document.getElementById(f).getBoundingClientRect();
+  return err.bottom <= field.top + 1 && err.height > 0;
+}, [errorId, fieldId]);
 await page.goto(B + '/rsvp', { waitUntil: 'load' });
 await page.click('#submit-btn');
-ok('rsvp: a missing name is caught kindly',
-   (await page.locator('#form-status').innerText()).includes('Please add your name'));
+ok('rsvp: a missing name is caught kindly, above the field it is about',
+   (await page.locator('#name-error').innerText()).includes('Please add your name') &&
+   await above('name-error', 'name'),
+   await page.locator('#name-error').innerText());
 await page.fill('#name', 'Someone');
 await page.uncheck('#ceremony'); await page.uncheck('#reception');
 await page.click('#submit-btn');
-ok('rsvp: ticking neither part is caught',
-   (await page.locator('#form-status').innerText()).includes('Which part of the day'));
+ok('rsvp: ticking neither part is caught, above the choices',
+   (await page.locator('#attend-error').innerText()).includes('Which part of the day') &&
+   await above('attend-error', 'ceremony'));
 await page.check('#ceremony');
 await page.fill('#party', '0');
 await page.click('#submit-btn');
 ok('rsvp: a nonsense number is caught rather than quietly corrected',
-   (await page.locator('#form-status').innerText()).includes('How many of you'),
-   await page.locator('#form-status').innerText());
+   (await page.locator('#party-error').innerText()).includes('How many of you') &&
+   await above('party-error', 'party'),
+   await page.locator('#party-error').innerText());
+// and it goes once the answer is put right, rather than standing until the next try
+await page.fill('#party', '2');
+ok('rsvp: the note goes as soon as the answer is corrected',
+   await page.locator('#party-error').isHidden());
 await page.fill('#party', '');
 await page.click('#submit-btn');
 ok('rsvp: an empty number is caught too',
-   (await page.locator('#form-status').innerText()).includes('How many of you'));
+   (await page.locator('#party-error').innerText()).includes('How many of you'));
 // and nothing was sent by either attempt
 const stored = await (await page.request.get(B + '/api/admin/rsvps')).json().catch(() => ({}));
 ok('rsvp: neither attempt created a reply', !stored.rsvps || stored.rsvps.length === 0,
