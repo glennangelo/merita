@@ -480,50 +480,29 @@ main { padding-bottom: 5rem; }
   max-width: var(--measure);
 }
 
-/* The address is the link — a pin says where it goes, the underline says it is
-   a link, so neither meaning rests on the icon alone. A flex box for the tap
-   target, a finger tall whatever height the words come to; pin and address sit
-   within it as one line. */
+/* The address is the link — a pin beside it says where it goes, and the
+   underline says it is a link, so neither meaning rests on the icon alone.
+   A flex box: the mark is centred on the words, the line is drawn under the
+   words alone, and the whole of it — mark, space and address — is a target a
+   finger tall. */
 .where a {
   display: inline-flex;
   align-items: center;
+  gap: .5em;
   min-height: var(--tap);
   font-weight: 600;
   text-align: left;
-  /* Off here: the line is drawn within, and two stacked read as one heavy
-     line rather than the hairline either is. */
-  text-decoration: none;
-}
-/* Drawn here rather than on the link: a flex box underlines its text alone. */
-.where__addr {
-  text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: .22em;
 }
 .where .pin {
-  /* Drawn to the height of a capital — Lora's are .735 of its em — and
-     measured in the words' own em, so it keeps that match however large the
-     type is set. */
-  width: .59em;
-  height: .735em;
-  /* The gap is padding, not margin, so the line runs across it — measured from
-     the drawing out, since the page is measured the other way about, which
-     would take the gap out of the pin. */
-  box-sizing: content-box;
-  padding-right: .45em;
-  /* A browser lifts an underline over a picture in a line, so the pin carries
-     that line across itself: its box dropped by the words' own offset and
-     thickness, in the same units, so both lines are one rectangle — and the
-     space below the drawing set to the same, which stands the pin itself back
-     on the baseline, in line with the letters beside it. */
-  vertical-align: calc(-.22em - 2px);
-  padding-bottom: calc(.22em + 2px);
-  background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 100% 2px;
-  /* Drawn at the weight of the type it stands in, and in its ink: no colour of
-     its own here, so it follows the link's, under the cursor as well. Three
-     tenths of its own height, which at a capital's height comes to the width
-     of Lora's stems, near enough, while leaving its eye open. */
-  stroke-width: 3;
+  flex: none;
+  /* Measured in the words' own em, so it keeps its size beside them at any
+     text size, and drawn at the weight of the type it stands with — a fifth
+     of its own height, which comes to the width of Lora's stems. */
+  width: .92em;
+  height: 1.15em;
+  stroke-width: 2.1;
 }
 
 /* --- Buttons ------------------------------------------------------------ */
