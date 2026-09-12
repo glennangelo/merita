@@ -54,13 +54,13 @@
       <!-- What is wrong with an answer is said above the answer itself, so it
            is read on the way to the field rather than after it. -->
       <p class="field-error" id="name-error" role="alert" hidden></p>
-      <input type="text" id="name" name="name" required maxlength="80" autocomplete="name">
+      <span class="ring"><input type="text" id="name" name="name" required maxlength="80" autocomplete="name"></span>
     </div>
 
     <div class="field">
       <label for="message">Your message</label>
       <p class="field-error" id="message-error" role="alert" hidden></p>
-      <textarea id="message" name="message" required maxlength="2000"></textarea>
+      <span class="ring"><textarea id="message" name="message" required maxlength="2000"></textarea></span>
       <p class="counter" aria-hidden="true"><span id="message-count">0</span> / 2,000</p>
     </div>
 

@@ -40,19 +40,23 @@ await noJs.close();
 // ---- page weight ----
 const ctx = await b.newContext();
 const p2 = await ctx.newPage();
+/* Each body is asked for as it arrives and waited for below, rather than read
+   inside the handler and added up from whatever had landed by the time this
+   looked — which weighed the same page differently from one run to the next. */
 let bytes = 0, fontBytes = 0, photoBytes = 0, count = 0;
-p2.on('response', async r => {
-  try {
-    const n = (await r.body()).length;
-    bytes += n;
-    if (/\.woff2$/.test(r.url())) fontBytes += n;
-    if (/\.(jpe?g|png)$/.test(r.url())) photoBytes += n;
-    count++;
-  } catch {}
+const weighed = [];
+p2.on('response', r => {
+  count++;
+  weighed.push(r.body().then(function (body) {
+    bytes += body.length;
+    if (/\.woff2$/.test(r.url())) fontBytes += body.length;
+    if (/\.(jpe?g|png)$/.test(r.url())) photoBytes += body.length;
+  }, function () {}));
 });
 await p2.goto(B + '/', { waitUntil: 'load' });
 await p2.evaluate(() => document.fonts.ready);
 await p2.waitForTimeout(600);
+await Promise.all(weighed);
 // The typefaces are the bulk of the weight, and they are fetched once and then
 // cached for a year. What must stay small is everything fetched on every visit.
 // The photograph is measured on its own: a page with a portrait of someone on

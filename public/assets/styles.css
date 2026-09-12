@@ -827,17 +827,27 @@ textarea {
   border-radius: 0;
 }
 textarea {
+  /* Block, so the sleeve around it closes on the box rather than leaving the
+     descender space an inline-level field sits above. */
+  display: block;
   border: 1px solid var(--line);
   padding: .8rem .9rem;
   min-height: 9.5rem;
   resize: vertical;
   line-height: 1.7;
 }
-/* No radius while focused: a field is drawn as a line under the answer, and a
-   rounded corner curls the end of that line up. The ring is set clear of the
-   field anyway, so it reads as a frame without one. */
-input:focus-visible,
-textarea:focus-visible { border-radius: 0; }
+/* The ring is drawn on a sleeve around the field rather than on the field
+   itself. A field here is a line under the answer, and a radius on the field
+   curls the end of that line up — so the sleeve takes the softened corners
+   and the field stays square. :has(:focus-visible) rather than :focus-within,
+   so a ring is drawn for the keyboard and not for the mouse, which is what the
+   rule further up does for everything else. */
+.ring { display: block; border-radius: 4px; }
+.ring:has(:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 6px;
+}
+.ring > :focus-visible { outline: none; }
 input:hover, textarea:hover { border-color: var(--ink-soft); }
 input:focus, textarea:focus { border-color: var(--accent); }
 input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: #9e3b3b; }

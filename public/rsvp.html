@@ -63,8 +63,8 @@
              would rather not, which on a phone is most people. -->
         <div class="stepper">
           <button type="button" class="stepper__btn" id="party-less" aria-label="One fewer">&#8722;</button>
-          <input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
-                 inputmode="numeric" required>
+          <span class="ring"><input type="number" id="party" name="party_size" value="1" min="1" max="20" step="1"
+                 inputmode="numeric" required></span>
           <button type="button" class="stepper__btn" id="party-more" aria-label="One more">+</button>
         </div>
         <p class="visually-hidden" id="party-said" role="status" aria-live="polite"></p>
@@ -78,8 +78,8 @@
              at one. -->
         <label for="name" id="name-label">Your name</label>
         <p class="field-error" id="name-error" role="alert" hidden></p>
-        <input type="text" id="name" name="name" required maxlength="80"
-               autocomplete="name">
+        <span class="ring"><input type="text" id="name" name="name" required maxlength="80"
+               autocomplete="name"></span>
       </div>
     </div>
 
@@ -111,7 +111,7 @@
     <div class="field">
       <label for="contact">Your phone or email <span class="optional">(optional)</span></label>
       <span class="hint" id="contact-hint">We&rsquo;ll contact you if plans change.</span>
-      <input type="text" id="contact" name="contact" maxlength="80" aria-describedby="contact-hint">
+      <span class="ring"><input type="text" id="contact" name="contact" maxlength="80" aria-describedby="contact-hint"></span>
     </div>
 
     <!-- Spam trap: not shown to people, and screen readers skip it. Called
