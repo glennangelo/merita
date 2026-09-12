@@ -168,7 +168,7 @@ const copy = await page.evaluate(() => document.querySelector('main').innerText.
 const wants = ['The family kindly request that loved ones inform us of their attendance',
                'Number of attendees:', 'Your name:',
                'Would love to attend:', 'The ceremony', 'The celebration of life',
-               'Phone or email', 'In case anything changes.', 'Send RSVP'];
+               'Phone or email', 'We\u2019ll only contact you if plans change.', 'Send RSVP'];
 const absent = wants.filter(w => !copy.toLowerCase().includes(w.toLowerCase()));
 ok('rsvp: the page reads as written', absent.length === 0, 'missing: ' + absent.join(' | '));
 ok('rsvp: the afternoon is not still called a reception', !/reception/i.test(copy), copy.slice(0, 120));
