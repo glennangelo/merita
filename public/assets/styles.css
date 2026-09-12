@@ -497,24 +497,32 @@ main { padding-bottom: 5rem; }
 /* Drawn here rather than on the link: a flex box underlines its text alone. */
 .where__addr {
   text-decoration: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-thickness: 2px;
   text-underline-offset: .22em;
 }
 .where .pin {
+  /* Measured against the words rather than in pixels of its own, so it keeps
+     its size beside them however large the type is set — at a phone's default
+     the very 15 by 19 it has always been drawn at. */
+  width: .74em;
+  height: .93em;
   /* The gap is padding, not margin, so the line runs across it — measured from
      the drawing out, since the page is measured the other way about, which
      would take the gap out of the pin. */
   box-sizing: content-box;
-  padding-right: .45rem;
+  padding-right: .45em;
   /* A browser lifts an underline over a picture in a line, so the pin carries
-     that line across itself: dropped by the words' own offset and thickness,
-     in the same units, so both lines are one rectangle. */
-  vertical-align: calc(-.22em - 1px);
-  background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 100% 1px;
-  /* Its colour on the stroke, leaving the text colour to draw that line. */
-  stroke: var(--gold-ink);
+     that line across itself: its box dropped by the words' own offset and
+     thickness, in the same units, so both lines are one rectangle — and the
+     space below the drawing set to the same, which stands the pin itself back
+     on the baseline, in line with the letters beside it. */
+  vertical-align: calc(-.22em - 2px);
+  padding-bottom: calc(.22em + 2px);
+  background: linear-gradient(currentColor, currentColor) no-repeat left bottom / 100% 2px;
+  /* Drawn at the weight of the type it stands in, and in its ink: no colour of
+     its own here, so it follows the link's, under the cursor as well. */
+  stroke-width: 2.5;
 }
-.where a:hover .pin { stroke: var(--focus); }
 
 /* --- Buttons ------------------------------------------------------------ */
 .btn {
